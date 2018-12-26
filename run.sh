@@ -3,19 +3,22 @@ clear
 
 echo Hello Bash!
 
-rm ./object/Board.o
-rm ./object/Game.o
+rm ./object/SymbolManager.o
+rm ./object/BoardManager.o
+rm ./object/GameManager.o
 rm ./object/Main.o
 rm game
 
+g++ -c source/SymbolManager.cpp
+g++ -c source/BoardManager.cpp
+g++ -c source/GameManager.cpp
 g++ -c source/Main.cpp
-g++ -c source/Board.cpp
-g++ -c source/Game.cpp
 
+mv SymbolManager.o ./object
+mv BoardManager.o ./object
+mv GameManager.o ./object
 mv Main.o ./object
-mv Board.o ./object
-mv Game.o ./object
 
-g++ -o game ./object/Main.o ./object/Board.o ./object/Game.o
+g++ -o game ./object/SymbolManager.o ./object/BoardManager.o ./object/GameManager.o ./object/Main.o
 
 ./game
