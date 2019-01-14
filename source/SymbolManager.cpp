@@ -9,26 +9,26 @@ void SymbolManager::switchPlayerAndComputerSymbol() {
     computerSymbol = tempPlayerSymbol;
 }
 
-const char SymbolManager::getSymbolFromEnum(SymbolEnum symbolEnum){
+const char SymbolManager::getCharFromEnum(SymbolEnum symbolEnum) const {
 
-    char copySymbol = ' ';
+    char result = ' ';
     switch(symbolEnum) {
         case EMPTY_SLOT_SYMBOL: 
-            copySymbol = emptySlotSymbol;
+            result = emptySlotSymbol;
         break;
         case PLAYER_SYMBOL:
-            copySymbol = playerSymbol;
+            result = playerSymbol;
         break;
         case COMPUTER_SYMBOL:
-            copySymbol = computerSymbol;
+            result = computerSymbol;
         break;
         default:
         break;
 
     }
-    return copySymbol;
+    return result;
 }
 
-const char SymbolManager::getEmptySlotSymbol(){
+const char SymbolManager::getEmptySlotSymbol() const {
     return emptySlotSymbol;
 }

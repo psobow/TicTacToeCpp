@@ -1,6 +1,10 @@
-#include <iostream>
+#ifndef GAME_MANAGER_H
+#define GAME_MANAGER_H
 
-enum MenuEnum {
+#include <iostream>
+#include "BoardManager.hh"
+
+enum MainMenuEnum {
     PLAY,
     OPTIONS,
     EXIT
@@ -9,7 +13,7 @@ enum MenuEnum {
 class GameManager
 {
     private:
-       
+       BoardManager boardManager;
 
     public:
         GameManager();
@@ -17,5 +21,7 @@ class GameManager
 
         void printMenu();
         void getValidDecision();
-        void executeMenuDecision(MenuEnum menuEnum);
+        void executeMenuDecision(MainMenuEnum mainMenuEnum);
 };
+
+#endif

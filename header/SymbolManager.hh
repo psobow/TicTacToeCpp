@@ -1,3 +1,5 @@
+#ifndef SYMBOL_MANAGER_H
+#define SYMBOL_MANAGER_H
 
 enum SymbolEnum {
     EMPTY_SLOT_SYMBOL,
@@ -16,7 +18,8 @@ class SymbolManager {
         ~SymbolManager();
 
         void switchPlayerAndComputerSymbol();
-        const char getSymbolFromEnum(SymbolEnum symbolEnum);
-        const char getEmptySlotSymbol();
+        const char getCharFromEnum(SymbolEnum symbolEnum) const;
+        const char getEmptySlotSymbol() const;
 };
 
+#endif
