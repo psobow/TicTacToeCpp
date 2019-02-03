@@ -3,6 +3,8 @@ clear
 
 echo Hello Bash!
 
+mkdir -p object
+
 rm ./object/SymbolManager.o
 rm ./object/Cordinates.o
 rm ./object/BoardManager.o
@@ -22,6 +24,13 @@ mv BoardManager.o ./object
 mv GameManager.o ./object
 mv Main.o ./object
 
-g++ -o game ./object/SymbolManager.o ./object/Cordinates.o ./object/BoardManager.o ./object/GameManager.o ./object/Main.o
+
+g++ -o game \
+./object/SymbolManager.o \
+./object/Cordinates.o \
+./object/BoardManager.o \
+./object/GameManager.o \
+./object/Main.o \
+
 
 ./game

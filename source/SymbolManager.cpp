@@ -9,7 +9,7 @@ void SymbolManager::switchPlayerAndComputerSymbol() {
     computerSymbol = tempPlayerSymbol;
 }
 
-const char SymbolManager::getCharFromEnum(SymbolEnum symbolEnum) const {
+const char SymbolManager::getCharFromEnum(const SymbolEnum symbolEnum) const {
 
     char result = ' ';
     switch(symbolEnum) {
@@ -27,8 +27,4 @@ const char SymbolManager::getCharFromEnum(SymbolEnum symbolEnum) const {
 
     }
     return result;
-}
-
-const char SymbolManager::getEmptySlotSymbol() const {
-    return emptySlotSymbol;
 }

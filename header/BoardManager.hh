@@ -6,26 +6,28 @@
 #include "SymbolManager.hh"
 #include "Cordinates.hh"
 
-class Cordinates;
-
 class BoardManager {
 private:
-    const SymbolManager symbolManager;
+    SymbolManager symbolManager;
     const int DEFAULT_BOARD_SIZE = 3;
 
-    std::vector<std::vector<char>> board_vec;
+    std::vector<std::vector<char>> board;
     int boardSize;
+    int quantityOfTakenSlots;
+
+    const bool isEmptySlot(const Cordinates& CORDINATES) const;
+    const bool validateCordinates(const Cordinates& CORDINATES) const;
 
 public:
     BoardManager();
     ~BoardManager();
 
-    void resetEverySlotAndSetSize(const int BOARD_SIZE);
+    void resetEverySlotAndSetSize(const unsigned int NEW_BOARD_SIZE);
     void resetEverySlot();
     bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& symbolEnum);
 
+    bool isBoardInWinState(const unsigned int VICTORY_POINTS) const;
     void printBoard() const;
-    const bool isEmptySlot(const Cordinates& CORDINATES) const;
     const bool isAnyEmptySlot() const;
     const int getBoardSize() const;
 };

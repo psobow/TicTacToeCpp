@@ -8,18 +8,17 @@ enum SymbolEnum {
 };
 
 class SymbolManager {
-    private:
-        char playerSymbol = 'O';
-        char computerSymbol = 'X';
-        char emptySlotSymbol = '-';
+private:
+    char playerSymbol = 'O';
+    char computerSymbol = 'X';
+    const char emptySlotSymbol = '-';
 
-    public:
-        SymbolManager();
-        ~SymbolManager();
+public:
+    SymbolManager();
+    ~SymbolManager();
 
-        void switchPlayerAndComputerSymbol();
-        const char getCharFromEnum(SymbolEnum symbolEnum) const;
-        const char getEmptySlotSymbol() const;
+    void switchPlayerAndComputerSymbol();
+    const char getCharFromEnum(const SymbolEnum symbolEnum) const;
 };
 
 #endif

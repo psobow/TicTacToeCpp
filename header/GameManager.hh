@@ -4,24 +4,26 @@
 #include <iostream>
 #include "BoardManager.hh"
 
+
 enum MainMenuEnum {
     PLAY,
     OPTIONS,
     EXIT
 };
 
-class GameManager
-{
-    private:
-       BoardManager boardManager;
+class GameManager {
+private:
+    BoardManager boardManager;
 
-    public:
-        GameManager();
-        ~GameManager();
+public:
+    GameManager();
+    ~GameManager();
 
-        void printMenu();
-        void getValidDecision();
-        void executeMenuDecision(MainMenuEnum mainMenuEnum);
+    void printMenu();
+    void getValidDecision();
+    void executeMenuDecision(MainMenuEnum mainMenuEnum);
+
+
 };
 
 #endif

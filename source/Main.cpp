@@ -13,12 +13,12 @@ int main()
     BoardManager boardManager;
     boardManager.printBoard();
 
-    boardManager.resetEverySlotAndSetSize(8);
+    boardManager.resetEverySlotAndSetSize(2);
     boardManager.printBoard();
 
     
 
-    boardManager.addNewSymbol(Cordinates(boardManager, 40, 1), PLAYER_SYMBOL);
+    boardManager.addNewSymbol(Cordinates(40, 1), PLAYER_SYMBOL);
     //boardManager.addNewSymbol(1,1, COMPUTER_SYMBOL);
     boardManager.printBoard();
 
@@ -27,4 +27,3 @@ int main()
 }
 
  // TODO: zaimplementować singletona! klasach Manger
- // TODO: zaimplementować obsługę błędów oraz wyrzucanie wyjątków, lub komunikatów za pomocą cerr
