@@ -11,17 +11,16 @@ int main()
     cout << "Hello, World!\n" << endl;
 
     BoardManager boardManager;
-    boardManager.printBoard();
-
-    boardManager.resetEverySlotAndSetSize(2);
-    boardManager.printBoard();
+    boardManager.resetEverySlotAndSetSize(4);
 
     
 
-    boardManager.addNewSymbol(Cordinates(40, 1), PLAYER_SYMBOL);
-    //boardManager.addNewSymbol(1,1, COMPUTER_SYMBOL);
+    boardManager.addNewSymbol(Cordinates(3, 1), PLAYER_SYMBOL);
+    boardManager.addNewSymbol(Cordinates(3, 2), PLAYER_SYMBOL);
+    boardManager.addNewSymbol(Cordinates(3, 3), PLAYER_SYMBOL);
     boardManager.printBoard();
 
+    boardManager.isBoardInWinState(3) ? cout << "znaleziono stan zwycięstwa!\n" : cout << "brak zwyciestwa...\n";
 
     return 0;
 }
