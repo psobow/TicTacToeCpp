@@ -12,16 +12,18 @@ enum MainMenuEnum {
 };
 
 class GameManager {
-private:
-    BoardManager boardManager;
 
 public:
-    GameManager();
+    static GameManager* getInstance();
     ~GameManager();
 
     void printMenu();
     void getValidDecision();
     void executeMenuDecision(MainMenuEnum mainMenuEnum);
+
+private:
+    static GameManager* instance;
+    GameManager();
 
 
 };

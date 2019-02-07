@@ -1,10 +1,16 @@
-
 #include "../header/GameManager.hh"
 
+GameManager* GameManager::instance = 0;
 
+GameManager* GameManager::getInstance(){
+    if(instance == 0){
+        instance = new GameManager();
+    }
+    return instance;
+}
 
 GameManager::GameManager() {}
-GameManager::~GameManager() {}
+GameManager::~GameManager(){}
 
 void GameManager::printMenu(){
     std::cout << "      Welcom in game Tic Tac Toe!\n";

@@ -7,19 +7,36 @@
 #include "Cordinates.hh"
 
 class BoardManager {
+public:
+    static BoardManager* getInstance();
+    ~BoardManager();
+
+    void resetEverySlotAndSetSize(const int NEW_BOARD_SIZE);
+    void resetEverySlot();
+    const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
+
+    const SymbolEnum isBoardInWinState(const int POINTS_FOR_VICTORY) const;
+    void printBoard() const;
+    const bool isAnyEmptySlot() const;
+    const int getBoardSize() const;
+    const auto& getBoard() const; // TODO: jeszcze nei wiem czy to będzie wgl potrzebne do czegos
+
+    // TODO: być może trzeba będzie udostępnić możliwość kopiowanie vectora z boardem dla min maxa
 private:
-    SymbolManager symbolManager;
+    static BoardManager* instance;
+    BoardManager();
+
+    SymbolManager* symbolManager = SymbolManager::getInstance();
     const int DEFAULT_BOARD_SIZE = 3;
 
     std::vector<std::vector<char>> board;
     int boardSize;
     int quantityOfTakenSlots;
 
-    const bool isEmptySlot(const Cordinates& CORDINATES) const;
+    const bool isSlotEmpty(const Cordinates& CORDINATES) const;
     const bool validateCordinates(const Cordinates& CORDINATES) const;
 
     // isBoardInWinState algorithm
-
     // EAST:
     const bool isPossibleToCheckEastSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;
     const bool areEastSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
@@ -37,20 +54,7 @@ private:
     // WEST-SOUTH:
     const bool isPossibleToCheckWestSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;
     const bool areWestSouthSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areWestSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
-
-public:
-    BoardManager();
-    ~BoardManager();
-
-    void resetEverySlotAndSetSize(const int NEW_BOARD_SIZE);
-    void resetEverySlot();
-    const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
-
-    const bool isBoardInWinState(const int POINTS_FOR_VICTORY) const;
-    void printBoard() const;
-    const bool isAnyEmptySlot() const;
-    const int getBoardSize() const;
+    const bool areWestSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;    
 };
 
 #endif

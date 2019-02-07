@@ -2,23 +2,28 @@
 #define SYMBOL_MANAGER_H
 
 enum SymbolEnum {
-    EMPTY_SLOT_SYMBOL,
-    PLAYER_SYMBOL,
-    COMPUTER_SYMBOL
+    COMPUTER = -1,
+    EMPTY_SLOT = 0,
+    PLAYER = 1
+    
 };
 
 class SymbolManager {
-private:
-    char playerSymbol = 'O';
-    char computerSymbol = 'X';
-    const char emptySlotSymbol = '-';
-
 public:
-    SymbolManager();
+    static SymbolManager* getInstance();
     ~SymbolManager();
 
     void switchPlayerAndComputerSymbol();
-    const char getCharFromEnum(const SymbolEnum symbolEnum) const;
+    const char getCharFromEnum(const SymbolEnum& SYMBOL) const;
+    const SymbolEnum getEnumFromChar(const char CHAR) const;
+
+private:
+    static SymbolManager* instance;
+    SymbolManager();
+
+    char playerSymbol = 'O';
+    char computerSymbol = 'X';
+    const char emptySlotSymbol = '-';
 };
 
 #endif
