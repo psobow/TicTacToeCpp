@@ -11,16 +11,40 @@ int main()
     cout << "Hello, World!\n" << endl;
 
     BoardManager boardManager = *BoardManager::getInstance();
-    boardManager.resetEverySlotAndSetSize(4);
-
-    
+    boardManager.createBackUp();
 
     boardManager.addNewSymbol(Cordinates(0, 0), PLAYER);
-    boardManager.addNewSymbol(Cordinates(1, 1), PLAYER);
-    boardManager.addNewSymbol(Cordinates(2, 2), PLAYER);
+
     boardManager.printBoard();
 
-    boardManager.isBoardInWinState(3);
+    std::cout<< " \n wgrywam back up...\n";
 
+    boardManager.retrieveBackUp();
+
+
+    boardManager.printBoard();
+
+    boardManager.addNewSymbol(Cordinates(1, 1), PLAYER);
+
+    boardManager.printBoard();
+
+
+
+/* Testy konstruktora kopiującego klasy vector:
+
+std::vector<int> testVector;
+std::vector<int> secondVector;
+
+testVector.push_back(1);
+
+secondVector = testVector;
+
+std::cout << "Rozmiar secondVector: " << secondVector.size() << "\n";
+
+secondVector.push_back(2);
+
+std::cout << "Rozmiar testVector: " << testVector.size() << "\n";
+std::cout << "Rozmiar secondVector: " << secondVector.size() << "\n";
+*/
     return 0;
 }

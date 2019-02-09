@@ -15,6 +15,11 @@ private:
     const BoardManager *boardManager = BoardManager::getInstance();
 };
 
+/*
+    1. getEveryPosibleMove
+  
+
+*/
 
 
 #endif

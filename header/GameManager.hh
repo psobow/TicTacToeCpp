@@ -19,7 +19,7 @@ public:
 
     void printMenu();
     void getValidDecision();
-    void executeMenuDecision(MainMenuEnum mainMenuEnum);
+    void executeMenuDecision(const MainMenuEnum& mainMenuEnum);
 
 private:
     static GameManager* instance;

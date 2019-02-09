@@ -10,6 +10,7 @@ rm ./object/Cordinates.o
 rm ./object/BoardManager.o
 rm ./object/GameManager.o
 rm ./object/MinMaxManager.o
+
 rm ./object/Main.o
 rm game
 
@@ -18,6 +19,7 @@ g++ -c source/Cordinates.cpp
 g++ -c source/BoardManager.cpp
 g++ -c source/GameManager.cpp
 g++ -c source/MinMaxManager.cpp
+
 g++ -c source/Main.cpp
 
 mv SymbolManager.o ./object
@@ -25,8 +27,8 @@ mv Cordinates.o ./object
 mv BoardManager.o ./object
 mv GameManager.o ./object
 mv MinMaxManager.o ./object
-mv Main.o ./object
 
+mv Main.o ./object
 
 g++ -o game \
 ./object/SymbolManager.o \
@@ -35,6 +37,5 @@ g++ -o game \
 ./object/GameManager.o \
 ./object/MinMaxManager.o \
 ./object/Main.o \
-
 
 ./game

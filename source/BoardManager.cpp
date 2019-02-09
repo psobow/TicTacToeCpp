@@ -15,41 +15,9 @@ BoardManager::BoardManager(){
 }
 BoardManager::~BoardManager(){}
 
-void BoardManager::printBoard() const {
-    // print index on the top
-    std::cout << "  "; 
-    for (int i = 0; i < boardSize; i++) {
-        std::cout << " " << i ;
-    }
-    std::cout << std::endl;
-
-    // print top line 
-    std::cout << " +";
-    for (int i = 0; i < (2*boardSize) +1 ; i++){
-        std::cout << "-";
-    }
-    std::cout << "+" << std::endl;
-
-    // print middle of the board
-    for (int row = 0; row < boardSize; row++){
-        std::cout << row << "|";
-        for (int col = 0; col < boardSize; col++){
-            std::cout << " " << board[row][col];
-        }
-        std::cout << " |" << std::endl;
-    }
-
-    // print bottom line 
-    std::cout << " +";
-    for (int i = 0; i < (2*boardSize) +1 ; i++){
-        std::cout << "-";
-    }
-    std::cout << "+" << std::endl;
-}
-
 void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
-    if (NEW_BOARD_SIZE < 3) {
-        std::cerr << "Board size need to be equal or greater than 3. Could not change board size." << std::endl;
+    if (NEW_BOARD_SIZE < 3 || NEW_BOARD_SIZE > 9) {
+        std::cerr << "Board size need to be inteager from 3 to 9. Could not change board size." << std::endl;
         return;
     }
 
@@ -59,7 +27,7 @@ void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
 
     std::vector<char> row;
     for(int i = 0; i < NEW_BOARD_SIZE; i++){
-        row.push_back(symbolManager->getCharFromEnum(EMPTY_SLOT));
+        row.push_back(symbolManager->getCharFromEnum(NONE));
     }
     for(int i = 0; i < NEW_BOARD_SIZE; i++){
         board.push_back(row);
@@ -78,7 +46,7 @@ const bool BoardManager::addNewSymbol(const Cordinates& CORDINATES, const Symbol
         quantityOfTakenSlots++;
         return true;
     }
-    std::cerr << "Could not add new symbol. There was invalid cordinates.\n";
+    std::cerr << "Could not add new symbol. There was invalid cordinates or taken slot.\n";
     return false;
 }
 
@@ -95,23 +63,49 @@ const bool BoardManager::validateCordinates(const Cordinates& CORDINATES) const 
 }
 
 const bool BoardManager::isSlotEmpty(const Cordinates& CORDINATES) const {
-    return board[CORDINATES.getRow()][CORDINATES.getColumn()] == symbolManager->getCharFromEnum(EMPTY_SLOT);
+    return board[CORDINATES.getRow()][CORDINATES.getColumn()] == symbolManager->getCharFromEnum(NONE);
 }
 
 const bool BoardManager::isAnyEmptySlot() const {
     return quantityOfTakenSlots < boardSize * boardSize;
 }
 
-const int BoardManager::getBoardSize() const {
-    return boardSize;
+std::vector<Cordinates> BoardManager::getEveryPossibleMove() const{
+    std::vector<Cordinates> possibleMoves;
+    if(isAnyEmptySlot() == false) return possibleMoves;
+    
+    for(int row = 0; row < boardSize; row++){
+        for(int col = 0; col < boardSize; col++){
+            if(isSlotEmpty(Cordinates(row, col))){
+                possibleMoves.push_back(Cordinates(row, col));
+            }
+        }
+    }
+    return possibleMoves;
 }
 
-const auto& BoardManager::getBoard() const {
-    return board;
+void BoardManager::createBackUp(){
+    BOARD_BACK_UP = board;
+    BOARD_SIZE_BACK_UP = boardSize;
+    QUANTITY_OF_TAKEN_SLOTS_BACK_UP = quantityOfTakenSlots;
 }
 
+void BoardManager::retrieveBackUp(){
+    if(BOARD_SIZE_BACK_UP == -1 || QUANTITY_OF_TAKEN_SLOTS_BACK_UP == -1) {
+        std::cerr << "There is no back up to retrieve. Create back up first.";
+        return;
+    }
 
-const SymbolEnum BoardManager::isBoardInWinState(const int POINTS_FOR_VICTORY) const {
+    board = BOARD_BACK_UP;
+    boardSize = BOARD_SIZE_BACK_UP;
+    quantityOfTakenSlots = QUANTITY_OF_TAKEN_SLOTS_BACK_UP;
+}
+
+#pragma region findWinner algorithm 
+
+const SymbolEnum BoardManager::findWinner(const int POINTS_FOR_VICTORY) const {
+    if(quantityOfTakenSlots < 2*boardSize) return NONE;
+
     for(int row = 0; row < boardSize; row++){
         for(int col = 0; col < boardSize; col++){
 
@@ -158,12 +152,10 @@ const SymbolEnum BoardManager::isBoardInWinState(const int POINTS_FOR_VICTORY) c
                 
 
             }
-
         }
     }
-    return EMPTY_SLOT;
+    return NONE;
 }
-
 
 // EAST:
 
@@ -184,13 +176,12 @@ const bool BoardManager::areEastSlotsNotEmpty(const int ROW, const int COLUMN, c
 const bool BoardManager::areEastSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const {
     int howManyEqualPairs = 0;
     for(int col = 1; col < POINTS_FOR_VICTORY; col++){
-        if( board[ROW][COLUMN] == board[ROW][COLUMN+col] ){
+        if(board[ROW][COLUMN] == board[ROW][COLUMN+col] ){
             howManyEqualPairs++;
         }
     }
     return howManyEqualPairs == (POINTS_FOR_VICTORY - 1);
 }
-
 
 // SOUTH:
 
@@ -229,6 +220,7 @@ const bool BoardManager::areEastSouthSlotsNotEmpty(const int ROW, const int COLU
     }
     return howManyTakenSlots == (POINTS_FOR_VICTORY - 1);
 }
+
 const bool BoardManager::areEastSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const{
     int howManyEqualPairs = 0;
     for(int i = 1; i < POINTS_FOR_VICTORY; i++) {
@@ -238,7 +230,6 @@ const bool BoardManager::areEastSouthSlotsContainWinState(const int ROW, const i
     }
     return howManyEqualPairs == (POINTS_FOR_VICTORY - 1);
 }
-
 
 // WEST-SOUTH:
 
@@ -256,7 +247,6 @@ const bool BoardManager::areWestSouthSlotsNotEmpty(const int ROW, const int COLU
     return howManyTakenSlots == (POINTS_FOR_VICTORY - 1);
 }
 
-
 const bool BoardManager::areWestSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const{
     int howManyEqualPairs = 0;
     for(int i = 1; i < POINTS_FOR_VICTORY; i++) {
@@ -265,4 +255,37 @@ const bool BoardManager::areWestSouthSlotsContainWinState(const int ROW, const i
         }
     }
     return howManyEqualPairs == (POINTS_FOR_VICTORY - 1);
+}
+#pragma endregion
+
+void BoardManager::printBoard() const {
+    // print index on the top
+    std::cout << "  "; 
+    for (int i = 0; i < boardSize; i++) {
+        std::cout << " " << i ;
+    }
+    std::cout << std::endl;
+
+    // print top line 
+    std::cout << " +";
+    for (int i = 0; i < (2*boardSize) +1 ; i++){
+        std::cout << "-";
+    }
+    std::cout << "+" << std::endl;
+
+    // print middle of the board
+    for (int row = 0; row < boardSize; row++){
+        std::cout << row << "|";
+        for (int col = 0; col < boardSize; col++){
+            std::cout << " " << board[row][col];
+        }
+        std::cout << " |" << std::endl;
+    }
+
+    // print bottom line 
+    std::cout << " +";
+    for (int i = 0; i < (2*boardSize) +1 ; i++){
+        std::cout << "-";
+    }
+    std::cout << "+" << std::endl;
 }

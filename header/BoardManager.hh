@@ -15,28 +15,35 @@ public:
     void resetEverySlot();
     const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
 
-    const SymbolEnum isBoardInWinState(const int POINTS_FOR_VICTORY) const;
+    
     void printBoard() const;
     const bool isAnyEmptySlot() const;
-    const int getBoardSize() const;
-    const auto& getBoard() const; // TODO: jeszcze nei wiem czy to będzie wgl potrzebne do czegos
+    const SymbolEnum findWinner(const int POINTS_FOR_VICTORY) const;
+    std::vector<Cordinates> getEveryPossibleMove() const;
 
-    // TODO: być może trzeba będzie udostępnić możliwość kopiowanie vectora z boardem dla min maxa
+    void createBackUp();
+    void retrieveBackUp();
+
 private:
     static BoardManager* instance;
     BoardManager();
 
     SymbolManager* symbolManager = SymbolManager::getInstance();
-    const int DEFAULT_BOARD_SIZE = 3;
 
     std::vector<std::vector<char>> board;
     int boardSize;
     int quantityOfTakenSlots;
 
-    const bool isSlotEmpty(const Cordinates& CORDINATES) const;
-    const bool validateCordinates(const Cordinates& CORDINATES) const;
+    std::vector<std::vector<char>> BOARD_BACK_UP;
+    int BOARD_SIZE_BACK_UP = -1;
+    int QUANTITY_OF_TAKEN_SLOTS_BACK_UP = -1;
 
-    // isBoardInWinState algorithm
+    const int DEFAULT_BOARD_SIZE = 3;
+
+    const bool validateCordinates(const Cordinates& CORDINATES) const;
+    const bool isSlotEmpty(const Cordinates& CORDINATES) const;
+
+    #pragma region findWinner algorithm 
     // EAST:
     const bool isPossibleToCheckEastSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;
     const bool areEastSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
@@ -55,6 +62,8 @@ private:
     const bool isPossibleToCheckWestSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;
     const bool areWestSouthSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
     const bool areWestSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;    
+    #pragma endregion
+
 };
 
 #endif

@@ -19,7 +19,7 @@ void SymbolManager::switchPlayerAndComputerSymbol() {
 }
 
 const char SymbolManager::getCharFromEnum(const SymbolEnum& SYMBOL) const {
-    if (SYMBOL == EMPTY_SLOT){
+    if (SYMBOL == NONE){
         return emptySlotSymbol;
     } else if (SYMBOL == PLAYER){
         return playerSymbol;
@@ -34,6 +34,6 @@ const SymbolEnum SymbolManager::getEnumFromChar(const char CHAR) const {
     } else if (CHAR == computerSymbol) {
         return COMPUTER;
     } else {
-        return EMPTY_SLOT;
+        return NONE;
     }
 }

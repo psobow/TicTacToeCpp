@@ -3,9 +3,8 @@
 
 enum SymbolEnum {
     COMPUTER = -1,
-    EMPTY_SLOT = 0,
+    NONE = 0,
     PLAYER = 1
-    
 };
 
 class SymbolManager {
