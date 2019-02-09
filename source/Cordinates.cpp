@@ -13,3 +13,7 @@ const int Cordinates::getColumn() const {
     return column;
 }
 
+const bool Cordinates::equals(const Cordinates& CORDINATES) const{
+    return (row == CORDINATES.getRow() && column == CORDINATES.getColumn());
+}
+

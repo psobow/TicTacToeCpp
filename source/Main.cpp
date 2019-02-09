@@ -2,32 +2,27 @@
 #include "../header/BoardManager.hh"
 #include "../header/GameManager.hh"
 #include "../header/Cordinates.hh"
-using namespace std;
-
 
 
 int main() 
 {
-    cout << "Hello, World!\n" << endl;
+    std::cout << "Hello, World!\n" << std::endl;
 
     BoardManager boardManager = *BoardManager::getInstance();
-    boardManager.createBackUp();
+
 
     boardManager.addNewSymbol(Cordinates(0, 0), PLAYER);
+    boardManager.addNewSymbol(Cordinates(0, 1), PLAYER);
+    //boardManager.addNewSymbol(Cordinates(0, 2), PLAYER);
+
+    boardManager.addNewSymbol(Cordinates(2, 0), PLAYER);
+    boardManager.addNewSymbol(Cordinates(2, 1), PLAYER);
+    boardManager.addNewSymbol(Cordinates(2, 2), PLAYER);
+
+
+    boardManager.findWinner(3);
 
     boardManager.printBoard();
-
-    std::cout<< " \n wgrywam back up...\n";
-
-    boardManager.retrieveBackUp();
-
-
-    boardManager.printBoard();
-
-    boardManager.addNewSymbol(Cordinates(1, 1), PLAYER);
-
-    boardManager.printBoard();
-
 
 
 /* Testy konstruktora kopiującego klasy vector:

@@ -22,7 +22,6 @@ void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
     }
 
     board.clear();
-    quantityOfTakenSlots = 0;
     boardSize = NEW_BOARD_SIZE;
 
     std::vector<char> row;
@@ -31,6 +30,12 @@ void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
     }
     for(int i = 0; i < NEW_BOARD_SIZE; i++){
         board.push_back(row);
+    }
+
+    for(int row = 0; row < boardSize; row++){
+        for(int col = 0; col < boardSize; col++){
+            emptySlots.push_back(Cordinates(row, col));
+        }
     }
 }
 
@@ -43,7 +48,7 @@ const bool BoardManager::addNewSymbol(const Cordinates& CORDINATES, const Symbol
     if (isValid){
         char newSymbol = symbolManager->getCharFromEnum(SYMBOL); 
         board[CORDINATES.getRow()][CORDINATES.getColumn()] = newSymbol;
-        quantityOfTakenSlots++;
+        eraseCordinatesFromEmptySlots(CORDINATES);
         return true;
     }
     std::cerr << "Could not add new symbol. There was invalid cordinates or taken slot.\n";
@@ -63,48 +68,55 @@ const bool BoardManager::validateCordinates(const Cordinates& CORDINATES) const 
 }
 
 const bool BoardManager::isSlotEmpty(const Cordinates& CORDINATES) const {
-    return board[CORDINATES.getRow()][CORDINATES.getColumn()] == symbolManager->getCharFromEnum(NONE);
+    return ( board[CORDINATES.getRow()][CORDINATES.getColumn()] == symbolManager->getCharFromEnum(NONE) );
 }
 
-const bool BoardManager::isAnyEmptySlot() const {
-    return quantityOfTakenSlots < boardSize * boardSize;
-}
-
-std::vector<Cordinates> BoardManager::getEveryPossibleMove() const{
-    std::vector<Cordinates> possibleMoves;
-    if(isAnyEmptySlot() == false) return possibleMoves;
-    
-    for(int row = 0; row < boardSize; row++){
-        for(int col = 0; col < boardSize; col++){
-            if(isSlotEmpty(Cordinates(row, col))){
-                possibleMoves.push_back(Cordinates(row, col));
-            }
+void BoardManager::eraseCordinatesFromEmptySlots(const Cordinates& CORDINATES){
+    int index = 0;
+    for(int i = 0; i < emptySlots.size(); i++){
+        if(emptySlots[i].equals(CORDINATES)) {
+            index = i;
+            break;
         }
     }
-    return possibleMoves;
+
+    emptySlots.erase(emptySlots.begin() + index);
+}
+
+
+const bool BoardManager::isAnyEmptySlot() const {
+    return (emptySlots.size() != 0);
+}
+
+const int BoardManager::getQuantityOfTakenSlots() const {
+    return ( (boardSize*boardSize) - emptySlots.size() );
+}
+
+std::vector<Cordinates> BoardManager::getEveryEmptySlotCordinates() const {
+    return emptySlots;
 }
 
 void BoardManager::createBackUp(){
     BOARD_BACK_UP = board;
+    EMPTY_SLOTS_BACK_UP = emptySlots;
     BOARD_SIZE_BACK_UP = boardSize;
-    QUANTITY_OF_TAKEN_SLOTS_BACK_UP = quantityOfTakenSlots;
 }
 
 void BoardManager::retrieveBackUp(){
-    if(BOARD_SIZE_BACK_UP == -1 || QUANTITY_OF_TAKEN_SLOTS_BACK_UP == -1) {
+    if(BOARD_SIZE_BACK_UP == -1) {
         std::cerr << "There is no back up to retrieve. Create back up first.";
         return;
     }
 
     board = BOARD_BACK_UP;
+    emptySlots = EMPTY_SLOTS_BACK_UP;
     boardSize = BOARD_SIZE_BACK_UP;
-    quantityOfTakenSlots = QUANTITY_OF_TAKEN_SLOTS_BACK_UP;
 }
 
 #pragma region findWinner algorithm 
 
 const SymbolEnum BoardManager::findWinner(const int POINTS_FOR_VICTORY) const {
-    if(quantityOfTakenSlots < 2*boardSize) return NONE;
+    if( getQuantityOfTakenSlots() < (2 * POINTS_FOR_VICTORY)-1 ) return NONE; // there is no winner with this amount of taken slots.
 
     for(int row = 0; row < boardSize; row++){
         for(int col = 0; col < boardSize; col++){

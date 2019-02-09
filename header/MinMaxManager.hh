@@ -12,7 +12,7 @@ private:
     static MinMaxManager* instance;
     MinMaxManager();
 
-    const BoardManager *boardManager = BoardManager::getInstance();
+    BoardManager *boardManager = BoardManager::getInstance();
 };
 
 /*
