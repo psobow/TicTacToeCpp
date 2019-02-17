@@ -27,7 +27,7 @@ const int MinMaxManager::scoreGameFromComputerPOV(const int depth) const {
 
 void MinMaxManager::mainMinMax(){
 
-    makeNextMove(COMPUTER, 1);
+    makeNextMove(COMPUTER, 0);
 
     boardManager->addNewSymbol(computerChoice, COMPUTER);
 }
@@ -51,23 +51,12 @@ int MinMaxManager::makeNextMove(const SymbolEnum& turnTakingPlayer, int depth) {
 
     for(int i = 0; i < availableCordinates.size(); i++){
         boardManager->addNewSymbol(availableCordinates[i], turnTakingPlayer);
-        //boardManager->printBoard();
+
         int currentBoardState = makeNextMove( symbolManager->getOppositePlayer(turnTakingPlayer), depth );
         scores.push_back(currentBoardState);
         boardManager->resetSlot(availableCordinates[i]);
 
-        
-        //if(currentBoardState == 10 || currentBoardState == -10){ // modulo 2 
-        /*
-        jeżli zrobimy ocenianie stanów gry z uwzględnieniem głębkości 
-        i każdy stopień niżej będziemy pogarszać wynik o 2pkt dla tego kto wygra
-        to wtedy jeśli znajdziemy gdziekolwiek wynik % 2 == 0 to znaleźliśmy pierwszy stan zwycięstwa lub porażki dla komputera.
-        nie musimy przeszukiwać dalej. 
 
-        być może możemy sie skupic tylko na zwycięstwach komputera i przeszukiwać tylko do momętu znalezienia zwycięstwa komputera
-        */
-        //    break;
-        //}
     }
     
 
@@ -75,11 +64,13 @@ int MinMaxManager::makeNextMove(const SymbolEnum& turnTakingPlayer, int depth) {
         // this is the max calculation.
         int maxScoreIndex = getMaxValueIndex(scores);
         computerChoice = availableCordinates[maxScoreIndex];
+        depth--;
         return scores[maxScoreIndex];
 
     } else if (turnTakingPlayer == PLAYER){
         // this is the min calculation.
         int minScoreIndex = getMinValueIndex(scores);
+        depth--;
         return scores[minScoreIndex];
     } 
 }

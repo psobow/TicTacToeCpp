@@ -14,45 +14,41 @@ int main()
 
     //boardManager->addNewSymbol(Cordinates(0,0), COMPUTER);
     //boardManager->addNewSymbol(Cordinates(0,1), COMPUTER);
-    //boardManager->addNewSymbol(Cordinates(0,2), COMPUTER);
+    boardManager->addNewSymbol(Cordinates(0,2), COMPUTER);
 
     //boardManager->addNewSymbol(Cordinates(1,0), COMPUTER);
     //boardManager->addNewSymbol(Cordinates(1,1), COMPUTER);
     //boardManager->addNewSymbol(Cordinates(1,2), COMPUTER);
 
     boardManager->addNewSymbol(Cordinates(2,0), COMPUTER);
-    boardManager->addNewSymbol(Cordinates(2,1), COMPUTER);
+    //boardManager->addNewSymbol(Cordinates(2,1), COMPUTER);
     //boardManager->addNewSymbol(Cordinates(2,2), COMPUTER);
 
 
 
-    //boardManager->addNewSymbol(Cordinates(0,0), PLAYER);
-    boardManager->addNewSymbol(Cordinates(0,1), PLAYER);
+    boardManager->addNewSymbol(Cordinates(0,0), PLAYER);
+    //boardManager->addNewSymbol(Cordinates(0,1), PLAYER);
     //boardManager->addNewSymbol(Cordinates(0,2), PLAYER);
 
-    //boardManager->addNewSymbol(Cordinates(1,0), PLAYER);
-    //boardManager->addNewSymbol(Cordinates(1,1), PLAYER);
-    boardManager->addNewSymbol(Cordinates(1,2), PLAYER);
+    boardManager->addNewSymbol(Cordinates(1,0), PLAYER);
+    boardManager->addNewSymbol(Cordinates(1,1), PLAYER);
+    //boardManager->addNewSymbol(Cordinates(1,2), PLAYER);
 
     //boardManager->addNewSymbol(Cordinates(2,0), PLAYER);
     //boardManager->addNewSymbol(Cordinates(2,1), PLAYER);
-    boardManager->addNewSymbol(Cordinates(2,2), PLAYER);
+    //boardManager->addNewSymbol(Cordinates(2,2), PLAYER);
 
     boardManager->printBoard();
 
 
+    //minMaxManager->mainMinMax();
+    //boardManager->addNewSymbol(Cordinates(0,2), PLAYER);
+    //minMaxManager->mainMinMax();
+    //boardManager->addNewSymbol(Cordinates(2,0), PLAYER);
     minMaxManager->mainMinMax();
 
     boardManager->printBoard();
-/*
-    std::vector<int> myVec;
 
-    myVec.push_back(0);
-    myVec.push_back(1);
-    myVec.push_back(2);
 
-    std::cout << "MaxVal index: " << minMaxManager->getMaxValueIndex(myVec) << std::endl;
-    std::cout << "MinVal index: " << minMaxManager->getMinValueIndex(myVec) << std::endl;
-*/
     return 0;
 }
