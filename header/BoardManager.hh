@@ -1,10 +1,12 @@
 #ifndef BOARD_MANAGER_H
 #define BOARD_MANAGER_H
 
-#include <iostream>
-#include <vector>
 #include "SymbolManager.hh"
 #include "Cordinates.hh"
+
+#include <iostream>
+#include <vector>
+
 
 class BoardManager {
 public:
@@ -19,30 +21,27 @@ public:
 
     void resetEverySlotAndSetSize(const int NEW_BOARD_SIZE);
     void resetEverySlot();
-    void createBackUp();
-    void retrieveBackUp();
+    void resetSlot(const Cordinates& CORDINATES);
     const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
     
 private:
     const int DEFAULT_BOARD_SIZE = 3;
     
+    BoardManager(const BoardManager&) = delete;
     static BoardManager* instance;
     BoardManager();
+
     SymbolManager* symbolManager = SymbolManager::getInstance();
 
     std::vector<std::vector<char>> board;
-    std::vector<Cordinates> emptySlots;
     int boardSize;
 
-    // BACK-UP fields
-    std::vector<std::vector<char>> BOARD_BACK_UP;
-    std::vector<Cordinates> EMPTY_SLOTS_BACK_UP;
-    int BOARD_SIZE_BACK_UP = -1;
 
-    void eraseCordinatesFromEmptySlots(const Cordinates& CORDINATES);
+
     const bool validateCordinates(const Cordinates& CORDINATES) const;
     const bool isSlotEmpty(const Cordinates& CORDINATES) const;
 
+    // TODO: zaimplementować algorytm z użyciem wielu wątków
     #pragma region findWinner algorithm 
     // EAST:
     const bool isPossibleToCheckEastSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;

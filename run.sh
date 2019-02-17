@@ -1,41 +1,35 @@
 #!/bin/bash
 clear
 
-echo Hello Bash!
+echo Hello, Bash!
 
+#create directory if do not exist
 mkdir -p object
 
-rm ./object/SymbolManager.o
-rm ./object/Cordinates.o
-rm ./object/BoardManager.o
-rm ./object/GameManager.o
-rm ./object/MinMaxManager.o
+#remove old files
+rm ./object/*
 
-rm ./object/Main.o
-rm game
+#compile game
+g++ -c source/*
 
-g++ -c source/SymbolManager.cpp
-g++ -c source/Cordinates.cpp
-g++ -c source/BoardManager.cpp
-g++ -c source/GameManager.cpp
-g++ -c source/MinMaxManager.cpp
+#compile for debbuger (this line will create file a.out for debbuger) 
+g++ -g source/*
 
-g++ -c source/Main.cpp
-
+#move .o files into object directory
 mv SymbolManager.o ./object
 mv Cordinates.o ./object
 mv BoardManager.o ./object
 mv GameManager.o ./object
 mv MinMaxManager.o ./object
-
 mv Main.o ./object
 
-g++ -o game \
+#link compiled files into game
+g++ -std=c++11 -o game.out \
 ./object/SymbolManager.o \
 ./object/Cordinates.o \
 ./object/BoardManager.o \
 ./object/GameManager.o \
 ./object/MinMaxManager.o \
-./object/Main.o \
+./object/Main.o 
 
-./game
+./game.out

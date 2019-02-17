@@ -17,3 +17,7 @@ const bool Cordinates::equals(const Cordinates& CORDINATES) const{
     return (row == CORDINATES.getRow() && column == CORDINATES.getColumn());
 }
 
+void Cordinates::operator = (const Cordinates& CORDINATES){
+    row = CORDINATES.getRow();
+    column = CORDINATES.getColumn();
+}

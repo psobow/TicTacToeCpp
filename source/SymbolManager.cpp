@@ -1,9 +1,9 @@
 #include "../header/SymbolManager.hh"
 
-SymbolManager* SymbolManager::instance = 0;
+SymbolManager* SymbolManager::instance = nullptr;
 
 SymbolManager* SymbolManager::getInstance(){
-    if(instance == 0){
+    if(instance == nullptr){
         instance = new SymbolManager();
     }
     return instance;
@@ -36,4 +36,8 @@ const SymbolEnum SymbolManager::getEnumFromChar(const char CHAR) const {
     } else {
         return NONE;
     }
+}
+
+const SymbolEnum SymbolManager::getOppositePlayer(const SymbolEnum& SYMBOL) const {
+    return static_cast<SymbolEnum>(SYMBOL*(-1));
 }

@@ -15,8 +15,10 @@ public:
     void switchPlayerAndComputerSymbol();
     const char getCharFromEnum(const SymbolEnum& SYMBOL) const;
     const SymbolEnum getEnumFromChar(const char CHAR) const;
+    const SymbolEnum getOppositePlayer(const SymbolEnum& SYMBOL) const;
 
 private:
+    SymbolManager(const SymbolManager&) = delete;
     static SymbolManager* instance;
     SymbolManager();
 

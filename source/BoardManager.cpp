@@ -1,13 +1,13 @@
 #include "../header/BoardManager.hh"
 
 
-BoardManager* BoardManager::instance = 0;
+BoardManager* BoardManager::instance = nullptr;
 
 BoardManager* BoardManager::getInstance(){
-    if(instance == 0) {
+    if(instance == nullptr) {
         instance = new BoardManager();
     }
-    return instance;
+    return instance; 
 }
 
 BoardManager::BoardManager(){
@@ -17,7 +17,7 @@ BoardManager::~BoardManager(){}
 
 void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
     if (NEW_BOARD_SIZE < 3 || NEW_BOARD_SIZE > 9) {
-        std::cerr << "Board size need to be inteager from 3 to 9. Could not change board size." << std::endl;
+        std::cerr << "Board size need to be inteager from 3 to 9. Could not change board size.\n";
         return;
     }
 
@@ -31,24 +31,24 @@ void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
     for(int i = 0; i < NEW_BOARD_SIZE; i++){
         board.push_back(row);
     }
-
-    for(int row = 0; row < boardSize; row++){
-        for(int col = 0; col < boardSize; col++){
-            emptySlots.push_back(Cordinates(row, col));
-        }
-    }
 }
 
 void BoardManager::resetEverySlot(){
     resetEverySlotAndSetSize(boardSize);
 }
 
-const bool BoardManager::addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL){
+void BoardManager::resetSlot(const Cordinates& CORDINATES){
     bool isValid = validateCordinates(CORDINATES);
+    if(isValid){
+        board[CORDINATES.getRow()][CORDINATES.getColumn()] = symbolManager->getCharFromEnum(NONE);
+    }
+}
+
+const bool BoardManager::addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL){
+    bool isValid = ( validateCordinates(CORDINATES) && isSlotEmpty(CORDINATES) );
     if (isValid){
         char newSymbol = symbolManager->getCharFromEnum(SYMBOL); 
         board[CORDINATES.getRow()][CORDINATES.getColumn()] = newSymbol;
-        eraseCordinatesFromEmptySlots(CORDINATES);
         return true;
     }
     std::cerr << "Could not add new symbol. There was invalid cordinates or taken slot.\n";
@@ -61,57 +61,54 @@ const bool BoardManager::validateCordinates(const Cordinates& CORDINATES) const 
 
     if (row >= boardSize || row < 0 ||
         col >= boardSize || col < 0){
+        std::cerr << "There was invalid cordinates.\n";
         return false;
-        }
-    
-    return isSlotEmpty(CORDINATES);
+    } else {
+        return true;
+    }
 }
 
 const bool BoardManager::isSlotEmpty(const Cordinates& CORDINATES) const {
     return ( board[CORDINATES.getRow()][CORDINATES.getColumn()] == symbolManager->getCharFromEnum(NONE) );
 }
 
-void BoardManager::eraseCordinatesFromEmptySlots(const Cordinates& CORDINATES){
-    int index = 0;
-    for(int i = 0; i < emptySlots.size(); i++){
-        if(emptySlots[i].equals(CORDINATES)) {
-            index = i;
-            break;
-        }
-    }
-
-    emptySlots.erase(emptySlots.begin() + index);
-}
-
 
 const bool BoardManager::isAnyEmptySlot() const {
-    return (emptySlots.size() != 0);
+    for(int row = 0; row < boardSize; row++){
+        for(int col = 0; col < boardSize; col++){
+            if( isSlotEmpty(Cordinates(row, col)) ){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 const int BoardManager::getQuantityOfTakenSlots() const {
-    return ( (boardSize*boardSize) - emptySlots.size() );
+    int quantityOfTakenSlots = 0;
+    for(int row = 0; row < boardSize; row++){
+        for(int col = 0; col < boardSize; col++){
+            if( isSlotEmpty(Cordinates(row, col)) == false ){
+                quantityOfTakenSlots++;
+            }
+        }
+    }
+    return quantityOfTakenSlots;
 }
 
 std::vector<Cordinates> BoardManager::getEveryEmptySlotCordinates() const {
+    std::vector<Cordinates> emptySlots;
+
+    for(int row = 0; row < boardSize; row++){
+        for(int col = 0; col < boardSize; col++){
+            if( isSlotEmpty(Cordinates(row, col)) ){
+                emptySlots.push_back(Cordinates(row, col));
+            }
+        }
+    }
     return emptySlots;
 }
 
-void BoardManager::createBackUp(){
-    BOARD_BACK_UP = board;
-    EMPTY_SLOTS_BACK_UP = emptySlots;
-    BOARD_SIZE_BACK_UP = boardSize;
-}
-
-void BoardManager::retrieveBackUp(){
-    if(BOARD_SIZE_BACK_UP == -1) {
-        std::cerr << "There is no back up to retrieve. Create back up first.";
-        return;
-    }
-
-    board = BOARD_BACK_UP;
-    emptySlots = EMPTY_SLOTS_BACK_UP;
-    boardSize = BOARD_SIZE_BACK_UP;
-}
 
 #pragma region findWinner algorithm 
 

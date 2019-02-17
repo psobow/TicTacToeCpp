@@ -13,6 +13,9 @@ public:
     const int getColumn() const;
 
     const bool equals(const Cordinates& CORDINATES) const;
+
+    void operator = (const Cordinates& CORDINATES);
 };
 
 #endif
+

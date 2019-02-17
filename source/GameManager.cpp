@@ -1,9 +1,9 @@
 #include "../header/GameManager.hh"
 
-GameManager* GameManager::instance = 0;
+GameManager* GameManager::instance = nullptr;
 
 GameManager* GameManager::getInstance(){
-    if(instance == 0){
+    if(instance == nullptr){
         instance = new GameManager();
     }
     return instance;
@@ -19,6 +19,10 @@ void GameManager::printMenu(){
     std::cout << "      2.Option\n";
     std::cout << "      3.Exit\n";
     std::cout << "      Enter choice: ";
+}
+
+const int GameManager::getPointsForVictory() const {
+    return pointsForVictory;
 }
 
 
