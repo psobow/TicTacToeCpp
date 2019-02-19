@@ -15,13 +15,12 @@ MinMaxManager::~MinMaxManager() {}
 
 const int MinMaxManager::scoreGameFromComputerPOV(const int depth) const {
     const SymbolEnum winner = boardManager->findWinner(gameManager->getPointsForVictory());
-
     if (winner == COMPUTER){
-        return 100 - depth;
+        return HIGHEST_SCORE - depth;
     } else if (winner == NONE){
         return 0;
     } else {
-        return -100 + depth;
+        return -HIGHEST_SCORE + depth;
     }
 }
 
@@ -35,15 +34,13 @@ void MinMaxManager::mainMinMax(){
 // make virtual moves and evaluate states of the game in order to calculate the best move for computer.
 // algorytm poniżej wyjebie sie na wielu wątkach !!   trzeba jakoś zrobić zeby funkcja makeNextMove zwracała Cordinaty, zamiast zapisywała je do pola 
 // computerChoice. (to nadpisywanie pola computerChoice zabije ten algorytm na wielu wątkach)
-//TODO: dodać głębokość do algorytmu...
+
 
 int MinMaxManager::makeNextMove(const SymbolEnum& turnTakingPlayer, int depth) {
-
     const int result = scoreGameFromComputerPOV(depth);
     if( result != 0 || (boardManager->isAnyEmptySlot() == false) ) {
         return result;
     }
-
     depth++;
 
     std::vector<Cordinates> availableCordinates = boardManager->getEveryEmptySlotCordinates();
@@ -51,14 +48,10 @@ int MinMaxManager::makeNextMove(const SymbolEnum& turnTakingPlayer, int depth) {
 
     for(int i = 0; i < availableCordinates.size(); i++){
         boardManager->addNewSymbol(availableCordinates[i], turnTakingPlayer);
-
         int currentBoardState = makeNextMove( symbolManager->getOppositePlayer(turnTakingPlayer), depth );
         scores.push_back(currentBoardState);
         boardManager->resetSlot(availableCordinates[i]);
-
-
     }
-    
 
     if(turnTakingPlayer == COMPUTER){
         // this is the max calculation.
@@ -99,7 +92,10 @@ int MinMaxManager::makeNextMove(const SymbolEnum& turnTakingPlayer, int depth) {
 
 
 int MinMaxManager::getMaxValueIndex(const std::vector<int>& vec) const {
-    if ( vec.size() == 0 ) return -1;
+    if ( vec.size() == 0 ){
+        std::cerr << "Can not get max Value index. Vector size equals zero.\n";
+        return -1;
+    }
 
     int result = 0;
     int maxValue = vec[0];
@@ -114,8 +110,11 @@ int MinMaxManager::getMaxValueIndex(const std::vector<int>& vec) const {
 
 
 int MinMaxManager::getMinValueIndex(const std::vector<int>& vec) const {
-    if ( vec.size() == 0 ) return -1;
-
+    if ( vec.size() == 0 ) {
+        std::cerr << "Can not get min Value index. Vector size equals zero.\n";
+        return -1;
+    }
+    
     int result = 0;
     int minValue = vec[0];
     for(int i = 1; i < vec.size(); i++){

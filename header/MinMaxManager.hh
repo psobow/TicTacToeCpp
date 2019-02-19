@@ -1,6 +1,8 @@
 #ifndef MINMAX_MANAGER_H
 #define MINMAX_MANAGER_H
 
+#include <iostream>
+
 #include "Cordinates.hh"
 #include "BoardManager.hh"
 #include "GameManager.hh"
@@ -21,6 +23,7 @@ private:
     MinMaxManager(const MinMaxManager&) = delete;
     static MinMaxManager* instance;
     MinMaxManager();
+    const int HIGHEST_SCORE = 1000;
 
     SymbolManager *symbolManager = SymbolManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();

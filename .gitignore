@@ -1,3 +1,4 @@
-object/
 .vscode/
-*.out
+object/
+output/
+libs/catch.hpp.gch

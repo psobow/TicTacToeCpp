@@ -10,6 +10,7 @@ int main()
     std::cout << "Hello, World!\n" << std::endl;
 
     BoardManager *boardManager = BoardManager::getInstance();
+
     MinMaxManager *minMaxManager = MinMaxManager::getInstance();
 
     //boardManager->addNewSymbol(Cordinates(0,0), COMPUTER);
@@ -45,9 +46,9 @@ int main()
     //boardManager->addNewSymbol(Cordinates(0,2), PLAYER);
     //minMaxManager->mainMinMax();
     //boardManager->addNewSymbol(Cordinates(2,0), PLAYER);
-    minMaxManager->mainMinMax();
+   // minMaxManager->mainMinMax();
 
-    boardManager->printBoard();
+    //boardManager->printBoard();
 
 
     return 0;

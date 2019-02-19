@@ -24,15 +24,14 @@ public:
     void resetSlot(const Cordinates& CORDINATES);
     const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
     
-private:
-    const int DEFAULT_BOARD_SIZE = 3;
-    
+private:   
     BoardManager(const BoardManager&) = delete;
     static BoardManager* instance;
     BoardManager();
-
+    
     SymbolManager* symbolManager = SymbolManager::getInstance();
 
+    const int DEFAULT_BOARD_SIZE = 3;
     std::vector<std::vector<char>> board;
     int boardSize;
 
