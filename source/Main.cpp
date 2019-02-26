@@ -53,3 +53,13 @@ int main()
 
     return 0;
 }
+
+
+/*
+materiały:
+
+https://www.neverstopbuilding.com/blog/minimax
+
+
+
+*/

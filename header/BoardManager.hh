@@ -7,8 +7,10 @@
 #include <iostream>
 #include <vector>
 
+class BoardManagerTestSuite;
 
-class BoardManager {
+class BoardManager  {
+    friend class BoardManagerTestSuite;
 public:
     static BoardManager* getInstance();
     ~BoardManager();
@@ -24,8 +26,10 @@ public:
     void resetSlot(const Cordinates& CORDINATES);
     const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
     
+
 private:   
     BoardManager(const BoardManager&) = delete;
+    BoardManager& operator=(const BoardManager&) = delete;
     static BoardManager* instance;
     BoardManager();
     
@@ -34,34 +38,33 @@ private:
     const int DEFAULT_BOARD_SIZE = 3;
     std::vector<std::vector<char>> board;
     int boardSize;
+    int quantityOfTakenSlots;
 
-
-
-    const bool validateCordinates(const Cordinates& CORDINATES) const;
+    const bool areValidCordinates(const Cordinates& CORDINATES) const;
+    const bool isNotEmptySymbol(const SymbolEnum& SYMBOL) const;
     const bool isSlotEmpty(const Cordinates& CORDINATES) const;
 
     // TODO: zaimplementować algorytm z użyciem wielu wątków
     #pragma region findWinner algorithm 
     // EAST:
-    const bool isPossibleToCheckEastSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areEastSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areEastSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
+    const bool isPossibleToCheckEastSlots(      const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areEastSlotsNotEmpty(            const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areEastSlotsContainWinState(     const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
 
     // SOUTH:
-    const bool isPossibleToCheckSouthSlots(const int ROW, const int POINTS_FOR_VICTORY) const;
-    const bool areSouthSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
+    const bool isPossibleToCheckSouthSlots(     const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areSouthSlotsNotEmpty(           const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areSouthSlotsContainWinState(    const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
 
     // EAST-SOUTH
-    const bool areEastSouthSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areEastSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
+    const bool areEastSouthSlotsNotEmpty(       const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areEastSouthSlotsContainWinState(const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
 
     // WEST-SOUTH:
-    const bool isPossibleToCheckWestSlots(const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areWestSouthSlotsNotEmpty(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;
-    const bool areWestSouthSlotsContainWinState(const int ROW, const int COLUMN, const int POINTS_FOR_VICTORY) const;    
+    const bool isPossibleToCheckWestSlots(      const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areWestSouthSlotsNotEmpty(       const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;
+    const bool areWestSouthSlotsContainWinState(const Cordinates& CORDINATES, const int POINTS_FOR_VICTORY) const;    
     #pragma endregion
-
 };
 
 #endif

@@ -9,8 +9,6 @@ GameManager* GameManager::getInstance(){
     return instance;
 }
 
-GameManager::GameManager() {}
-GameManager::~GameManager(){}
 
 void GameManager::printMenu(){
     std::cout << "      Welcom in game Tic Tac Toe!\n";

@@ -10,7 +10,7 @@ enum SymbolEnum {
 class SymbolManager {
 public:
     static SymbolManager* getInstance();
-    ~SymbolManager();
+    ~SymbolManager() {};
 
     void switchPlayerAndComputerSymbol();
     const char getCharFromEnum(const SymbolEnum& SYMBOL) const;
@@ -19,8 +19,9 @@ public:
 
 private:
     SymbolManager(const SymbolManager&) = delete;
+    SymbolManager& operator=(const SymbolManager&) = delete;
     static SymbolManager* instance;
-    SymbolManager();
+    SymbolManager() {};
 
     char playerSymbol = 'O';
     char computerSymbol = 'X';

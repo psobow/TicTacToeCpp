@@ -5,8 +5,6 @@
 
 #include <iostream>
 
-
-
 enum MainMenuEnum {
     PLAY,
     OPTIONS,
@@ -17,7 +15,7 @@ class GameManager {
 
 public:
     static GameManager* getInstance();
-    ~GameManager();
+    ~GameManager() {};
 
     void printMenu();
     void getValidDecision();
@@ -27,8 +25,9 @@ public:
 
 private:
     GameManager(const GameManager&) = delete;
+    GameManager& operator=(const GameManager&) = delete;
     static GameManager* instance;
-    GameManager();
+    GameManager() {};
 
     int pointsForVictory = 3;
 

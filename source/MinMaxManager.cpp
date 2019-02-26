@@ -10,8 +10,7 @@ MinMaxManager* MinMaxManager::getInstance(){
     return instance;
 }
 
-MinMaxManager::MinMaxManager() {}
-MinMaxManager::~MinMaxManager() {}
+
 
 const int MinMaxManager::scoreGameFromComputerPOV(const int depth) const {
     const SymbolEnum winner = boardManager->findWinner(gameManager->getPointsForVictory());

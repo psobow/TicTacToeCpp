@@ -1,6 +1,9 @@
 #include "../header/Cordinates.hh"
 
 Cordinates::Cordinates(const int ROW, const int COL) {
+    if (ROW < 0 || COL < 0){
+        throw std::invalid_argument("Invalid cordinates");
+    }
     row = ROW;
     column = COL;
 }

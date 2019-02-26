@@ -10,38 +10,39 @@
 class MinMaxManager {
 public:
     static MinMaxManager* getInstance();
-    ~MinMaxManager();
-    const int scoreGameFromComputerPOV(const int depth) const;
+    ~MinMaxManager() {};
+    
 
-
+    // TODO: change this function name
     void mainMinMax();
 
-    int getMaxValueIndex(const std::vector<int>& vec) const;
-    int getMinValueIndex(const std::vector<int>& vec) const;
+    
 
 private:
     MinMaxManager(const MinMaxManager&) = delete;
+    MinMaxManager& operator=(const MinMaxManager&) = delete;
     static MinMaxManager* instance;
-    MinMaxManager();
-    const int HIGHEST_SCORE = 1000;
+    MinMaxManager() : computerChoice(0,0) {}
 
     SymbolManager *symbolManager = SymbolManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();
     GameManager *gameManager = GameManager::getInstance();
 
-    // wykorzystanie tego pola nie jest dobry pomysłem przy algorytmie wielowątkowym.
-    Cordinates computerChoice = Cordinates(0, 0);
+    const int HIGHEST_SCORE = 1000;
+    
+    // wykorzystanie tego pola nie jest dobry pomysłem przy algorytmie wielowątkowym. trzeba będzie to synchronizować
+    Cordinates computerChoice;
 
 
+
+    const int scoreGameFromComputerPOV(const int depth) const; // POV = Point of view
+
+    //TODO: change this function name
     int makeNextMove(const SymbolEnum& turnTakingPlayer, int depth);
 
+    int getMaxValueIndex(const std::vector<int>& vec) const;
+    int getMinValueIndex(const std::vector<int>& vec) const;
 };
-
-/*
-    1. getEveryPosibleMove
-  
-
-*/
 
 
 #endif
