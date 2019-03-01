@@ -26,7 +26,7 @@ public:
 private:
     GameManager(const GameManager&) = delete;
     GameManager& operator=(const GameManager&) = delete;
-    static GameManager* instance;
+    static GameManager *instance;
     GameManager() {};
 
     int pointsForVictory = 3;

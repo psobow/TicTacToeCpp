@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 class BoardManagerTestSuite;
 
@@ -15,27 +16,28 @@ public:
     static BoardManager* getInstance();
     ~BoardManager();
 
+    void resetEverySlotAndSetSize(const int NEW_BOARD_SIZE);
+    void resetEverySlot();
+    void resetSlot(const Cordinates& CORDINATES);
+    const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
+
     void printBoard() const;
     const SymbolEnum findWinner(const int POINTS_FOR_VICTORY) const;
     std::vector<Cordinates> getEveryEmptySlotCordinates() const;
     const int getQuantityOfTakenSlots() const;
     const bool isAnyEmptySlot() const;
-
-    void resetEverySlotAndSetSize(const int NEW_BOARD_SIZE);
-    void resetEverySlot();
-    void resetSlot(const Cordinates& CORDINATES);
-    const bool addNewSymbol(const Cordinates& CORDINATES, const SymbolEnum& SYMBOL);
     
 
 private:   
     BoardManager(const BoardManager&) = delete;
     BoardManager& operator=(const BoardManager&) = delete;
-    static BoardManager* instance;
+    static BoardManager *instance;
     BoardManager();
     
-    SymbolManager* symbolManager = SymbolManager::getInstance();
+    SymbolManager *symbolManager = SymbolManager::getInstance();
 
     const int DEFAULT_BOARD_SIZE = 3;
+    const int MAX_BOARD_SIZE = 9;
     std::vector<std::vector<char>> board;
     int boardSize;
     int quantityOfTakenSlots;

@@ -12,10 +12,13 @@ class BoardManagerTestSuite {
 private:
     BoardManager *boardManager = BoardManager::getInstance();
 public:
-    BoardManagerTestSuite();
+    BoardManagerTestSuite() {}
 
     // this interface allow to acces private methods from BoardManager in order to test them.
-    std::vector<std::vector<char>>& getBoard() const;
+    const std::vector<std::vector<char>>& getBoard() const;
+    const int getBoardSize() const;
+    const int getDefaultBoardSize() const;
+    const int getMaxBoardSize() const;
 
     const bool executeAreValidCordinates(const Cordinates& CORDINATES) const;
     const bool executeIsNotEmptySymbol(const SymbolEnum& SYMBOL) const;

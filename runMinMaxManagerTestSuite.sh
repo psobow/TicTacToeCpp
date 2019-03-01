@@ -7,7 +7,7 @@ cd ./object
 mkdir -p tests
 cd ..
 
-#if file ProvideMain.o do not exist compile it
+#if file ProvideMain.o do not exist create it
 if [ ! -f ./object/tests/ProvideMain.o ]; then
     sh ./runProvideMain.sh
 fi
@@ -17,19 +17,25 @@ g++ -c ./tests/MinMaxManagerTestSuite.cpp
 g++ -c ./source/BoardManager.cpp
 g++ -c ./source/Cordinates.cpp
 g++ -c ./source/GameManager.cpp
+g++ -c ./source/SymbolManager.cpp
+g++ -c ./source/MinMaxManager.cpp
 
 #move file into object directory
 mv MinMaxManagerTestSuite.o ./object/tests
 mv BoardManager.o ./object
 mv Cordinates.o ./object
 mv GameManager.o ./object
+mv SymbolManager.o ./object
+mv MinMaxManager.o ./object
 
 #link compiled files into test
 g++ -std=c++11 -o ./output/MinMaxManagerTestSuite.out \
 ./object/tests/ProvideMain.o ./object/tests/MinMaxManagerTestSuite.o \
 ./object/BoardManager.o \
 ./object/Cordinates.o \
-./object/GameManager.o
+./object/GameManager.o \
+./object/SymbolManager.o \
+./object/MinMaxManager.o
 
 #start test
 echo

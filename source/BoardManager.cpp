@@ -16,9 +16,12 @@ BoardManager::BoardManager(){
 BoardManager::~BoardManager(){}
 
 void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE){
-    if (NEW_BOARD_SIZE < 3 || NEW_BOARD_SIZE > 9) {
-        std::cerr << "Board size need to be inteager from 3 to 9. Could not change board size.\n";
-        return;
+    if (NEW_BOARD_SIZE < DEFAULT_BOARD_SIZE || NEW_BOARD_SIZE > MAX_BOARD_SIZE) {
+
+        std::string message = "Invalid new board size. Board size has to be integer from " 
+        + std::to_string(DEFAULT_BOARD_SIZE) + " to " + std::to_string(MAX_BOARD_SIZE) + ".\n";
+
+        throw std::invalid_argument( message );
     }
 
     board.clear();
@@ -77,7 +80,6 @@ const bool BoardManager::isSlotEmpty(const Cordinates& CORDINATES) const {
     return ( board[CORDINATES.getRow()][CORDINATES.getColumn()] == symbolManager->getCharFromEnum(NONE) );
 }
 
-
 const bool BoardManager::isAnyEmptySlot() const {
     return quantityOfTakenSlots < boardSize*boardSize;
 }
@@ -110,7 +112,7 @@ const SymbolEnum BoardManager::findWinner(const int POINTS_FOR_VICTORY) const {
             Cordinates currentSlot(row,col);
 
             if(isSlotEmpty(currentSlot) == false){ // If current slot is empty, skip that.
-            
+
                 //EAST:
                 bool eastResult = isPossibleToCheckEastSlots(currentSlot, POINTS_FOR_VICTORY);
                 if (eastResult) { 
@@ -149,8 +151,6 @@ const SymbolEnum BoardManager::findWinner(const int POINTS_FOR_VICTORY) const {
                         }
                     }
                 }
-                
-
             }
         }
     }

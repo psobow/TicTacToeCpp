@@ -20,7 +20,7 @@ public:
 private:
     SymbolManager(const SymbolManager&) = delete;
     SymbolManager& operator=(const SymbolManager&) = delete;
-    static SymbolManager* instance;
+    static SymbolManager *instance;
     SymbolManager() {};
 
     char playerSymbol = 'O';

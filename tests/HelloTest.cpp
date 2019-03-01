@@ -13,5 +13,5 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
 }
 
 TEST_CASE( "Hello, World!", "[Test]" ) {
-    std::cout << "Hello World!\n";
+    std::cout << "Hello World! this is first unit test using catch2 library.\n";
 }

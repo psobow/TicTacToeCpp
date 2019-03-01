@@ -7,7 +7,7 @@ cd ./object
 mkdir -p tests
 cd ..
 
-#if file ProvideMain.o do not exist compile it
+#if file ProvideMain.o do not exist create it
 if [ ! -f ./object/tests/ProvideMain.o ]; then
     sh ./runProvideMain.sh
 fi

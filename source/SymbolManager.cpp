@@ -9,7 +9,6 @@ SymbolManager* SymbolManager::getInstance(){
     return instance;
 }
 
-
 void SymbolManager::switchPlayerAndComputerSymbol() {
     char tempPlayerSymbol = playerSymbol;
     playerSymbol = computerSymbol;
