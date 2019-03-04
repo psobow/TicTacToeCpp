@@ -2,7 +2,8 @@
 
 
 #create directory if do not exist
-mkdir -p ./object
+mkdir -p output
+mkdir -p object
 cd ./object
 mkdir -p tests
 cd ..
@@ -15,20 +16,20 @@ fi
 #compile files that are required for test
 g++ -c ./tests/BoardManagerTestSuite.cpp
 g++ -c ./source/BoardManager.cpp
-g++ -c ./source/SymbolManager.cpp
+g++ -c ./source/GameOptionsManager.cpp
 g++ -c ./source/Cordinates.cpp
 
 #move files into object directory
 mv BoardManagerTestSuite.o ./object/tests
 mv BoardManager.o ./object
-mv SymbolManager.o ./object
+mv GameOptionsManager.o ./object
 mv Cordinates.o ./object
 
 #link compiled files into test
 g++ -std=c++11 -o ./output/BoardManagerTestSuite.out \
 ./object/tests/ProvideMain.o ./object/tests/BoardManagerTestSuite.o \
 ./object/BoardManager.o \
-./object/SymbolManager.o \
+./object/GameOptionsManager.o \
 ./object/Cordinates.o
 
 

@@ -1,24 +1,29 @@
 #include <iostream>
-#include "../header/BoardManager.hh"
+
 #include "../header/GameManager.hh"
-#include "../header/Cordinates.hh"
-#include "../header/MinMaxManager.hh"
-#include "../header/MyStdIn.hh"
+#include "../header/GameOptionsManager.hh"
+
+// TODO: poprawić skrypty w bashu. zrobić skrypt który skompiluje wszytko w folderze source i przeniesie to do object
+ 
 
 
-int main() 
-{
+int main() {
     std::cout << "Hello, World!\n" << std::endl;
 
-    std::vector<char> validChars {'y', 'Y', 'n', 'N'};
-    char x = MyStdIn::readNextCharWithValidation(validChars);
-    std::cout << x << "\n";
+    GameManager *gameManager = GameManager::getInstance();
+    GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
+
+    gameOptionsManager->getEnumAssignedTo('X');
+    //gameManager->startGame();
+    
     return 0;
+
+
 }
 
 
 /*
-materiały:
+tutorial:
 
 https://www.neverstopbuilding.com/blog/minimax
 

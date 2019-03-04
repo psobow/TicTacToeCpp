@@ -1,10 +1,9 @@
 #!/bin/bash
 clear
 
-echo Hello, Bash!
-
 #create directory if do not exist
 mkdir -p object
+mkdir -p output
 
 #compile game
 g++ -c source/*.cpp

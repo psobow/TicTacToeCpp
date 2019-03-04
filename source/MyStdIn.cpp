@@ -1,8 +1,5 @@
 #include "../header/MyStdIn.hh"
 
-
-
-
 const int MyStdIn::readNextInt(){
     int number = 0;
     std::string inputLine;
@@ -22,7 +19,7 @@ const int MyStdIn::readNextInt(){
     return number;
 }
 
-const int MyStdIn::readNextIntFromValidScope(const int bottom, const int top){
+const int MyStdIn::readNextIntFromValidScope(const int BOTTOM, const int TOP){
     int number = 0;
     std::string inputLine;
     bool isValid;
@@ -30,8 +27,8 @@ const int MyStdIn::readNextIntFromValidScope(const int bottom, const int top){
     do {
         isValid = true;
         number = readNextInt();
-        if(number < bottom || number > top){
-            std::cerr << "ERROR. The entered number must be integer from " << bottom << " to " << top << ".\n";
+        if(number < BOTTOM || number > TOP){
+            std::cerr << "ERROR. The entered number must be integer from " << BOTTOM << " to " << TOP << ".\n";
             isValid = false;
         }
 
@@ -40,17 +37,17 @@ const int MyStdIn::readNextIntFromValidScope(const int bottom, const int top){
     return number;
 }
 
-const char MyStdIn::readNextCharWithValidation(std::vector<char> validChars) {
+const char MyStdIn::readNextCharWithValidation(const std::vector<char> VALID_CHARS) {
     std::string inputLine;
     bool isValid;
 
     do{
         isValid = true;
         std::getline(std::cin, inputLine);
-        if ( isVectorContainChar(validChars, inputLine[0]) == false ){
+        if ( isVectorContainChar(VALID_CHARS, inputLine[0]) == false ){
             std::cerr << "ERROR. The entered char must be one of this: [ ";
-            for (int i = 0; i < validChars.size(); i++){
-                std::cerr << validChars[i] << " ";
+            for (int i = 0; i < VALID_CHARS.size(); i++){
+                std::cerr << VALID_CHARS[i] << " ";
             }
             std::cerr << "].\n";
             isValid = false;
@@ -60,9 +57,9 @@ const char MyStdIn::readNextCharWithValidation(std::vector<char> validChars) {
     return inputLine[0];
 }
 
-const bool MyStdIn::isVectorContainChar(std::vector<char> vec, const char character){
-    for (int i = 0; i < vec.size(); i++){
-        if (vec[i] == character){
+const bool MyStdIn::isVectorContainChar(const std::vector<char> VEC, const char CHARACTER){
+    for (int i = 0; i < VEC.size(); i++){
+        if (VEC[i] == CHARACTER){
             return true;
         }
     }

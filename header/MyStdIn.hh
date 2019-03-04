@@ -7,11 +7,11 @@
 class MyStdIn {
 public:
     const static int readNextInt();
-    const static int readNextIntFromValidScope(const int bottom, const int top);
-    const static char readNextCharWithValidation(std::vector<char> validChars);
+    const static int readNextIntFromValidScope(const int BOTTOM, const int TOP);
+    const static char readNextCharWithValidation(const std::vector<char> VALID_CHARS);
 
 private:
-    const static bool isVectorContainChar(std::vector<char> vec, const char character);
+    const static bool isVectorContainChar(const std::vector<char> VEC, const char CHARACTER);
 };
 
 #endif

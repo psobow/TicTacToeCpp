@@ -1,36 +1,38 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
+#include <stdexcept>
+
 #include "BoardManager.hh"
+#include "MyStdIn.hh"
 
-#include <iostream>
-
-enum MainMenuEnum {
-    PLAY,
-    OPTIONS,
-    EXIT
-};
 
 class GameManager {
-
 public:
     static GameManager* getInstance();
     ~GameManager() {};
 
-    void printMenu();
-    void getValidDecision();
-    void executeMenuDecision(const MainMenuEnum& mainMenuEnum);
-    
-    const int getPointsForVictory() const;
+    void startGame();
 
 private:
+    enum MainMenuDecision {
+        PLAY = 1, OPTIONS = 2, EXIT = 3
+    };
+
+    // Singleton
+    static GameManager *instance;
+    GameManager()  {};
     GameManager(const GameManager&) = delete;
     GameManager& operator=(const GameManager&) = delete;
-    static GameManager *instance;
-    GameManager() {};
 
-    int pointsForVictory = 3;
 
+    void printMainMenu() const;
+    MainMenuDecision getMainMenuDecision(const int DECISION_INDEX) const;
+
+
+
+
+    
 
 };
 
