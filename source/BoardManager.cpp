@@ -84,6 +84,40 @@ std::vector<Cordinates> BoardManager::getEveryEmptySlotCordinates() const {
     return emptySlots;
 }
 
+void BoardManager::printBoard() const {
+    const int BOARD_SIZE = gameOptionsManager->getBoardSize();
+    // print index on the top
+    std::cout << "  "; 
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        std::cout << " " << i ;
+    }
+    std::cout << std::endl;
+
+    // print top line 
+    std::cout << " +";
+    for (int i = 0; i < (2*BOARD_SIZE) +1 ; i++){
+        std::cout << "-";
+    }
+    std::cout << "+" << std::endl;
+
+    // print middle of the board
+    for (int row = 0; row < BOARD_SIZE; row++){
+        std::cout << row << "|";
+        for (int col = 0; col < BOARD_SIZE; col++){
+            std::cout << " " << board[row][col];
+        }
+        std::cout << " |" << std::endl;
+    }
+
+    // print bottom line 
+    std::cout << " +";
+    for (int i = 0; i < (2*BOARD_SIZE) +1 ; i++){
+        std::cout << "-";
+    }
+    std::cout << "+" << std::endl;
+}
+
+
 #pragma region findWinner algorithm 
 
 const Participant BoardManager::findWinner() const {
@@ -283,36 +317,3 @@ const bool BoardManager::areWestSouthSlotsContainWinState(const Cordinates& CORD
     return howManyEqualPairs == (POINTS_REQUIRED_FOR_VICTORY - 1);
 }
 #pragma endregion
-
-void BoardManager::printBoard() const {
-    const int BOARD_SIZE = gameOptionsManager->getBoardSize();
-    // print index on the top
-    std::cout << "  "; 
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        std::cout << " " << i ;
-    }
-    std::cout << std::endl;
-
-    // print top line 
-    std::cout << " +";
-    for (int i = 0; i < (2*BOARD_SIZE) +1 ; i++){
-        std::cout << "-";
-    }
-    std::cout << "+" << std::endl;
-
-    // print middle of the board
-    for (int row = 0; row < BOARD_SIZE; row++){
-        std::cout << row << "|";
-        for (int col = 0; col < BOARD_SIZE; col++){
-            std::cout << " " << board[row][col];
-        }
-        std::cout << " |" << std::endl;
-    }
-
-    // print bottom line 
-    std::cout << " +";
-    for (int i = 0; i < (2*BOARD_SIZE) +1 ; i++){
-        std::cout << "-";
-    }
-    std::cout << "+" << std::endl;
-}

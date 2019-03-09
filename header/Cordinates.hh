@@ -1,8 +1,6 @@
 #ifndef CORDINATES_H
 #define CORDINATES_H
 
-#include <stdexcept>
-
 #include "GameOptionsManager.hh"
 
 class Cordinates {

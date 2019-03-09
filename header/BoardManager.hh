@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <stdexcept>
 
 #include "Cordinates.hh"
 #include "GameOptionsManager.hh"
@@ -23,6 +22,7 @@ public:
     std::vector<Cordinates> getEveryEmptySlotCordinates() const;
     const int getQuantityOfTakenSlots() const;
     const bool isAnyEmptySlot() const;
+    const bool isSlotEmpty(const Cordinates& CORDINATES) const;
 
 private:
     std::vector<std::vector<char>> board;
@@ -36,7 +36,6 @@ private:
     BoardManager(const BoardManager&) = delete;
     BoardManager& operator=(const BoardManager&) = delete;
 
-    const bool isSlotEmpty(const Cordinates& CORDINATES) const;
 
     // TODO: implement algorithm with multi threads.
     #pragma region findWinner algorithm

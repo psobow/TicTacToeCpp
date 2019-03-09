@@ -224,9 +224,14 @@ SCENARIO( "addNewCharacterTest", "[BoardManager]" ) {
         }
 
         WHEN( "CASE 3: Correct coridnates but incorrect player" ){
-            const bool result = boardManager->addNewCharacter(Cordinates(0,1), Participant::NONE);
+            int exceptionValidator = 0;
+            try{
+                const bool result = boardManager->addNewCharacter(Cordinates(0,1), Participant::NONE);
+            } catch(const std::invalid_argument & e){
+                exceptionValidator++;
+            }
             THEN( "Result" ){
-                REQUIRE( result == false );
+                REQUIRE( exceptionValidator != 0 );
             }
         }
 

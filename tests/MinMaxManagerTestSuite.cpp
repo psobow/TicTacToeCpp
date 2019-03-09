@@ -54,7 +54,7 @@ SCENARIO( "executeTheBestComputerMove", "[MinMaxManager]" ){
             }
         }
 
-        WHEN( "CASE 3: ") { // computer will lose in next oponent move in every case. expcted move is first empty slot
+        WHEN( "CASE 3: ") { // computer will lose in next oponent move in every case. in this scenario expceted computer move is first empty slot
             boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
             boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
             boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);

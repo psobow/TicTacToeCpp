@@ -1,12 +1,7 @@
 #ifndef MINMAX_MANAGER_H
 #define MINMAX_MANAGER_H
 
-#include <stdexcept>
-
 #include "BoardManager.hh"
-#include "Cordinates.hh"
-#include "GameOptionsManager.hh"
-
 
 class MinMaxManager { friend class MinMaxManagerTestSuite;
 public:
@@ -17,7 +12,7 @@ public:
 
 private:
     const int HIGHEST_SCORE = 1000;
-    Cordinates theBestMoveCordinates; //trzeba będzie to synchronizować na wielu wątkach 
+    Cordinates theBestMoveCordinates; // this field must be synchronized in multi-thread algorithm
 
     GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();

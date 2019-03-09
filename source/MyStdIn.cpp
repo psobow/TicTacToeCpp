@@ -45,7 +45,7 @@ const char MyStdIn::readNextCharWithValidation(const std::vector<char> VALID_CHA
         isValid = true;
         std::getline(std::cin, inputLine);
         if ( isVectorContainChar(VALID_CHARS, inputLine[0]) == false ){
-            std::cerr << "ERROR. The entered char must be one of this: [ ";
+            std::cerr << "ERROR. The entered character must be one of this: [ ";
             for (int i = 0; i < VALID_CHARS.size(); i++){
                 std::cerr << VALID_CHARS[i] << " ";
             }

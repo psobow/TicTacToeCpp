@@ -2,7 +2,6 @@
 #define MINMAX_MANAGER_TEST_H
 
 #include "../header/MinMaxManager.hh"
-#include <vector>
 
 // this namespace should never be used outside tests
 
@@ -23,8 +22,5 @@ public:
     
     
 };
-
-
-
 
 #endif

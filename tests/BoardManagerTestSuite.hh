@@ -1,8 +1,6 @@
 #ifndef BOARD_MANAGER_TEST_H
 #define BOARD_MANAGER_TEST_H
 
-#include <stdexcept>
-#include <string>
 #include "../header/BoardManager.hh"
 
 // this namespace should never be used outside tests
@@ -36,7 +34,5 @@ public:
     const bool executeAreWestSouthSlotsContainWinState( const Cordinates& CORDINATES) const;  
     
 };
-
-
 
 #endif

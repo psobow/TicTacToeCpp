@@ -25,7 +25,7 @@ void GameOptionsManager::switchHumanAndComputerChar() {
 
 void GameOptionsManager::setPointsRequiredForVictory(const int NEW_POINTS) {
     if (NEW_POINTS < MIN_POINTS_FOR_VICTORY || NEW_POINTS > MAX_POINTS_FOR_VICTORY) {
-        std::string exceptionMessage = "Invalid new points required for victory. Amount of points have to be integer from " 
+        std::string exceptionMessage = "Invalid new amount of points required for victory. Amount of points has to be integer from " 
         + std::to_string(MIN_POINTS_FOR_VICTORY) + " to " + std::to_string(MAX_POINTS_FOR_VICTORY) + ".\n";
         throw std::invalid_argument( exceptionMessage );
     }
@@ -74,7 +74,7 @@ const char GameOptionsManager::getCharAssignedTo(const Participant& PARTICIPANT)
 }
 
 const Participant GameOptionsManager::getOppositePlayer(const Participant& PARTICIPANT) const {
-    return static_cast<GameOptionsManager::GameParticipant>( PARTICIPANT*(-1) );
+    return static_cast<Participant>( PARTICIPANT*(-1) );
 }
 
 const int GameOptionsManager::getPointsRequiredForVictory() const {

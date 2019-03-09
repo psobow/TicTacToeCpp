@@ -1,9 +1,7 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
-#include <stdexcept>
-
-#include "BoardManager.hh"
+#include "MinMaxManager.hh"
 #include "MyStdIn.hh"
 
 
@@ -12,12 +10,17 @@ public:
     static GameManager* getInstance();
     ~GameManager() {};
 
-    void startGame();
+    void run();
 
 private:
     enum MainMenuDecision {
         PLAY = 1, OPTIONS = 2, EXIT = 3
     };
+
+    Participant winner = Participant::NONE;
+    MinMaxManager *minMaxManager = MinMaxManager::getInstance();
+    BoardManager *boardManager = BoardManager::getInstance();
+    GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
 
     // Singleton
     static GameManager *instance;
@@ -29,9 +32,16 @@ private:
     void printMainMenu() const;
     MainMenuDecision getMainMenuDecision(const int DECISION_INDEX) const;
 
+    void gameLoop();
+    bool checkIsGameFinishedAndSetWinner();
 
+    Cordinates getValidHumanCordinatesDecision();
 
+    void playGame();
 
+    void printWinner();
+
+    bool askToPlayAgain();
     
 
 };

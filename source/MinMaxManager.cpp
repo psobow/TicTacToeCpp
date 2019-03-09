@@ -14,7 +14,7 @@ const bool MinMaxManager::executeTheBestComputerMove(){
 
     const int INITIAL_DEPTH = 0;
 
-    // in case computer first move on the board, just pick (0,0) slot. this one is the best first move.
+    // in case computer starting the game, just pick (0,0) slot. this one is the best first move.
     if (boardManager->getQuantityOfTakenSlots() == 0) { 
         theBestMoveCordinates = Cordinates(0,0);
 
@@ -38,8 +38,8 @@ const int MinMaxManager::calculateTheBestMoveFor(const Participant& TURN_TAKING_
 
     for(int i = 0; i < availableCordinates.size(); i++){
         boardManager->addNewCharacter(availableCordinates[i], TURN_TAKING_PLAYER);
-        const int CURRENT_BOARD_SCORE = calculateTheBestMoveFor( gameOptionsManager->getOppositePlayer(TURN_TAKING_PLAYER), depth );
-        scores.push_back(CURRENT_BOARD_SCORE);
+        const int CURRENT_BOARD_SCORE_FROM_COMPUTER_POV = calculateTheBestMoveFor( gameOptionsManager->getOppositePlayer(TURN_TAKING_PLAYER), depth );
+        scores.push_back(CURRENT_BOARD_SCORE_FROM_COMPUTER_POV);
         boardManager->resetSlot(availableCordinates[i]);
     }
 
@@ -53,7 +53,7 @@ const int MinMaxManager::calculateTheBestMoveFor(const Participant& TURN_TAKING_
     } else if (TURN_TAKING_PLAYER == Participant::HUMAN) { // this is the min calculation.
         int minScoreIndex = getMinValueIndex(scores);
         return scores[minScoreIndex];
-    } 
+    }
 }
 
 const int MinMaxManager::scoreGameFromComputerPOV(const int DEPTH) const {
@@ -72,7 +72,7 @@ const int MinMaxManager::scoreGameFromComputerPOV(const int DEPTH) const {
 
 const int MinMaxManager::getMaxValueIndex(const std::vector<int>& VEC) const {
     if ( VEC.size() == 0 ){
-        throw std::invalid_argument("Invalid argument, recived vector size equals zero.\n");
+        throw std::invalid_argument("Invalid argument, vector size equals zero.\n");
     }
 
     int result = 0;
@@ -88,7 +88,7 @@ const int MinMaxManager::getMaxValueIndex(const std::vector<int>& VEC) const {
 
 const int MinMaxManager::getMinValueIndex(const std::vector<int>& VEC) const {
     if ( VEC.size() == 0 ) {
-        throw std::invalid_argument("Invalid argument, recived vector size equals zero.\n");
+        throw std::invalid_argument("Invalid argument, vector size equals zero.\n");
     }
     
     int result = 0;
