@@ -38,10 +38,10 @@ private:
     const char DEFAULT_COMPUTER_CHAR = 'X';
 
     const int MIN_BOARD_SIZE = 3;
-    const int MAX_BOARD_SIZE = 9;
+    const int MAX_BOARD_SIZE = 5;
 
     const int MIN_POINTS_FOR_VICTORY = 3;
-    const int MAX_POINTS_FOR_VICTORY = 9;
+    const int MAX_POINTS_FOR_VICTORY = 5;
 
     int pointsRequiredForVictory;
     int boardSize;

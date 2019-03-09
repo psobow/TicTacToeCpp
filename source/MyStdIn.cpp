@@ -12,6 +12,7 @@ const int MyStdIn::readNextInt(){
             number = std::stoi(inputLine);
         } catch (const std::exception& e) {
             std::cerr << "ERROR. The entered number must be an integer.\n";
+            std::cerr << "Try again: ";
             isValid = false;
         }
     } while (isValid == false);
@@ -29,6 +30,7 @@ const int MyStdIn::readNextIntFromValidScope(const int BOTTOM, const int TOP){
         number = readNextInt();
         if(number < BOTTOM || number > TOP){
             std::cerr << "ERROR. The entered number must be integer from " << BOTTOM << " to " << TOP << ".\n";
+            std::cerr << "Try again: ";
             isValid = false;
         }
 
@@ -50,6 +52,7 @@ const char MyStdIn::readNextCharWithValidation(const std::vector<char> VALID_CHA
                 std::cerr << VALID_CHARS[i] << " ";
             }
             std::cerr << "].\n";
+            std::cerr << "Try again: ";
             isValid = false;
         }
     } while (isValid == false);

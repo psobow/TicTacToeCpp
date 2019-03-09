@@ -11,15 +11,16 @@ GameManager* GameManager::getInstance(){
 
 void GameManager::run(){
     std::cout << "Welcome in game Tic Tac Toe!\n";
-    std::cout << "You are facing unbeatable oponent, which has implemenented Min-Max algorithm.\n";
+    std::cout << "You are facing unbeatable oponent, which use Min-Max algorithm to calculate next move.\n";
     std::cout << "You can try as much as you wish, but the best what you can get is a draw.\n";
     std::cout << "I would wish you good luck, but it is not going to help any way.\n\n";
 
     MainMenuDecision decision;
+    int optionsDecision;
     do {
         printMainMenu();
         decision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
-        std::cout << "\n\n";
+        std::cout << "\n";
         switch (decision)
         {
             case PLAY:
@@ -27,14 +28,16 @@ void GameManager::run(){
                 break;
 
             case OPTIONS:
-            std::cout << "To be implemented...\n";
-            // print options 
-            // executeChoice
-            // clear screen
+                do {    
+                    printOptionsMenu();
+                    optionsDecision = MyStdIn::readNextIntFromValidScope(1,3);
+                    executeOptionsDecision(optionsDecision);
+                    std::cout << "\n";
+                } while (optionsDecision != 3);
                 break;
 
             case EXIT:
-            std::cout << "Bye bye !\nThank you for playing my game, psobow!";
+                std::cout << "Bye bye !\nThank you for playing my game, psobow!\n";
                 break;
 
             default:
@@ -69,15 +72,6 @@ void GameManager::gameLoop() {
     } while (decision == true);
 }
 
-bool GameManager::checkIsGameFinishedAndSetWinner() {
-    if (boardManager->isAnyEmptySlot() == false){
-        winner = Participant::NONE;
-        return true;
-    }
-    winner = boardManager->findWinner(); 
-    return winner != Participant::NONE;
-}
-
 void GameManager::playGame(){
     Cordinates decision(0,0);
     boardManager->printBoard();
@@ -86,7 +80,7 @@ void GameManager::playGame(){
         
         std::cout << "(Playing as: " << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) << ") Your turn: \n";
         
-        decision = getValidHumanCordinatesDecision();
+        decision = askForValidHumanCordinatesDecision();
 
         boardManager->addNewCharacter(decision, Participant::HUMAN);
 
@@ -104,7 +98,7 @@ void GameManager::playGame(){
     }
 }
 
-Cordinates GameManager::getValidHumanCordinatesDecision(){
+Cordinates GameManager::askForValidHumanCordinatesDecision() const {
     int lastValidIndex = gameOptionsManager->getBoardSize()-1;
     int row = 0, column = 0;
     bool isValid = false;
@@ -120,16 +114,33 @@ Cordinates GameManager::getValidHumanCordinatesDecision(){
             isValid = true;
         } else {
             isValid = false;
-            std::cout << "ERROR. Choosen cordinates are alredy taken!\n";
+            std::cerr << "ERROR. Choosen cordinates are already taken!\n";
+            std::cerr << "Try again: \n";
         }
     } while ( isValid == false );
 
     return Cordinates(row, column);
 }
 
-void GameManager::printWinner(){
-    switch (this->winner)
-    {
+bool GameManager::checkIsGameFinishedAndSetWinner() {
+    if (boardManager->isAnyEmptySlot() == false){
+        winner = Participant::NONE;
+        return true;
+    }
+    winner = boardManager->findWinner(); 
+    return winner != Participant::NONE;
+}
+
+bool GameManager::askToPlayAgain() const {
+    std::vector<char> validChars {'Y', 'y', 'N', 'n'};
+    std::cout << "Do you want to play again? Y/y = Yes or N/n = No\nEnter choice: ";
+    char enteredChar = MyStdIn::readNextCharWithValidation( validChars );
+
+    return (enteredChar == 'Y' || enteredChar == 'y') ? true : false;
+}
+
+void GameManager::printWinner() const {
+    switch (this->winner) {
         case Participant::HUMAN:
             std::cout << "You had to cheat to acomplished that...\n";
             break;
@@ -145,10 +156,32 @@ void GameManager::printWinner(){
     }
 }
 
-bool GameManager::askToPlayAgain(){
-    std::vector<char> validChars {'Y', 'y', 'N', 'n'};
-    std::cout << "Do you want to play again? Y/y = Yes or N/n = No\nEnter choice: ";
-    char enteredChar = MyStdIn::readNextCharWithValidation( validChars );
+void GameManager::printOptionsMenu() const {
+    std::cout << "      OPTIONS MENU:\n";
+    std::cout << "      1. Switch players symbols ( Current setting: Human [" 
+              << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) << "] Computer [" 
+              << gameOptionsManager->getCharAssignedTo(Participant::COMPUTER) << "] )\n";
+    std::cout << "      2. Set new board size ( Current size: " << gameOptionsManager->getBoardSize() << " )\n";
+    std::cout << "      3. Exit options\n";
+    std::cout << "      Enter choice: ";
+}
 
-    return (enteredChar == 'Y' || enteredChar == 'y') ? true : false;
+void GameManager::executeOptionsDecision(const int DECISION) {
+    int minBoardSize = gameOptionsManager->getMinBoardSize();
+    int maxBoardSize =  gameOptionsManager->getMaxBoardSize();
+
+        switch (DECISION){
+            case 1:
+                gameOptionsManager->switchHumanAndComputerChar();
+                break;
+            case 2:
+                std::cout << "          Minimal board size: " << minBoardSize << " maximum board size: " << maxBoardSize << "\n";
+                std::cout << "          Enter choice: "; 
+                boardManager->resetEverySlotAndSetSize( MyStdIn::readNextIntFromValidScope( minBoardSize, maxBoardSize ) );
+                break;
+            case 3: // EXIT
+                break;
+            default:
+                break;
+        }
 }

@@ -33,16 +33,20 @@ private:
     MainMenuDecision getMainMenuDecision(const int DECISION_INDEX) const;
 
     void gameLoop();
-    bool checkIsGameFinishedAndSetWinner();
-
-    Cordinates getValidHumanCordinatesDecision();
+    
+    Cordinates askForValidHumanCordinatesDecision() const ;
 
     void playGame();
 
-    void printWinner();
+    bool checkIsGameFinishedAndSetWinner();
 
-    bool askToPlayAgain();
+    void printWinner() const ;
+
+    bool askToPlayAgain() const ;
+
+    void printOptionsMenu() const;
     
+    void executeOptionsDecision(const int DECISION);
 
 };
 
