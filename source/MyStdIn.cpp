@@ -1,5 +1,6 @@
 #include "../header/MyStdIn.hh"
 
+
 const int MyStdIn::readNextInt(){
     int number = 0;
     std::string inputLine;

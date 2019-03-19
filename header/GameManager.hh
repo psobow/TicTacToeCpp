@@ -16,8 +16,7 @@ private:
     enum MainMenuDecision {
         PLAY = 1, OPTIONS = 2, EXIT = 3
     };
-
-    Participant winner = Participant::NONE;
+    const static std::string eightSpaceBars;
     MinMaxManager *minMaxManager = MinMaxManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();
     GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
@@ -36,11 +35,9 @@ private:
     
     Cordinates askForValidHumanCordinatesDecision() const ;
 
-    void playGame();
+    Participant playGame();
 
-    bool checkIsGameFinishedAndSetWinner();
-
-    void printWinner() const ;
+    void printCheers(const Participant& winner) const ;
 
     bool askToPlayAgain() const ;
 

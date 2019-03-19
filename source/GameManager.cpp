@@ -1,5 +1,7 @@
 #include "../header/GameManager.hh"
 
+const std::string GameManager::eightSpaceBars = "        ";
+
 GameManager* GameManager::instance = nullptr;
 
 GameManager* GameManager::getInstance(){
@@ -13,14 +15,13 @@ void GameManager::run(){
     std::cout << "Welcome in game Tic Tac Toe!\n";
     std::cout << "You are facing unbeatable oponent, which use Min-Max algorithm to calculate next move.\n";
     std::cout << "You can try as much as you wish, but the best what you can get is a draw.\n";
-    std::cout << "I would wish you good luck, but it is not going to help any way.\n\n";
+    std::cout << "I would wish you good luck, but it is not going to help any way.\n";
 
     MainMenuDecision decision;
     int optionsDecision;
     do {
         printMainMenu();
         decision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
-        std::cout << "\n";
         switch (decision)
         {
             case PLAY:
@@ -32,7 +33,6 @@ void GameManager::run(){
                     printOptionsMenu();
                     optionsDecision = MyStdIn::readNextIntFromValidScope(1,3);
                     executeOptionsDecision(optionsDecision);
-                    std::cout << "\n";
                 } while (optionsDecision != 3);
                 break;
 
@@ -48,7 +48,7 @@ void GameManager::run(){
 
 
 void GameManager::printMainMenu() const {
-    std::cout << "MAIN MENU:\n";
+    std::cout << "\nMAIN MENU:\n";
     std::cout << "1.Play\n";
     std::cout << "2.Options\n";
     std::cout << "3.Exit\n";
@@ -65,15 +65,16 @@ GameManager::MainMenuDecision GameManager::getMainMenuDecision(const int DECISIO
 void GameManager::gameLoop() {
     bool decision;
     do {
-        playGame();
+        Participant winner = playGame();
         boardManager->resetEverySlot();
-        printWinner();
+        printCheers(winner);
         decision = askToPlayAgain();
     } while (decision == true);
 }
 
-void GameManager::playGame(){
+Participant GameManager::playGame(){
     Cordinates decision(0,0);
+    Participant winner;
     boardManager->printBoard();
 
     while (true) {
@@ -85,8 +86,11 @@ void GameManager::playGame(){
         boardManager->addNewCharacter(decision, Participant::HUMAN);
 
         boardManager->printBoard();
-
-        if ( checkIsGameFinishedAndSetWinner() ) break;
+        
+        winner = boardManager->findWinner();
+        if ( boardManager->isAnyEmptySlot() == false || winner != Participant::NONE ) {
+            return winner;
+        }
 
         std::cout << "\nComputer move:\n";
 
@@ -94,7 +98,10 @@ void GameManager::playGame(){
 
         boardManager->printBoard();
 
-        if ( checkIsGameFinishedAndSetWinner() ) break;
+        winner = boardManager->findWinner();
+        if ( boardManager->isAnyEmptySlot() == false || winner != Participant::NONE ) {
+            return winner;
+        }
     }
 }
 
@@ -122,15 +129,6 @@ Cordinates GameManager::askForValidHumanCordinatesDecision() const {
     return Cordinates(row, column);
 }
 
-bool GameManager::checkIsGameFinishedAndSetWinner() {
-    if (boardManager->isAnyEmptySlot() == false){
-        winner = Participant::NONE;
-        return true;
-    }
-    winner = boardManager->findWinner(); 
-    return winner != Participant::NONE;
-}
-
 bool GameManager::askToPlayAgain() const {
     std::vector<char> validChars {'Y', 'y', 'N', 'n'};
     std::cout << "Do you want to play again? Y/y = Yes or N/n = No\nEnter choice: ";
@@ -139,8 +137,8 @@ bool GameManager::askToPlayAgain() const {
     return (enteredChar == 'Y' || enteredChar == 'y') ? true : false;
 }
 
-void GameManager::printWinner() const {
-    switch (this->winner) {
+void GameManager::printCheers(const Participant& winner) const {
+    switch (winner) {
         case Participant::HUMAN:
             std::cout << "You had to cheat to acomplished that...\n";
             break;
@@ -157,13 +155,13 @@ void GameManager::printWinner() const {
 }
 
 void GameManager::printOptionsMenu() const {
-    std::cout << "      OPTIONS MENU:\n";
-    std::cout << "      1. Switch players symbols ( Current setting: Human [" 
+    std::cout << "\n" << eightSpaceBars << "OPTIONS MENU:\n";
+    std::cout << eightSpaceBars << "1. Switch players symbols ( Current setting: Human [" 
               << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) << "] Computer [" 
               << gameOptionsManager->getCharAssignedTo(Participant::COMPUTER) << "] )\n";
-    std::cout << "      2. Set new board size ( Current size: " << gameOptionsManager->getBoardSize() << " )\n";
-    std::cout << "      3. Exit options\n";
-    std::cout << "      Enter choice: ";
+    std::cout << eightSpaceBars << "2. Set new board size ( Current size: " << gameOptionsManager->getBoardSize() << " )\n";
+    std::cout << eightSpaceBars << "3. Exit options\n";
+    std::cout << eightSpaceBars << "Enter choice: ";
 }
 
 void GameManager::executeOptionsDecision(const int DECISION) {
@@ -175,8 +173,8 @@ void GameManager::executeOptionsDecision(const int DECISION) {
                 gameOptionsManager->switchHumanAndComputerChar();
                 break;
             case 2:
-                std::cout << "          Minimal board size: " << minBoardSize << " maximum board size: " << maxBoardSize << "\n";
-                std::cout << "          Enter choice: "; 
+                std::cout << "\n" << eightSpaceBars << eightSpaceBars << "Minimal board size: " << minBoardSize << " maximum board size: " << maxBoardSize << "\n";
+                std::cout << eightSpaceBars << eightSpaceBars << "Enter choice: "; 
                 boardManager->resetEverySlotAndSetSize( MyStdIn::readNextIntFromValidScope( minBoardSize, maxBoardSize ) );
                 break;
             case 3: // EXIT
