@@ -16,6 +16,10 @@ private:
     enum MainMenuDecision {
         PLAY = 1, OPTIONS = 2, EXIT = 3
     };
+    enum OptionMenuDecision {
+        SWITCH_SYMBOLS = 1, SET_BOARD_SIZE = 2, EXIT_OPTIONS = 3
+    };
+
     const static std::string eightSpaceBars;
     MinMaxManager *minMaxManager = MinMaxManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();
@@ -31,6 +35,8 @@ private:
     void printMainMenu() const;
     MainMenuDecision getMainMenuDecision(const int DECISION_INDEX) const;
 
+    OptionMenuDecision getOptionMenuDecision(const int DECISION_INDEX) const;
+
     void gameLoop();
     
     Cordinates askForValidHumanCordinatesDecision() const ;
@@ -43,7 +49,7 @@ private:
 
     void printOptionsMenu() const;
     
-    void executeOptionsDecision(const int DECISION);
+    void executeOptionsDecision(const GameManager::OptionMenuDecision& DECISION);
 
 };
 

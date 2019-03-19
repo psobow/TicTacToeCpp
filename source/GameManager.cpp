@@ -17,12 +17,12 @@ void GameManager::run(){
     std::cout << "You can try as much as you wish, but the best what you can get is a draw.\n";
     std::cout << "I would wish you good luck, but it is not going to help any way.\n";
 
-    MainMenuDecision decision;
-    int optionsDecision;
+    MainMenuDecision mainMenuDecision;
+    OptionMenuDecision optionsMenuDecision;
     do {
         printMainMenu();
-        decision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
-        switch (decision)
+        mainMenuDecision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
+        switch (mainMenuDecision)
         {
             case PLAY:
                 gameLoop();
@@ -31,9 +31,9 @@ void GameManager::run(){
             case OPTIONS:
                 do {    
                     printOptionsMenu();
-                    optionsDecision = MyStdIn::readNextIntFromValidScope(1,3);
-                    executeOptionsDecision(optionsDecision);
-                } while (optionsDecision != 3);
+                    optionsMenuDecision = getOptionMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
+                    executeOptionsDecision(optionsMenuDecision);
+                } while (optionsMenuDecision != EXIT_OPTIONS);
                 break;
 
             case EXIT:
@@ -43,7 +43,7 @@ void GameManager::run(){
             default:
                 break;
         }
-    } while (decision != EXIT); 
+    } while (mainMenuDecision != EXIT); 
 }
 
 
@@ -60,6 +60,14 @@ GameManager::MainMenuDecision GameManager::getMainMenuDecision(const int DECISIO
         throw std::invalid_argument("Invalid index for main menu decision.\n");
     }
     return static_cast<GameManager::MainMenuDecision> (DECISION_INDEX);
+}
+
+
+GameManager::OptionMenuDecision GameManager::getOptionMenuDecision(const int DECISION_INDEX) const {
+    if( DECISION_INDEX < 1 || DECISION_INDEX > 3){
+        throw std::invalid_argument("Invalid index for option menu decision.\n");
+    }
+    return static_cast<GameManager::OptionMenuDecision> (DECISION_INDEX);
 }
 
 void GameManager::gameLoop() {
@@ -164,20 +172,20 @@ void GameManager::printOptionsMenu() const {
     std::cout << eightSpaceBars << "Enter choice: ";
 }
 
-void GameManager::executeOptionsDecision(const int DECISION) {
+void GameManager::executeOptionsDecision(const GameManager::OptionMenuDecision& DECISION) {
     int minBoardSize = gameOptionsManager->getMinBoardSize();
     int maxBoardSize =  gameOptionsManager->getMaxBoardSize();
 
         switch (DECISION){
-            case 1:
+            case SWITCH_SYMBOLS:
                 gameOptionsManager->switchHumanAndComputerChar();
                 break;
-            case 2:
+            case SET_BOARD_SIZE:
                 std::cout << "\n" << eightSpaceBars << eightSpaceBars << "Minimal board size: " << minBoardSize << " maximum board size: " << maxBoardSize << "\n";
                 std::cout << eightSpaceBars << eightSpaceBars << "Enter choice: "; 
                 boardManager->resetEverySlotAndSetSize( MyStdIn::readNextIntFromValidScope( minBoardSize, maxBoardSize ) );
                 break;
-            case 3: // EXIT
+            case EXIT_OPTIONS:
                 break;
             default:
                 break;
