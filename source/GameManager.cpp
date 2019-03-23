@@ -1,6 +1,6 @@
 #include "../header/GameManager.hh"
 
-const std::string GameManager::eightSpaceBars = "        ";
+const std::string GameManager::EIGHT_SPACE_BARS = "        ";
 
 GameManager* GameManager::instance = nullptr;
 
@@ -18,7 +18,6 @@ void GameManager::run(){
     std::cout << "I would wish you good luck, but it is not going to help any way.\n";
 
     MainMenuDecision mainMenuDecision;
-    OptionMenuDecision optionsMenuDecision;
     do {
         printMainMenu();
         mainMenuDecision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
@@ -29,9 +28,10 @@ void GameManager::run(){
                 break;
 
             case OPTIONS:
+                OptionMenuDecision optionsMenuDecision;
                 do {    
                     printOptionsMenu();
-                    optionsMenuDecision = getOptionMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
+                    optionsMenuDecision = getOptionMenuDecision( MyStdIn::readNextIntFromValidScope(1,5) );
                     executeOptionsDecision(optionsMenuDecision);
                 } while (optionsMenuDecision != EXIT_OPTIONS);
                 break;
@@ -56,7 +56,10 @@ void GameManager::printMainMenu() const {
 }
 
 GameManager::MainMenuDecision GameManager::getMainMenuDecision(const int DECISION_INDEX) const {
-    if( DECISION_INDEX < 1 || DECISION_INDEX > 3){
+    const int FIRST_OPTION_INDEX = 1;
+    const int LAST_OPTION_INDEX = 3;
+
+    if( DECISION_INDEX < FIRST_OPTION_INDEX || DECISION_INDEX > LAST_OPTION_INDEX){
         throw std::invalid_argument("Invalid index for main menu decision.\n");
     }
     return static_cast<GameManager::MainMenuDecision> (DECISION_INDEX);
@@ -64,7 +67,10 @@ GameManager::MainMenuDecision GameManager::getMainMenuDecision(const int DECISIO
 
 
 GameManager::OptionMenuDecision GameManager::getOptionMenuDecision(const int DECISION_INDEX) const {
-    if( DECISION_INDEX < 1 || DECISION_INDEX > 3){
+    const int FIRST_OPTION_INDEX = 1;
+    const int LAST_OPTION_INDEX = 5;
+
+    if( DECISION_INDEX < FIRST_OPTION_INDEX || DECISION_INDEX > LAST_OPTION_INDEX){
         throw std::invalid_argument("Invalid index for option menu decision.\n");
     }
     return static_cast<GameManager::OptionMenuDecision> (DECISION_INDEX);
@@ -85,8 +91,13 @@ Participant GameManager::playGame(){
     Participant winner;
     boardManager->printBoard();
 
+    if( gameOptionsManager->getGameStartingPlayer() == Participant::COMPUTER){
+        std::cout << "\nComputer move:\n";
+        minMaxManager->executeTheBestComputerMove();
+        boardManager->printBoard();
+    }
+
     while (true) {
-        
         std::cout << "(Playing as: " << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) << ") Your turn: \n";
         
         decision = askForValidHumanCordinatesDecision();
@@ -99,7 +110,7 @@ Participant GameManager::playGame(){
         if ( boardManager->isAnyEmptySlot() == false || winner != Participant::NONE ) {
             return winner;
         }
-
+        
         std::cout << "\nComputer move:\n";
 
         minMaxManager->executeTheBestComputerMove();
@@ -163,30 +174,60 @@ void GameManager::printCheers(const Participant& winner) const {
 }
 
 void GameManager::printOptionsMenu() const {
-    std::cout << "\n" << eightSpaceBars << "OPTIONS MENU:\n";
-    std::cout << eightSpaceBars << "1. Switch players symbols ( Current setting: Human [" 
+    std::string gameStartingplayer = "";
+    (gameOptionsManager->getGameStartingPlayer() == Participant::HUMAN) ? gameStartingplayer = "HUMAN" : gameStartingplayer = "COMPUTER";
+
+    std::cout << "\n" << EIGHT_SPACE_BARS << "OPTIONS MENU:\n";
+    std::cout << EIGHT_SPACE_BARS << "1. Switch players symbols ( Current setting: Human [" 
               << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) << "] Computer [" 
               << gameOptionsManager->getCharAssignedTo(Participant::COMPUTER) << "] )\n";
-    std::cout << eightSpaceBars << "2. Set new board size ( Current size: " << gameOptionsManager->getBoardSize() << " )\n";
-    std::cout << eightSpaceBars << "3. Exit options\n";
-    std::cout << eightSpaceBars << "Enter choice: ";
+    
+    std::cout << EIGHT_SPACE_BARS << "2. Switch game starting player ( Current player: " << gameStartingplayer << " )\n";
+    std::cout << EIGHT_SPACE_BARS << "3. Set new board size ( Current size: " << gameOptionsManager->getBoardSize() << " )\n";
+    std::cout << EIGHT_SPACE_BARS << "4. Set points required for victory ( Current points : " << gameOptionsManager->getPointsRequiredForVictory() << " )\n";
+    std::cout << EIGHT_SPACE_BARS << "5. Exit options\n";
+    std::cout << EIGHT_SPACE_BARS << "Enter choice: ";
 }
 
 void GameManager::executeOptionsDecision(const GameManager::OptionMenuDecision& DECISION) {
-    int minBoardSize = gameOptionsManager->getMinBoardSize();
-    int maxBoardSize =  gameOptionsManager->getMaxBoardSize();
+    const int MIN_BOARD_SIZE = gameOptionsManager->getMinBoardSize();
+    const int MAX_BOARD_SIZE = gameOptionsManager->getMaxBoardSize();
+
+    const int MIN_POINTS_FOR_VICTORY = gameOptionsManager->getMinPointsForVictory();
+    const int MAX_POINTS_FOR_VICTORY = gameOptionsManager->getBoardSize();
 
         switch (DECISION){
             case SWITCH_SYMBOLS:
                 gameOptionsManager->switchHumanAndComputerChar();
                 break;
-            case SET_BOARD_SIZE:
-                std::cout << "\n" << eightSpaceBars << eightSpaceBars << "Minimal board size: " << minBoardSize << " maximum board size: " << maxBoardSize << "\n";
-                std::cout << eightSpaceBars << eightSpaceBars << "Enter choice: "; 
-                boardManager->resetEverySlotAndSetSize( MyStdIn::readNextIntFromValidScope( minBoardSize, maxBoardSize ) );
+
+            case SWITCH_STARTING_PLAYERS:
+                gameOptionsManager->setGameStartingPlayer(
+                    gameOptionsManager->getOppositePlayer(
+                        gameOptionsManager->getGameStartingPlayer()
+                    )
+                );
                 break;
+
+            case SET_BOARD_SIZE:
+                std::cout << "\n" << EIGHT_SPACE_BARS << EIGHT_SPACE_BARS 
+                << "Minimal board size: " << MIN_BOARD_SIZE 
+                << " maximum board size: " << MAX_BOARD_SIZE << "\n";
+                std::cout << EIGHT_SPACE_BARS << EIGHT_SPACE_BARS << "Enter choice: "; 
+                boardManager->resetEverySlotAndSetSize( MyStdIn::readNextIntFromValidScope( MIN_BOARD_SIZE, MAX_BOARD_SIZE ) );
+                break;
+
+            case SET_POINTS_FOR_VICTORY:
+                std::cout << "\n" << EIGHT_SPACE_BARS << EIGHT_SPACE_BARS 
+                << "Minimal amount of points: " << MIN_POINTS_FOR_VICTORY 
+                << " maximum amount of points: "<< MAX_POINTS_FOR_VICTORY << "\n";
+                std::cout << EIGHT_SPACE_BARS << EIGHT_SPACE_BARS << "Enter choice: ";
+                gameOptionsManager->setPointsRequiredForVictory( MyStdIn::readNextIntFromValidScope(MIN_POINTS_FOR_VICTORY, MAX_POINTS_FOR_VICTORY) );
+                break;
+
             case EXIT_OPTIONS:
                 break;
+
             default:
                 break;
         }

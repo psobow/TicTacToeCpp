@@ -9,12 +9,10 @@ GameOptionsManager* GameOptionsManager::getInstance(){
     return instance;
 }
 
-GameOptionsManager::GameOptionsManager() {
-    humanChar = DEFAULT_HUMAN_CHAR;
-    computerChar = DEFAULT_COMPUTER_CHAR;
+GameOptionsManager::GameOptionsManager() {}
 
-    pointsRequiredForVictory = MIN_POINTS_FOR_VICTORY;
-    boardSize = MIN_BOARD_SIZE;
+void GameOptionsManager::setGameStartingPlayer(const GameParticipant& PARTICIPANT){
+    gameStartingPlayer = PARTICIPANT;
 }
 
 void GameOptionsManager::switchHumanAndComputerChar() {
@@ -71,6 +69,10 @@ const char GameOptionsManager::getCharAssignedTo(const Participant& PARTICIPANT)
     } else {
         return computerChar;
     }
+}
+
+const Participant GameOptionsManager::getGameStartingPlayer() const {
+    return gameStartingPlayer;
 }
 
 const Participant GameOptionsManager::getOppositePlayer(const Participant& PARTICIPANT) const {

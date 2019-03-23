@@ -18,6 +18,7 @@ public:
 
     void setPointsRequiredForVictory(const int NEW_POINTS);
     void setBoardSize(const int NEW_BOARD_SIZE);
+    void setGameStartingPlayer(const GameParticipant& PARTICIPANT);
 
     const int getPointsRequiredForVictory() const;
     const int getBoardSize() const;
@@ -31,6 +32,7 @@ public:
     const char getCharAssignedTo(const GameParticipant& PARTICIPANT) const;
     const GameParticipant getEnumAssignedTo(const char CHAR) const;
     const GameParticipant getOppositePlayer(const GameParticipant& PARTICIPANT) const;
+    const GameParticipant getGameStartingPlayer() const;
 
 private:
     const char EMPTY_SLOT_CHAR = '-';
@@ -40,14 +42,16 @@ private:
     const int MIN_BOARD_SIZE = 3;
     const int MAX_BOARD_SIZE = 5;
 
-    const int MIN_POINTS_FOR_VICTORY = 3;
-    const int MAX_POINTS_FOR_VICTORY = 5;
+    const int MIN_POINTS_FOR_VICTORY = MIN_BOARD_SIZE;
+    const int MAX_POINTS_FOR_VICTORY = MAX_BOARD_SIZE;
 
-    int pointsRequiredForVictory;
-    int boardSize;
+    GameParticipant gameStartingPlayer = GameParticipant::HUMAN;
 
-    char humanChar;
-    char computerChar;
+    int pointsRequiredForVictory = MIN_POINTS_FOR_VICTORY;
+    int boardSize = MIN_BOARD_SIZE;
+
+    char humanChar = DEFAULT_HUMAN_CHAR;
+    char computerChar = DEFAULT_COMPUTER_CHAR;
 
     // Singleton
     static GameOptionsManager *instance;

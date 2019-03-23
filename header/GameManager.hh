@@ -14,13 +14,19 @@ public:
 
 private:
     enum MainMenuDecision {
-        PLAY = 1, OPTIONS = 2, EXIT = 3
+        PLAY = 1, 
+        OPTIONS = 2, 
+        EXIT = 3
     };
     enum OptionMenuDecision {
-        SWITCH_SYMBOLS = 1, SET_BOARD_SIZE = 2, EXIT_OPTIONS = 3
+        SWITCH_SYMBOLS = 1, 
+        SWITCH_STARTING_PLAYERS = 2, 
+        SET_BOARD_SIZE = 3, 
+        SET_POINTS_FOR_VICTORY = 4, 
+        EXIT_OPTIONS = 5
     };
 
-    const static std::string eightSpaceBars;
+    const static std::string EIGHT_SPACE_BARS;
     MinMaxManager *minMaxManager = MinMaxManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();
     GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();

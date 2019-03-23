@@ -2,6 +2,8 @@
 #define MINMAX_MANAGER_H
 
 #include "BoardManager.hh"
+#include <algorithm> // for function std::max
+#include <chrono> // for time measurement
 
 class MinMaxManager { friend class MinMaxManagerTestSuite;
 public:
@@ -12,6 +14,7 @@ public:
 
 private:
     const int HIGHEST_SCORE = 1000;
+    const int LOWEST_SCORE = -1000;
     Cordinates theBestMoveCordinates; // this field must be synchronized in multi-thread algorithm
 
     GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
@@ -22,8 +25,8 @@ private:
     MinMaxManager() : theBestMoveCordinates(0,0) {}
     MinMaxManager(const MinMaxManager&) = delete;
     MinMaxManager& operator=(const MinMaxManager&) = delete;
-
-    const int calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth);
+    
+    const int calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth, int alpha, int beta);
 
     const int scoreGameFromComputerPOV(const int DEPTH) const; // POV = Point of view
     const int getMaxValueIndex(const std::vector<int>& VEC) const;
