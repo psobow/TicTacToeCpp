@@ -23,7 +23,6 @@ const int MyStdIn::readNextInt(){
 
 const int MyStdIn::readNextIntFromValidScope(const int BOTTOM, const int TOP){
     int number = 0;
-    std::string inputLine;
     bool isValid;
 
     do {

@@ -24,7 +24,7 @@ void MinMaxManager::executeTheBestComputerMove(){
         auto end = std::chrono::steady_clock::now();
 
         std::cout << "Elapsed time in seconds : " << std::chrono::duration_cast<std::chrono::seconds>(end - start).count() << " sec\n";
-        std::cout << "Number of calculateTheBestMoveFor calls : " << this->howManyFunctionCalls << "\n";
+        std::cout << "Number of recursive function calls : " << this->howManyFunctionCalls << "\n";
         this->howManyFunctionCalls = 0;
     }
 
