@@ -3,26 +3,9 @@
 #include "../header/GameManager.hh"
 
 
-
 int main() {
     GameManager *gameManager = GameManager::getInstance();
-    gameManager->run();
-    /*
-    BoardManager *board = BoardManager::getInstance();
-    MinMaxManager *minmax = MinMaxManager::getInstance();
-
-    board->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-    board->addNewCharacter(Cordinates(1,1), Participant::HUMAN);
-    board->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-
-    board->addNewCharacter(Cordinates(0,1), Participant::COMPUTER);
-    board->addNewCharacter(Cordinates(2,2), Participant::COMPUTER);
-    
-    minmax->executeTheBestComputerMove();
-
-    board->printBoard();
-    */
-    
+    gameManager->run();  
     
     return 0;
 }

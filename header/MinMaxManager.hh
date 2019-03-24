@@ -10,19 +10,21 @@ public:
     static MinMaxManager* getInstance();
     ~MinMaxManager() {};
     
-    const bool executeTheBestComputerMove();
+    void executeTheBestComputerMove();
 
 private:
+    int howManyFunctionCalls = 0;
     const int HIGHEST_SCORE = 1000;
-    const int LOWEST_SCORE = -1000;
-    Cordinates theBestMoveCordinates; // this field must be synchronized in multi-thread algorithm
+    const int LOWEST_SCORE = -1000; 
+
+    Coordinates theBestMoveCoordinates; // this field must be synchronized in multi-thread algorithm
 
     GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
     BoardManager *boardManager = BoardManager::getInstance();
     
     // Singleton
     static MinMaxManager *instance;
-    MinMaxManager() : theBestMoveCordinates(0,0) {}
+    MinMaxManager() : theBestMoveCoordinates(0,0) {}
     MinMaxManager(const MinMaxManager&) = delete;
     MinMaxManager& operator=(const MinMaxManager&) = delete;
     

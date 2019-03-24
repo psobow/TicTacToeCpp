@@ -15,23 +15,23 @@ public:
 
    
     // EAST:
-    const bool executeIsPossibleToCheckEastSlots(       const Cordinates& CORDINATES) const;
-    const bool executeAreEastSlotsNotEmpty(             const Cordinates& CORDINATES) const;
-    const bool executeAreEastSlotsContainWinState(      const Cordinates& CORDINATES) const;
+    const bool executeIsPossibleToCheckEastSlots(       const Coordinates& COORDINATES) const;
+    const bool executeAreEastSlotsNotEmpty(             const Coordinates& COORDINATES) const;
+    const bool executeAreEastSlotsContainWinState(      const Coordinates& COORDINATES) const;
 
     // SOUTH:
-    const bool executeIsPossibleToCheckSouthSlots(      const Cordinates& CORDINATES) const;
-    const bool executeAreSouthSlotsNotEmpty(            const Cordinates& CORDINATES) const;
-    const bool executeAreSouthSlotsContainWinState(     const Cordinates& CORDINATES) const;
+    const bool executeIsPossibleToCheckSouthSlots(      const Coordinates& COORDINATES) const;
+    const bool executeAreSouthSlotsNotEmpty(            const Coordinates& COORDINATES) const;
+    const bool executeAreSouthSlotsContainWinState(     const Coordinates& COORDINATES) const;
 
     // EAST-SOUTH
-    const bool executeAreEastSouthSlotsNotEmpty(        const Cordinates& CORDINATES) const;
-    const bool executeAreEastSouthSlotsContainWinState( const Cordinates& CORDINATES) const;
+    const bool executeAreEastSouthSlotsNotEmpty(        const Coordinates& COORDINATES) const;
+    const bool executeAreEastSouthSlotsContainWinState( const Coordinates& COORDINATES) const;
 
     // WEST-SOUTH:
-    const bool executeIsPossibleToCheckWestSlots(       const Cordinates& CORDINATES) const;
-    const bool executeAreWestSouthSlotsNotEmpty(        const Cordinates& CORDINATES) const;
-    const bool executeAreWestSouthSlotsContainWinState( const Cordinates& CORDINATES) const;  
+    const bool executeIsPossibleToCheckWestSlots(       const Coordinates& COORDINATES) const;
+    const bool executeAreWestSouthSlotsNotEmpty(        const Coordinates& COORDINATES) const;
+    const bool executeAreWestSouthSlotsContainWinState( const Coordinates& COORDINATES) const;  
     
 };
 

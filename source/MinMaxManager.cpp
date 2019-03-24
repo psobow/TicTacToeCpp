@@ -9,87 +9,90 @@ MinMaxManager* MinMaxManager::getInstance(){
     return instance;
 }
 
-const bool MinMaxManager::executeTheBestComputerMove(){
-    if (boardManager->isAnyEmptySlot() == false) return false;
+void MinMaxManager::executeTheBestComputerMove(){
+    if (boardManager->isAnyEmptySlot() == false) return;
 
     const int INITIAL_DEPTH = 0;
 
-    // in case computer starting the game, just pick (0,0) slot. this one is the best first move.
+    // in case computer starting the game, just pick (0,0) slot. this one is the best first move, in my opinion.
     if (boardManager->getQuantityOfTakenSlots() == 0) { 
-        theBestMoveCordinates = Cordinates(0,0);
+        theBestMoveCoordinates = Coordinates(0,0);
 
     } else {
         auto start = std::chrono::steady_clock::now();
-        calculateTheBestMoveFor(Participant::COMPUTER, INITIAL_DEPTH, LOWEST_SCORE, HIGHEST_SCORE);
+        calculateTheBestMoveFor(Participant::COMPUTER, INITIAL_DEPTH, this->LOWEST_SCORE, this->HIGHEST_SCORE);
         auto end = std::chrono::steady_clock::now();
-        
+
         std::cout << "Elapsed time in seconds : " << std::chrono::duration_cast<std::chrono::seconds>(end - start).count() << " sec\n";
+        std::cout << "Number of calculateTheBestMoveFor calls : " << this->howManyFunctionCalls << "\n";
+        this->howManyFunctionCalls = 0;
     }
 
-    return boardManager->addNewCharacter(theBestMoveCordinates, Participant::COMPUTER);
+    boardManager->addNewCharacter(theBestMoveCoordinates, Participant::COMPUTER);
 }
 
 
-const int MinMaxManager::calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth, int alpha, int beta) {
+const int MinMaxManager::calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int currentDepth, int alpha, int beta) {
     // Terminating condition
-    const int RESULT = scoreGameFromComputerPOV(depth);
-    if( RESULT != 0 || (boardManager->isAnyEmptySlot() == false) ) {
+    const int RESULT = scoreGameFromComputerPOV(currentDepth);
+    if( RESULT != 0 || (boardManager->isAnyEmptySlot() == false) 
+                    || currentDepth == gameOptionsManager->getDepthBound(gameOptionsManager->getBoardSize())) {
         return RESULT;
     }
     
-    depth++;
-    std::vector<Cordinates> availableCordinates = boardManager->getEveryEmptySlotCordinates();
+    this->howManyFunctionCalls++;
+    currentDepth++;
+    std::vector<Coordinates> availableCoordinates = boardManager->getEveryEmptySlotCoordinates();
     std::vector<int> scores;
-    int bestScore;
+    int currentBestScore;
 
     // This part execute possible moves and evaluate states of the game in order to calculate the best computer move.
-    for(int i = 0; i < availableCordinates.size(); i++){
-        boardManager->addNewCharacter(availableCordinates[i], TURN_TAKING_PLAYER);
+    for(int i = 0; i < availableCoordinates.size(); i++){
+        boardManager->addNewCharacter(availableCoordinates[i], TURN_TAKING_PLAYER);
         const int CURRENT_BOARD_SCORE_FROM_COMPUTER_POV = calculateTheBestMoveFor( 
-            gameOptionsManager->getOppositePlayer(TURN_TAKING_PLAYER), depth, alpha, beta);
+            gameOptionsManager->getOppositePlayer(TURN_TAKING_PLAYER), currentDepth, alpha, beta);
         scores.push_back(CURRENT_BOARD_SCORE_FROM_COMPUTER_POV);
-        boardManager->resetSlot(availableCordinates[i]);
+        boardManager->resetSlot(availableCoordinates[i]);
 
         // Alpha pruning
         if (TURN_TAKING_PLAYER == Participant::COMPUTER) {
-            bestScore = *std::max_element( std::begin(scores), std::end(scores) );
-            alpha = std::max(bestScore, alpha); // Alpha is the best value that the maximizer currently can guarantee at that level.
+            currentBestScore = *std::max_element( std::begin(scores), std::end(scores) );
+            alpha = std::max(currentBestScore, alpha); // Alpha is the best value that the maximizer currently can guarantee at that level.
             if (beta <= alpha){
                 break;
             }  
         // Beta pruning
         } else {
-            bestScore = *std::min_element( std::begin(scores), std::end(scores) );
-            beta = std::min(bestScore, beta); // Beta is the best value that the minimizer currently can guarantee at that level.
+            currentBestScore = *std::min_element( std::begin(scores), std::end(scores) );
+            beta = std::min(currentBestScore, beta); // Beta is the best value that the minimizer currently can guarantee at that level.
             if (beta <= alpha){
                 break;
             }
         }
-        
     }
 
     //This part is decision making part
     if(TURN_TAKING_PLAYER == Participant::COMPUTER) { // Computer is going for highiest score from his POV.
-        int maxScoreIndex = getMaxValueIndex(scores);
-        if(depth == 1) { // At the final point of this algorithm we want to execute the best move for computer at depth equal 1.
-            theBestMoveCordinates = availableCordinates[maxScoreIndex]; 
+        const int MAX_SCORE_INDEX = getMaxValueIndex(scores);
+        if(currentDepth == 1) { // At the final point of this algorithm we want to execute the best move for computer at depth equal 1.
+            this->theBestMoveCoordinates = availableCoordinates[MAX_SCORE_INDEX]; 
         }
-        return scores[maxScoreIndex];
+        return scores[MAX_SCORE_INDEX];
 
 // In this algoritm we assume that human is also perfect player and he always choose his the best possible move. That's huge overestimate cuz humans are dumb idiots mostly.
     } else if (TURN_TAKING_PLAYER == Participant::HUMAN) { // Human is going for lowest score from computer POV
-        int minScoreIndex = getMinValueIndex(scores);
-        return scores[minScoreIndex];
+        const int MIN_SCORE_INDEX = getMinValueIndex(scores);
+        return scores[MIN_SCORE_INDEX];
     }
 }
 
 const int MinMaxManager::scoreGameFromComputerPOV(const int DEPTH) const {
-    const Participant winner = boardManager->findWinner();
+    const Participant WINNER = boardManager->findWinner();
 
-    if (winner == Participant::COMPUTER){
+    if (WINNER == Participant::COMPUTER){
         return HIGHEST_SCORE - DEPTH;
 
-    } else if (winner == Participant::NONE){
+    } else if (WINNER == Participant::NONE){
         return 0;
 
     } else {

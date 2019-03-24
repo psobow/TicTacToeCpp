@@ -16,9 +16,9 @@ public:
     const int scoreGameFromComputerPOV(const int DEPTH) const; // POV = Point of view
     const int getMaxValueIndex(const std::vector<int>& VEC) const;
     const int getMinValueIndex(const std::vector<int>& VEC) const;
-    const Cordinates& getTheBestMove() const;
+    const Coordinates& getTheBestMove() const;
 
-    const int calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth);
+    const int calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth, int alpha, int beta);
     
     
 };

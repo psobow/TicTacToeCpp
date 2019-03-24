@@ -32,29 +32,29 @@ SCENARIO( "isAnyEmptySlot", "[BoardManager]" ){
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Add one symbol." ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            const bool result = boardManager->isAnyEmptySlot();
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            const bool RESULT = boardManager->isAnyEmptySlot();
             THEN( "Result" ){
-                REQUIRE( result == true );
+                REQUIRE( RESULT == true );
             }
         }
 
         WHEN( "CASE 2: Add nine symbols (Every slot is taken)." ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
 
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,2), Participant::COMPUTER);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::HUMAN);
 
-            const bool result = boardManager->isAnyEmptySlot();
+            const bool RESULT = boardManager->isAnyEmptySlot();
             THEN( "Result" ){
-                REQUIRE( result == false );
+                REQUIRE( RESULT == false );
             }
         }
     }
@@ -67,14 +67,14 @@ SCENARIO( "resetEveryslotAndSetSize", "[BoardManager]" ){
         
         WHEN( "CASE 1: correct size" ){
             boardManager->resetEverySlotAndSetSize(5);
-            const int takenSlots = boardManager->getQuantityOfTakenSlots();
-            const int boardSize = gameOptionsManager->getBoardSize();
+            const int TAKEN_SLOTS = boardManager->getQuantityOfTakenSlots();
+            const int BOARD_SIZE = gameOptionsManager->getBoardSize();
 
             boardManager->resetEverySlotAndSetSize(3); // Clean-up
 
             THEN( "Result" ){
-                REQUIRE( takenSlots == 0);
-                REQUIRE( boardSize == 5);
+                REQUIRE( TAKEN_SLOTS == 0);
+                REQUIRE( BOARD_SIZE == 5);
             }
         }
 
@@ -99,7 +99,7 @@ SCENARIO( "resetEverySlotTest", "[BoardManager]" ){
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Add one symbol" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
             boardManager->resetEverySlot();
             THEN( "Result" ){
                 REQUIRE( boardManager->getQuantityOfTakenSlots() == 0 );
@@ -114,29 +114,29 @@ SCENARIO( "resetSlotTest", "[BoardManager]" ){
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Reset already empty slot" ){
-            boardManager->resetSlot(Cordinates(0,0));
-            int result = boardManager->getQuantityOfTakenSlots();
+            boardManager->resetSlot(Coordinates(0,0));
+            const int RESULT = boardManager->getQuantityOfTakenSlots();
             THEN( "Result" ){
-                REQUIRE( result == 0 );
+                REQUIRE( RESULT == 0 );
             }
         }
 
         WHEN( "CASE 2: Reset taken slot" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->resetSlot(Cordinates(0,0));
-            int result = boardManager->getQuantityOfTakenSlots();
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->resetSlot(Coordinates(0,0));
+            const int RESULT = boardManager->getQuantityOfTakenSlots();
             THEN( "Result" ){
-                REQUIRE( result == 0 );
+                REQUIRE( RESULT == 0 );
             }
         }
 
         WHEN( "CASE 3: Add two symbols, reset one" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->resetSlot(Cordinates(0,0));
-            int result = boardManager->getQuantityOfTakenSlots();
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->resetSlot(Coordinates(0,0));
+            const int RESULT = boardManager->getQuantityOfTakenSlots();
             THEN( "Result" ){
-                REQUIRE( result == 1 );
+                REQUIRE( RESULT == 1 );
             }
         }
     }
@@ -163,7 +163,7 @@ SCENARIO( "getQuantityOfTakenSlotsTest", "[BoardManager]" ){
         }
 
         WHEN( "CASE 2: Add one symbol" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
             int howManyTakenSlots = 0;
 
             for(int row = 0; row < bridgeToTestClass.getBoard().size(); row++){
@@ -181,23 +181,23 @@ SCENARIO( "getQuantityOfTakenSlotsTest", "[BoardManager]" ){
     }
 }
 
-SCENARIO( "getEveryEmptySlotCordinatesTest", "[BoardManager]" ){
+SCENARIO( "getEveryEmptySlotCoordinatesTest", "[BoardManager]" ){
 
     GIVEN( "Clean up board" ) {
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Empty board" ){
-            const std::vector<Cordinates> result = boardManager->getEveryEmptySlotCordinates();
+            const std::vector<Coordinates> RESULT = boardManager->getEveryEmptySlotCoordinates();
             THEN( "Result" ){
-                REQUIRE( result.size() == 9 );
+                REQUIRE( RESULT.size() == 9 );
             }
         }
 
         WHEN( "CASE 2: Add one symbol" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            const std::vector<Cordinates> result = boardManager->getEveryEmptySlotCordinates();
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            const std::vector<Coordinates> RESULT = boardManager->getEveryEmptySlotCoordinates();
             THEN( "Result" ){
-                REQUIRE( result.size() == 8 );
+                REQUIRE( RESULT.size() == 8 );
             }
         }
     }
@@ -209,24 +209,24 @@ SCENARIO( "addNewCharacterTest", "[BoardManager]" ) {
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Correct cordinates and player" ){
-            const bool result = boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
+            const bool RESULT = boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
             THEN( "Result" ){
-                REQUIRE( result == true );
+                REQUIRE( RESULT == true );
             }
         }
 
         WHEN( "CASE 2: Correct cordinates and player, but slot is taken" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            const bool result = boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            const bool RESULT = boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
             THEN( "Result" ){
-                REQUIRE( result == false );
+                REQUIRE( RESULT == false );
             }
         }
 
         WHEN( "CASE 3: Correct coridnates but incorrect player" ){
             int exceptionValidator = 0;
             try{
-                const bool result = boardManager->addNewCharacter(Cordinates(0,1), Participant::NONE);
+                boardManager->addNewCharacter(Coordinates(0,1), Participant::NONE);
             } catch(const std::invalid_argument & e){
                 exceptionValidator++;
             }
@@ -238,7 +238,7 @@ SCENARIO( "addNewCharacterTest", "[BoardManager]" ) {
         WHEN( "CASE 4: Incorrect cordinates" ){
             int exceptionValidator = 0;
             try {
-                boardManager->addNewCharacter(Cordinates(-10,0), Participant::HUMAN);
+                boardManager->addNewCharacter(Coordinates(-10,0), Participant::HUMAN);
             } catch( const std::invalid_argument& e){
                 exceptionValidator++;
             }
@@ -250,7 +250,7 @@ SCENARIO( "addNewCharacterTest", "[BoardManager]" ) {
         WHEN( "CASE 5: Incorrect cordinates" ){
             int exceptionValidator = 0;
             try {
-                boardManager->addNewCharacter(Cordinates(0,-10), Participant::HUMAN);
+                boardManager->addNewCharacter(Coordinates(0,-10), Participant::HUMAN);
             }catch( const std::invalid_argument& e){
                 exceptionValidator++;
             }
@@ -262,7 +262,7 @@ SCENARIO( "addNewCharacterTest", "[BoardManager]" ) {
         WHEN( "CASE 6: Incorrect cordinates" ){
             int exceptionValidator = 0;
             try {
-                boardManager->addNewCharacter(Cordinates(10,0), Participant::HUMAN);
+                boardManager->addNewCharacter(Coordinates(10,0), Participant::HUMAN);
             } catch (const std::invalid_argument& e){
                 exceptionValidator++;
             }
@@ -280,65 +280,65 @@ SCENARIO( "findWinner general test", "[BoardManager]" ){
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Not enough taken slots" ){
-            const Participant result = boardManager->findWinner();
+            const Participant RESULT = boardManager->findWinner();
             THEN( "Result" ){
-                REQUIRE( result == Participant::NONE );
+                REQUIRE( RESULT == Participant::NONE );
             }
         }
 
         WHEN( "CASE 2: East"){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::COMPUTER);
 
-            const Participant result = boardManager->findWinner();
+            const Participant RESULT = boardManager->findWinner();
             THEN( "Result" ){
-                REQUIRE( result == Participant::HUMAN );
+                REQUIRE( RESULT == Participant::HUMAN );
             }
         }
 
         WHEN( "CASE 3: South"){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
 
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,2), Participant::HUMAN);
 
-            const Participant result = boardManager->findWinner();
+            const Participant RESULT = boardManager->findWinner();
             THEN( "Result" ){
-                REQUIRE( result == Participant::COMPUTER );
+                REQUIRE( RESULT == Participant::COMPUTER );
             }
         }
 
         WHEN( "CASE 4: East-South"){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::COMPUTER);
 
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,2), Participant::HUMAN);
 
-            const Participant result = boardManager->findWinner();
+            const Participant RESULT = boardManager->findWinner();
             THEN( "Result" ){
-                REQUIRE( result == Participant::COMPUTER );
+                REQUIRE( RESULT == Participant::COMPUTER );
             }
         }
 
         WHEN( "CASE 5: West-South"){
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
 
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
 
-            const Participant result = boardManager->findWinner();
+            const Participant RESULT = boardManager->findWinner();
             THEN( "Result" ){
-                REQUIRE( result == Participant::COMPUTER );
+                REQUIRE( RESULT == Participant::COMPUTER );
             }
         }
     }
@@ -350,29 +350,29 @@ SCENARIO( "findWinner, is possible to check slots", "[BoardManager]" ){
         boardManager->resetEverySlot();     
 
         WHEN( "CASE 1: Is possible to check EAST slots" ){
-            const bool firstResult = bridgeToTestClass.executeIsPossibleToCheckEastSlots(Cordinates(0,0));
-            const bool secondResult = bridgeToTestClass.executeIsPossibleToCheckEastSlots(Cordinates(0,1));
+            const bool FIRST_RESULT = bridgeToTestClass.executeIsPossibleToCheckEastSlots(Coordinates(0,0));
+            const bool SECOND_RESULT = bridgeToTestClass.executeIsPossibleToCheckEastSlots(Coordinates(0,1));
 
             int exceptionValidator1 = 0;
             try {
-                bridgeToTestClass.executeIsPossibleToCheckEastSlots(Cordinates(0,7));
+                bridgeToTestClass.executeIsPossibleToCheckEastSlots(Coordinates(0,7));
             } catch ( const std::invalid_argument& e){
                 exceptionValidator1++;
             }
 
             int exceptionValidator2 = 0;
             try{
-                bridgeToTestClass.executeIsPossibleToCheckEastSlots(Cordinates(-2,0));
+                bridgeToTestClass.executeIsPossibleToCheckEastSlots(Coordinates(-2,0));
             } catch( const std::invalid_argument& e){
                 exceptionValidator2++;
             }
 
 
-            THEN( "firstResult" ){
-                REQUIRE( firstResult == true );
+            THEN( "FIRST_RESULT" ){
+                REQUIRE( FIRST_RESULT == true );
             }
-            THEN( "secondResult" ){
-                REQUIRE( secondResult == false );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( SECOND_RESULT == false );
             }
             THEN( "first exception" ){
                 REQUIRE( exceptionValidator1 != 0 );
@@ -383,28 +383,28 @@ SCENARIO( "findWinner, is possible to check slots", "[BoardManager]" ){
         }
 
         WHEN( "CASE 2: Is possible to check SOUTH slots" ){
-            const bool firstResult = bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Cordinates(0,0));
-            const bool secondResult = bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Cordinates(1,0));
+            const bool FIRST_RESULT = bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Coordinates(0,0));
+            const bool SECOND_RESULT = bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Coordinates(1,0));
 
             int exceptionValidator1 = 0;
             try {
-                const bool thirdResult = bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Cordinates(7,0));
+                bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Coordinates(7,0));
             } catch( const std::invalid_argument& e){
                 exceptionValidator1++;
             }
 
             int exceptionValidator2 = 0;
             try{
-                bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Cordinates(-2,0));
+                bridgeToTestClass.executeIsPossibleToCheckSouthSlots(Coordinates(-2,0));
             } catch( const std::invalid_argument& e){
                 exceptionValidator2++;
             }
 
-            THEN( "firstResult" ){
-                REQUIRE( firstResult == true );
+            THEN( "FIRST_RESULT" ){
+                REQUIRE( FIRST_RESULT == true );
             }
-            THEN( "secondResult" ){
-                REQUIRE( secondResult == false );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( SECOND_RESULT == false );
             }
             THEN( "first exception" ){
                 REQUIRE( exceptionValidator1 != 0 );
@@ -415,33 +415,33 @@ SCENARIO( "findWinner, is possible to check slots", "[BoardManager]" ){
         }
 
         WHEN( "CASE 3: Is possible to check WEST slots" ){
-            const bool firstResult = bridgeToTestClass.executeIsPossibleToCheckWestSlots(Cordinates(0,2));
-            const bool secondResult = bridgeToTestClass.executeIsPossibleToCheckWestSlots(Cordinates(0,1));
+            const bool FIRST_RESULT = bridgeToTestClass.executeIsPossibleToCheckWestSlots(Coordinates(0,2));
+            const bool SECOND_RESULT = bridgeToTestClass.executeIsPossibleToCheckWestSlots(Coordinates(0,1));
             
             int exceptionValidator1 = 0;
             try {
-                const bool thirdResult = bridgeToTestClass.executeIsPossibleToCheckWestSlots(Cordinates(0,9));
+                bridgeToTestClass.executeIsPossibleToCheckWestSlots(Coordinates(0,9));
             } catch ( const std::invalid_argument& e){
                 exceptionValidator1++;
             }
 
             int exceptionValidator2 = 0;
             try{
-                bridgeToTestClass.executeIsPossibleToCheckWestSlots(Cordinates(-2,0));
+                bridgeToTestClass.executeIsPossibleToCheckWestSlots(Coordinates(-2,0));
             }catch( const std::invalid_argument& e){
                 exceptionValidator2++;
             }
 
-            THEN( "firstResult" ){
-                REQUIRE( firstResult == true );
+            THEN( "FIRST_RESULT" ){
+                REQUIRE( FIRST_RESULT == true );
             }
-            THEN( "secondResult" ){
-                REQUIRE( secondResult == false );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( SECOND_RESULT == false );
             }
             THEN( "first exception" ){
                 REQUIRE( exceptionValidator1 != 0 );
             }
-            THEN( "fourthResult" ){
+            THEN( "second exception" ){
                 REQUIRE( exceptionValidator2 != 0 );
             }
         }
@@ -453,74 +453,73 @@ SCENARIO( "findWinner, are slots not empty", "[BoardManager]" ){
     GIVEN( "Clean up board" ) {
         boardManager->resetEverySlot();
 
-        // slot at the begining has been alredy checked in diffrent function, and does not affect return value of this function.
-        
+        // Coordinates at the begining has been alredy checked in BoardManager::findWinner(), and does not affect return value of this function.
 
         WHEN( "CASE 1: Are EAST slots not empty" ){
-            Cordinates beginingCordinates(0,0);
+            Coordinates beginingCoordinates(0,0);
 
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            const bool firstResult = bridgeToTestClass.executeAreEastSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreEastSlotsNotEmpty(beginingCoordinates);
 
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            const bool secondResult = bridgeToTestClass.executeAreEastSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreEastSlotsNotEmpty(beginingCoordinates);
        
-            THEN( "secondResult" ){
-                REQUIRE( firstResult == false );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( FIRST_RESULT == false );
             }
-            THEN( "thirdResult" ){
-                REQUIRE( secondResult == true );
+            THEN( "THIRD_RESULT" ){
+                REQUIRE( SECOND_RESULT == true );
             }
         }
 
         WHEN( "CASE 2: Are SOUTH slots not empty" ){
-            Cordinates beginingCordinates(0,0);
+            Coordinates beginingCoordinates(0,0);
             
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::COMPUTER);
-            const bool firstResult = bridgeToTestClass.executeAreSouthSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::COMPUTER);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreSouthSlotsNotEmpty(beginingCoordinates);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            const bool secondResult = bridgeToTestClass.executeAreSouthSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreSouthSlotsNotEmpty(beginingCoordinates);
 
-            THEN( "secondResult" ){
-                REQUIRE( firstResult == false );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( FIRST_RESULT == false );
             }
-            THEN( "thirdResult" ){
-                REQUIRE( secondResult == true );
+            THEN( "THIRD_RESULT" ){
+                REQUIRE( SECOND_RESULT == true );
             }
         }
 
 
         WHEN( "CASE 3: Are EAST-SOUTH slots not empty" ){
-            Cordinates beginingCordinates(0,0);
+            Coordinates beginingCoordinates(0,0);
 
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            const bool firstResult = bridgeToTestClass.executeAreEastSouthSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreEastSouthSlotsNotEmpty(beginingCoordinates);
 
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::COMPUTER);
-            const bool secondResult = bridgeToTestClass.executeAreEastSouthSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::COMPUTER);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreEastSouthSlotsNotEmpty(beginingCoordinates);
 
-            THEN( "firstResult" ){
-                REQUIRE( firstResult == false );
+            THEN( "FIRST_RESULT" ){
+                REQUIRE( FIRST_RESULT == false );
             }
-            THEN( "secondResult" ){
-                REQUIRE( secondResult == true );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( SECOND_RESULT == true );
             }   
         }
         
         WHEN( "CASE 4: Are WEST-SOUTH slots not empty" ){
-            Cordinates beginingCordinates(0,2);
+            Coordinates beginingCoordinates(0,2);
 
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            const bool firstResult = bridgeToTestClass.executeAreWestSouthSlotsNotEmpty(beginingCordinates);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreWestSouthSlotsNotEmpty(beginingCoordinates);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            const bool secondResult = bridgeToTestClass.executeAreWestSouthSlotsNotEmpty(beginingCordinates);
-            THEN( "firstResult" ){
-                REQUIRE( firstResult == false );
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreWestSouthSlotsNotEmpty(beginingCoordinates);
+            THEN( "FIRST_RESULT" ){
+                REQUIRE( FIRST_RESULT == false );
             }
-            THEN( "secondResult" ){
-                REQUIRE( secondResult == true );
+            THEN( "SECOND_RESULT" ){
+                REQUIRE( SECOND_RESULT == true );
             }
         }
     }
@@ -532,138 +531,138 @@ SCENARIO( "findWinner are slots contain win state", "[BoardManager]" ){
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Are EAST slots contain win state" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            const bool firstResult = bridgeToTestClass.executeAreEastSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreEastSlotsContainWinState(Coordinates(0,0));
 
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,2), Participant::COMPUTER);
-            const bool secondResult = bridgeToTestClass.executeAreEastSlotsContainWinState(Cordinates(1,0));
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,2), Participant::COMPUTER);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreEastSlotsContainWinState(Coordinates(1,0));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
-            const bool thirdResult = bridgeToTestClass.executeAreEastSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::COMPUTER);
+            const bool THIRD_RESULT = bridgeToTestClass.executeAreEastSlotsContainWinState(Coordinates(0,0));
 
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,2), Participant::HUMAN);
-            const bool fourthResult = bridgeToTestClass.executeAreEastSlotsContainWinState(Cordinates(1,0));
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,2), Participant::HUMAN);
+            const bool FOURTH_RESULT = bridgeToTestClass.executeAreEastSlotsContainWinState(Coordinates(1,0));
 
             THEN( "Result" ){
-                REQUIRE( firstResult  == true);
-                REQUIRE( secondResult == true);
+                REQUIRE( FIRST_RESULT  == true);
+                REQUIRE( SECOND_RESULT == true);
 
-                REQUIRE( thirdResult == false);
-                REQUIRE( fourthResult  == false);
+                REQUIRE( THIRD_RESULT == false);
+                REQUIRE( FOURTH_RESULT  == false);
             }
         }
 
         WHEN( "CASE 2: Are SOUTH slots contain win state" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            const bool firstResult = bridgeToTestClass.executeAreSouthSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreSouthSlotsContainWinState(Coordinates(0,0));
 
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::COMPUTER);
-            const bool secondResult = bridgeToTestClass.executeAreSouthSlotsContainWinState(Cordinates(0,1));
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::COMPUTER);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreSouthSlotsContainWinState(Coordinates(0,1));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            const bool thirdResult = bridgeToTestClass.executeAreSouthSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            const bool THIRD_RESULT = bridgeToTestClass.executeAreSouthSlotsContainWinState(Coordinates(0,0));
 
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::HUMAN);
-            const bool fourthResult = bridgeToTestClass.executeAreSouthSlotsContainWinState(Cordinates(0,1));
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::HUMAN);
+            const bool FOURTH_RESULT = bridgeToTestClass.executeAreSouthSlotsContainWinState(Coordinates(0,1));
 
             THEN( "Result" ){
-                REQUIRE( firstResult  == true);
-                REQUIRE( secondResult == true);
+                REQUIRE( FIRST_RESULT  == true);
+                REQUIRE( SECOND_RESULT == true);
 
-                REQUIRE( thirdResult == false);
-                REQUIRE( fourthResult  == false);
+                REQUIRE( THIRD_RESULT == false);
+                REQUIRE( FOURTH_RESULT  == false);
             }
         }
 
         WHEN( "CASE 3: Are EAST-SOUTH slots contain win state" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::COMPUTER);
-            const bool firstResult = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::COMPUTER);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Coordinates(0,0));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::HUMAN);
-            const bool secondResult = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::HUMAN);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Coordinates(0,0));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::COMPUTER);
-            const bool thirdResult = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::COMPUTER);
+            const bool THIRD_RESULT = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Coordinates(0,0));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::HUMAN);
-            const bool fourthResult = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Cordinates(0,0));
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::HUMAN);
+            const bool FOURTH_RESULT = bridgeToTestClass.executeAreEastSouthSlotsContainWinState(Coordinates(0,0));
 
             THEN( "Result" ){
-                REQUIRE( firstResult  == true);
-                REQUIRE( secondResult == true);
+                REQUIRE( FIRST_RESULT  == true);
+                REQUIRE( SECOND_RESULT == true);
 
-                REQUIRE( thirdResult  == false);
-                REQUIRE( fourthResult == false);
+                REQUIRE( THIRD_RESULT  == false);
+                REQUIRE( FOURTH_RESULT == false);
             }
         }
 
         WHEN( "CASE 4: Are WEST-SOUTH slots contain win state" ){
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            const bool firstResult = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Cordinates(0,2));
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            const bool FIRST_RESULT = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Coordinates(0,2));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            const bool secondResult = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Cordinates(0,2));
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            const bool SECOND_RESULT = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Coordinates(0,2));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            const bool thirdResult = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Cordinates(0,2));
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            const bool THIRD_RESULT = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Coordinates(0,2));
 
             boardManager->resetEverySlot();
 
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            const bool fourthResult = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Cordinates(0,2));
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            const bool FOURTH_RESULT = bridgeToTestClass.executeAreWestSouthSlotsContainWinState(Coordinates(0,2));
 
             THEN( "Result" ){
-                REQUIRE( firstResult  == true);
-                REQUIRE( secondResult == true);
+                REQUIRE( FIRST_RESULT  == true);
+                REQUIRE( SECOND_RESULT == true);
 
-                REQUIRE( thirdResult  == false);
-                REQUIRE( fourthResult == false);
+                REQUIRE( THIRD_RESULT  == false);
+                REQUIRE( FOURTH_RESULT == false);
             }
         }
     }
@@ -679,43 +678,43 @@ const std::vector<std::vector<char>>& BoardManagerTestSuite::getBoard() const{
 
 
 // EAST:
-const bool BoardManagerTestSuite::executeIsPossibleToCheckEastSlots(const Cordinates& CORDINATES) const{
-    return boardManager->isPossibleToCheckEastSlots(CORDINATES);
+const bool BoardManagerTestSuite::executeIsPossibleToCheckEastSlots(const Coordinates& COORDINATES) const{
+    return boardManager->isPossibleToCheckEastSlots(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreEastSlotsNotEmpty(const Cordinates& CORDINATES) const {
-    return boardManager->areEastSlotsNotEmpty(CORDINATES);
+const bool BoardManagerTestSuite::executeAreEastSlotsNotEmpty(const Coordinates& COORDINATES) const {
+    return boardManager->areEastSlotsNotEmpty(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreEastSlotsContainWinState(const Cordinates& CORDINATES) const{
-    return boardManager->areEastSlotsContainWinState(CORDINATES);
+const bool BoardManagerTestSuite::executeAreEastSlotsContainWinState(const Coordinates& COORDINATES) const{
+    return boardManager->areEastSlotsContainWinState(COORDINATES);
 }
 
 // SOUTH:
-const bool BoardManagerTestSuite::executeIsPossibleToCheckSouthSlots(const Cordinates& CORDINATES) const{
-    return boardManager->isPossibleToCheckSouthSlots(CORDINATES);
+const bool BoardManagerTestSuite::executeIsPossibleToCheckSouthSlots(const Coordinates& COORDINATES) const{
+    return boardManager->isPossibleToCheckSouthSlots(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreSouthSlotsNotEmpty(const Cordinates& CORDINATES) const{
-    return boardManager->areSouthSlotsNotEmpty(CORDINATES);
+const bool BoardManagerTestSuite::executeAreSouthSlotsNotEmpty(const Coordinates& COORDINATES) const{
+    return boardManager->areSouthSlotsNotEmpty(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreSouthSlotsContainWinState(const Cordinates& CORDINATES) const{
-    return boardManager->areSouthSlotsContainWinState(CORDINATES);
+const bool BoardManagerTestSuite::executeAreSouthSlotsContainWinState(const Coordinates& COORDINATES) const{
+    return boardManager->areSouthSlotsContainWinState(COORDINATES);
 }
 
 // EAST-SOUTH
-const bool BoardManagerTestSuite::executeAreEastSouthSlotsNotEmpty(const Cordinates& CORDINATES) const{
-    return boardManager->areEastSouthSlotsNotEmpty(CORDINATES);
+const bool BoardManagerTestSuite::executeAreEastSouthSlotsNotEmpty(const Coordinates& COORDINATES) const{
+    return boardManager->areEastSouthSlotsNotEmpty(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreEastSouthSlotsContainWinState(const Cordinates& CORDINATES) const{
-    return boardManager->areEastSouthSlotsContainWinState(CORDINATES);
+const bool BoardManagerTestSuite::executeAreEastSouthSlotsContainWinState(const Coordinates& COORDINATES) const{
+    return boardManager->areEastSouthSlotsContainWinState(COORDINATES);
 }
 
 // WEST-SOUTH:
-const bool BoardManagerTestSuite::executeIsPossibleToCheckWestSlots(const Cordinates& CORDINATES) const{
-    return boardManager->isPossibleToCheckWestSlots(CORDINATES);
+const bool BoardManagerTestSuite::executeIsPossibleToCheckWestSlots(const Coordinates& COORDINATES) const{
+    return boardManager->isPossibleToCheckWestSlots(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreWestSouthSlotsNotEmpty(const Cordinates& CORDINATES) const{
-    return boardManager->areWestSouthSlotsNotEmpty(CORDINATES);
+const bool BoardManagerTestSuite::executeAreWestSouthSlotsNotEmpty(const Coordinates& COORDINATES) const{
+    return boardManager->areWestSouthSlotsNotEmpty(COORDINATES);
 }
-const bool BoardManagerTestSuite::executeAreWestSouthSlotsContainWinState(const Cordinates& CORDINATES) const{
-    return boardManager->areWestSouthSlotsContainWinState(CORDINATES);
+const bool BoardManagerTestSuite::executeAreWestSouthSlotsContainWinState(const Coordinates& COORDINATES) const{
+    return boardManager->areWestSouthSlotsContainWinState(COORDINATES);
 }
     

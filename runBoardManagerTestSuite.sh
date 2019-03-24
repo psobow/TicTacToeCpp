@@ -17,20 +17,20 @@ fi
 g++ -c ./tests/BoardManagerTestSuite.cpp
 g++ -c ./source/BoardManager.cpp
 g++ -c ./source/GameOptionsManager.cpp
-g++ -c ./source/Cordinates.cpp
+g++ -c ./source/Coordinates.cpp
 
 #move files into object directory
 mv BoardManagerTestSuite.o ./object/tests
 mv BoardManager.o ./object
 mv GameOptionsManager.o ./object
-mv Cordinates.o ./object
+mv Coordinates.o ./object
 
 #link compiled files into test
 g++ -std=c++11 -o ./output/BoardManagerTestSuite.out \
 ./object/tests/ProvideMain.o ./object/tests/BoardManagerTestSuite.o \
 ./object/BoardManager.o \
 ./object/GameOptionsManager.o \
-./object/Cordinates.o
+./object/Coordinates.o
 
 
 #start test

@@ -9,10 +9,8 @@ GameOptionsManager* GameOptionsManager::getInstance(){
     return instance;
 }
 
-GameOptionsManager::GameOptionsManager() {}
-
-void GameOptionsManager::setGameStartingPlayer(const GameParticipant& PARTICIPANT){
-    gameStartingPlayer = PARTICIPANT;
+void GameOptionsManager::setGameStartingPlayer(const GameParticipant& PLAYER){
+    gameStartingPlayer = PLAYER;
 }
 
 void GameOptionsManager::switchHumanAndComputerChar() {
@@ -22,9 +20,8 @@ void GameOptionsManager::switchHumanAndComputerChar() {
 }
 
 void GameOptionsManager::setPointsRequiredForVictory(const int NEW_POINTS) {
-    if (NEW_POINTS < MIN_POINTS_FOR_VICTORY || NEW_POINTS > MAX_POINTS_FOR_VICTORY) {
-        std::string exceptionMessage = "Invalid new amount of points required for victory. Amount of points has to be integer from " 
-        + std::to_string(MIN_POINTS_FOR_VICTORY) + " to " + std::to_string(MAX_POINTS_FOR_VICTORY) + ".\n";
+    if (NEW_POINTS < MIN_POINTS_FOR_VICTORY || NEW_POINTS > boardSize) {
+        std::string exceptionMessage = "Invalid new amount of points required for victory. Recived argument = " + std::to_string(NEW_POINTS) + "\n";
         throw std::invalid_argument( exceptionMessage );
     }
     pointsRequiredForVictory = NEW_POINTS;
@@ -32,8 +29,7 @@ void GameOptionsManager::setPointsRequiredForVictory(const int NEW_POINTS) {
 
 void GameOptionsManager::setBoardSize(const int NEW_BOARD_SIZE){
     if (NEW_BOARD_SIZE < MIN_BOARD_SIZE || NEW_BOARD_SIZE > MAX_BOARD_SIZE) {
-        std::string exceptionMessage = "Invalid new board size. Board size has to be integer from " 
-        + std::to_string(MIN_BOARD_SIZE) + " to " + std::to_string(MAX_BOARD_SIZE) + ".\n";
+        std::string exceptionMessage = "Invalid new board size. Recived argument = " + std::to_string(NEW_BOARD_SIZE) + "\n";
         throw std::invalid_argument( exceptionMessage );
     }
     boardSize = NEW_BOARD_SIZE;
@@ -41,9 +37,7 @@ void GameOptionsManager::setBoardSize(const int NEW_BOARD_SIZE){
 
 const Participant GameOptionsManager::getEnumAssignedTo(const char CHAR) const {
     if(  (CHAR != EMPTY_SLOT_CHAR)  &&  (CHAR != humanChar)  &&  (CHAR != computerChar) ){
-        std::string exceptionMessage = "Invalid char. There is no Game Participant assigned to ";
-        exceptionMessage += CHAR;
-        exceptionMessage += ".\n";
+        std::string exceptionMessage = "Invalid char. There is no Game Participant assigned to " + std::to_string(CHAR) + "\n";
 
         throw std::invalid_argument( exceptionMessage );
     }
@@ -59,11 +53,11 @@ const Participant GameOptionsManager::getEnumAssignedTo(const char CHAR) const {
     }
 }
 
-const char GameOptionsManager::getCharAssignedTo(const Participant& PARTICIPANT) const {
-    if (PARTICIPANT == NONE){
+const char GameOptionsManager::getCharAssignedTo(const Participant& PLAYER) const {
+    if (PLAYER == NONE){
         return EMPTY_SLOT_CHAR;
 
-    } else if (PARTICIPANT == HUMAN){
+    } else if (PLAYER == HUMAN){
         return humanChar;
 
     } else {
@@ -71,12 +65,44 @@ const char GameOptionsManager::getCharAssignedTo(const Participant& PARTICIPANT)
     }
 }
 
+const int GameOptionsManager::getDepthBound(const int BOARD_SIZE) const {
+    switch (BOARD_SIZE) {
+        case 3:
+            return DEPTH_BOUND_3x3;
+
+        case 4:
+            return DEPTH_BOUND_4x4;
+
+        case 5:
+            return DEPTH_BOUND_5x5;           
+
+        case 6:
+            return DEPTH_BOUND_6x6;
+            
+        case 7:
+            return DEPTH_BOUND_7x7;
+            
+        case 8:
+            return DEPTH_BOUND_8x8;
+            
+        case 9:
+            return DEPTH_BOUND_9x9;
+            
+        case 10:
+            return DEPTH_BOUND_10x10;
+    
+        default:
+            break;
+    }
+    throw std::invalid_argument("Invalid argument. Recived argument = " + std::to_string(BOARD_SIZE) +"\n");
+}
+
 const Participant GameOptionsManager::getGameStartingPlayer() const {
     return gameStartingPlayer;
 }
 
-const Participant GameOptionsManager::getOppositePlayer(const Participant& PARTICIPANT) const {
-    return static_cast<Participant>( PARTICIPANT*(-1) );
+const Participant GameOptionsManager::getOppositePlayer(const Participant& PLAYER) const {
+    return static_cast<Participant>( PLAYER*(-1) );
 }
 
 const int GameOptionsManager::getPointsRequiredForVictory() const {
@@ -96,8 +122,4 @@ const int GameOptionsManager::getMinPointsForVictory() const{
 
 const int GameOptionsManager::getMaxBoardSize() const{
     return MAX_BOARD_SIZE;
-}
-
-const int GameOptionsManager::getMaxPointsForVictory() const{
-    return MAX_POINTS_FOR_VICTORY;
 }

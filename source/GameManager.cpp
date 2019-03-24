@@ -13,11 +13,12 @@ GameManager* GameManager::getInstance(){
 
 void GameManager::run(){
     std::cout << "Welcome in game Tic Tac Toe!\n";
-    std::cout << "You are facing unbeatable oponent, which use Min-Max algorithm to calculate next move.\n";
+    std::cout << "You are facing unconquerable oponent, which use Min-Max algorithm + Alpha & Beta pruning + Dynamic depth game-tree searching limiting, to calculate next move.\n";
     std::cout << "You can try as much as you wish, but the best what you can get is a draw.\n";
     std::cout << "I would wish you good luck, but it is not going to help any way.\n";
 
     MainMenuDecision mainMenuDecision;
+    OptionMenuDecision optionsMenuDecision;
     do {
         printMainMenu();
         mainMenuDecision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
@@ -28,7 +29,6 @@ void GameManager::run(){
                 break;
 
             case OPTIONS:
-                OptionMenuDecision optionsMenuDecision;
                 do {    
                     printOptionsMenu();
                     optionsMenuDecision = getOptionMenuDecision( MyStdIn::readNextIntFromValidScope(1,5) );
@@ -82,12 +82,12 @@ void GameManager::gameLoop() {
         Participant winner = playGame();
         boardManager->resetEverySlot();
         printCheers(winner);
-        decision = askToPlayAgain();
+        decision = askAndReadToPlayAgain();
     } while (decision == true);
 }
 
 Participant GameManager::playGame(){
-    Cordinates decision(0,0);
+    Coordinates decision(0,0);
     Participant winner;
     boardManager->printBoard();
 
@@ -98,9 +98,11 @@ Participant GameManager::playGame(){
     }
 
     while (true) {
-        std::cout << "(Playing as: " << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) << ") Your turn: \n";
+        std::cout << "(Playing as: [" << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) 
+                  << "], Points for win: [" << gameOptionsManager->getPointsRequiredForVictory() 
+                  << "]) Your turn: \n";
         
-        decision = askForValidHumanCordinatesDecision();
+        decision = askAndReadValidHumanCoordinatesDecision();
 
         boardManager->addNewCharacter(decision, Participant::HUMAN);
 
@@ -124,7 +126,7 @@ Participant GameManager::playGame(){
     }
 }
 
-Cordinates GameManager::askForValidHumanCordinatesDecision() const {
+Coordinates GameManager::askAndReadValidHumanCoordinatesDecision() const {
     int lastValidIndex = gameOptionsManager->getBoardSize()-1;
     int row = 0, column = 0;
     bool isValid = false;
@@ -136,19 +138,19 @@ Cordinates GameManager::askForValidHumanCordinatesDecision() const {
         std::cout << "Enter COLUMN: ";
         column = MyStdIn::readNextIntFromValidScope( 0, lastValidIndex );
 
-        if( boardManager->isSlotEmpty(Cordinates(row, column)) ){
+        if( boardManager->isSlotEmpty(Coordinates(row, column)) ){
             isValid = true;
         } else {
             isValid = false;
             std::cerr << "ERROR. Choosen cordinates are already taken!\n";
-            std::cerr << "Try again: \n";
+            std::cerr << "Enter again: \n";
         }
     } while ( isValid == false );
 
-    return Cordinates(row, column);
+    return Coordinates(row, column);
 }
 
-bool GameManager::askToPlayAgain() const {
+bool GameManager::askAndReadToPlayAgain() const {
     std::vector<char> validChars {'Y', 'y', 'N', 'n'};
     std::cout << "Do you want to play again? Y/y = Yes or N/n = No\nEnter choice: ";
     char enteredChar = MyStdIn::readNextCharWithValidation( validChars );
@@ -159,11 +161,13 @@ bool GameManager::askToPlayAgain() const {
 void GameManager::printCheers(const Participant& winner) const {
     switch (winner) {
         case Participant::HUMAN:
-            std::cout << "You had to cheat to acomplished that...\n";
+            std::cout << "Magnificent accomplishment! How did you do that ?! Wanna try again ? \n";
             break;
+
         case Participant::NONE:
-            std::cout << "Excelent! You have managed to draw!\n";
+            std::cout << "Excelent! You managed to draw!\n";
             break;
+
         case Participant::COMPUTER:
             std::cout << "Eazy game for computer.\n";
             break;
@@ -184,7 +188,7 @@ void GameManager::printOptionsMenu() const {
     
     std::cout << EIGHT_SPACE_BARS << "2. Switch game starting player ( Current player: " << gameStartingplayer << " )\n";
     std::cout << EIGHT_SPACE_BARS << "3. Set new board size ( Current size: " << gameOptionsManager->getBoardSize() << " )\n";
-    std::cout << EIGHT_SPACE_BARS << "4. Set points required for victory ( Current points : " << gameOptionsManager->getPointsRequiredForVictory() << " )\n";
+    std::cout << EIGHT_SPACE_BARS << "4. Set points required for victory ( Current points: " << gameOptionsManager->getPointsRequiredForVictory() << " )\n";
     std::cout << EIGHT_SPACE_BARS << "5. Exit options\n";
     std::cout << EIGHT_SPACE_BARS << "Enter choice: ";
 }
@@ -201,7 +205,7 @@ void GameManager::executeOptionsDecision(const GameManager::OptionMenuDecision& 
                 gameOptionsManager->switchHumanAndComputerChar();
                 break;
 
-            case SWITCH_STARTING_PLAYERS:
+            case SWITCH_STARTING_PLAYER:
                 gameOptionsManager->setGameStartingPlayer(
                     gameOptionsManager->getOppositePlayer(
                         gameOptionsManager->getGameStartingPlayer()

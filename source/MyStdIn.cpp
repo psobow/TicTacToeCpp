@@ -13,7 +13,7 @@ const int MyStdIn::readNextInt(){
             number = std::stoi(inputLine);
         } catch (const std::exception& e) {
             std::cerr << "ERROR. The entered number must be an integer.\n";
-            std::cerr << "Try again: ";
+            std::cerr << "Enter again: ";
             isValid = false;
         }
     } while (isValid == false);
@@ -31,7 +31,7 @@ const int MyStdIn::readNextIntFromValidScope(const int BOTTOM, const int TOP){
         number = readNextInt();
         if(number < BOTTOM || number > TOP){
             std::cerr << "ERROR. The entered number must be integer from " << BOTTOM << " to " << TOP << ".\n";
-            std::cerr << "Try again: ";
+            std::cerr << "Enter again: ";
             isValid = false;
         }
 
@@ -48,12 +48,12 @@ const char MyStdIn::readNextCharWithValidation(const std::vector<char> VALID_CHA
         isValid = true;
         std::getline(std::cin, inputLine);
         if ( isVectorContainChar(VALID_CHARS, inputLine[0]) == false ){
-            std::cerr << "ERROR. The entered character must be one of this: [ ";
+            std::cerr << "ERROR. The entered character must be one of : [ ";
             for (int i = 0; i < VALID_CHARS.size(); i++){
                 std::cerr << VALID_CHARS[i] << " ";
             }
             std::cerr << "].\n";
-            std::cerr << "Try again: ";
+            std::cerr << "Enter again: ";
             isValid = false;
         }
     } while (isValid == false);

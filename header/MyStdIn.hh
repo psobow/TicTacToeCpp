@@ -8,6 +8,7 @@ class MyStdIn {
 public:    
     const static int readNextInt();
     const static int readNextIntFromValidScope(const int BOTTOM, const int TOP);
+    
     const static char readNextCharWithValidation(const std::vector<char> VALID_CHARS);
 
 private:

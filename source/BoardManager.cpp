@@ -10,7 +10,7 @@ BoardManager* BoardManager::getInstance() {
 }
 
 BoardManager::BoardManager(){
-    resetEverySlotAndSetSize( gameOptionsManager->getMinBoardSize() );
+    resetEverySlotAndSetSize( gameOptionsManager->getBoardSize() );
 }
 
 void BoardManager::resetEverySlotAndSetSize(const int NEW_BOARD_SIZE) {
@@ -35,31 +35,31 @@ void BoardManager::resetEverySlot() {
     resetEverySlotAndSetSize( gameOptionsManager->getBoardSize() );
 }
 
-void BoardManager::resetSlot(const Cordinates& CORDINATES) {
-    const bool IS_VALID = (isSlotEmpty(CORDINATES) == false);
+void BoardManager::resetSlot(const Coordinates& COORDINATES) {
+    const bool IS_VALID = (isSlotEmpty(COORDINATES) == false);
     if(IS_VALID){
-        board[CORDINATES.getRow()][CORDINATES.getColumn()] = gameOptionsManager->getCharAssignedTo(Participant::NONE);
+        board[COORDINATES.getRow()][COORDINATES.getColumn()] = gameOptionsManager->getCharAssignedTo(Participant::NONE);
         quantityOfTakenSlots--;
     }
 }
 
-const bool BoardManager::addNewCharacter(const Cordinates& CORDINATES, const Participant& PLAYER) {
+const bool BoardManager::addNewCharacter(const Coordinates& COORDINATES, const Participant& PLAYER) {
     if ( PLAYER != Participant::HUMAN && PLAYER != Participant::COMPUTER ){
         throw std::invalid_argument("Invalid player.\n");
     }
 
-    const bool IS_VALID = ( isSlotEmpty(CORDINATES) );
+    const bool IS_VALID = ( isSlotEmpty(COORDINATES) );
     if (IS_VALID){
         const char NEW_CHARACTER = gameOptionsManager->getCharAssignedTo(PLAYER);
-        board[CORDINATES.getRow()][CORDINATES.getColumn()] = NEW_CHARACTER;
+        board[COORDINATES.getRow()][COORDINATES.getColumn()] = NEW_CHARACTER;
         quantityOfTakenSlots++;
         return true;
     }
     return false;
 }
 
-const bool BoardManager::isSlotEmpty(const Cordinates& CORDINATES) const {
-    return ( board[CORDINATES.getRow()][CORDINATES.getColumn()] == gameOptionsManager->getCharAssignedTo(Participant::NONE) );
+const bool BoardManager::isSlotEmpty(const Coordinates& COORDINATES) const {
+    return ( board[COORDINATES.getRow()][COORDINATES.getColumn()] == gameOptionsManager->getCharAssignedTo(Participant::NONE) );
 }
 
 const bool BoardManager::isAnyEmptySlot() const {
@@ -70,14 +70,14 @@ const int BoardManager::getQuantityOfTakenSlots() const {
     return quantityOfTakenSlots;
 }
 
-std::vector<Cordinates> BoardManager::getEveryEmptySlotCordinates() const {
-    std::vector<Cordinates> emptySlots;
+std::vector<Coordinates> BoardManager::getEveryEmptySlotCoordinates() const {
+    std::vector<Coordinates> emptySlots;
     const int BOARD_SIZE = gameOptionsManager->getBoardSize();
 
     for(int row = 0; row < BOARD_SIZE; row++){
         for(int col = 0; col < BOARD_SIZE; col++){
-            if( isSlotEmpty(Cordinates(row, col)) ){
-                emptySlots.push_back(Cordinates(row, col));
+            if( isSlotEmpty(Coordinates(row, col)) ){
+                emptySlots.push_back(Coordinates(row, col));
             }
         }
     }
@@ -129,7 +129,7 @@ const Participant BoardManager::findWinner() const {
 
     for(int row = 0; row < BOARD_SIZE; row++){
         for(int col = 0; col < BOARD_SIZE; col++){
-            Cordinates currentSlot(row,col);
+            Coordinates currentSlot(row,col);
 
             if(isSlotEmpty(currentSlot) == false){ // Execute algorithm only if slot is taken by one of players
 
@@ -179,31 +179,31 @@ const Participant BoardManager::findWinner() const {
 
 // EAST:
 
-const bool BoardManager::isPossibleToCheckEastSlots(const Cordinates& CORDINATES) const {
+const bool BoardManager::isPossibleToCheckEastSlots(const Coordinates& COORDINATES) const {
     return (
-            CORDINATES.getColumn() + gameOptionsManager->getPointsRequiredForVictory()
+            COORDINATES.getColumn() + gameOptionsManager->getPointsRequiredForVictory()
             <= 
             gameOptionsManager->getBoardSize()
     );
 }
 
-const bool BoardManager::areEastSlotsNotEmpty(const Cordinates& CORDINATES) const {
+const bool BoardManager::areEastSlotsNotEmpty(const Coordinates& COORDINATES) const {
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
 
     for(int col = 1; col < POINTS_REQUIRED_FOR_VICTORY; col++){
-        if (isSlotEmpty(Cordinates(ROW, COLUMN+col)) == true) {
+        if (isSlotEmpty(Coordinates(ROW, COLUMN+col)) == true) {
             return false;
         }
     }
     return true;
 }
 
-const bool BoardManager::areEastSlotsContainWinState(const Cordinates& CORDINATES) const {
+const bool BoardManager::areEastSlotsContainWinState(const Coordinates& COORDINATES) const {
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
     int howManyEqualPairs = 0;
 
     for(int col = 1; col < POINTS_REQUIRED_FOR_VICTORY; col++){
@@ -216,31 +216,31 @@ const bool BoardManager::areEastSlotsContainWinState(const Cordinates& CORDINATE
 
 // SOUTH:
 
-const bool BoardManager::isPossibleToCheckSouthSlots(const Cordinates& CORDINATES) const {
+const bool BoardManager::isPossibleToCheckSouthSlots(const Coordinates& COORDINATES) const {
     return (
-            CORDINATES.getRow() + gameOptionsManager->getPointsRequiredForVictory()
+            COORDINATES.getRow() + gameOptionsManager->getPointsRequiredForVictory()
             <=
             gameOptionsManager->getBoardSize()
     );
 }
 
-const bool BoardManager::areSouthSlotsNotEmpty(const Cordinates& CORDINATES) const {
+const bool BoardManager::areSouthSlotsNotEmpty(const Coordinates& COORDINATES) const {
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
 
     for(int row = 1; row < POINTS_REQUIRED_FOR_VICTORY; row++){
-        if(isSlotEmpty(Cordinates(ROW+row, COLUMN)) == true){
+        if(isSlotEmpty(Coordinates(ROW+row, COLUMN)) == true){
             return false;
         }
     }
     return true;
 }
 
-const bool BoardManager::areSouthSlotsContainWinState(const Cordinates& CORDINATES) const {
+const bool BoardManager::areSouthSlotsContainWinState(const Coordinates& COORDINATES) const {
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
     int howManyEqualPairs = 0;
 
     for(int row = 1; row < POINTS_REQUIRED_FOR_VICTORY; row++){
@@ -253,23 +253,23 @@ const bool BoardManager::areSouthSlotsContainWinState(const Cordinates& CORDINAT
 
 // EAST-SOUTH:
 
-const bool BoardManager::areEastSouthSlotsNotEmpty(const Cordinates& CORDINATES) const{
+const bool BoardManager::areEastSouthSlotsNotEmpty(const Coordinates& COORDINATES) const{
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
 
     for(int i = 1; i < POINTS_REQUIRED_FOR_VICTORY; i++){
-        if(isSlotEmpty(Cordinates(ROW+i, COLUMN+i)) == true){
+        if(isSlotEmpty(Coordinates(ROW+i, COLUMN+i)) == true){
             return false;
         }
     }
     return true;
 }
 
-const bool BoardManager::areEastSouthSlotsContainWinState(const Cordinates& CORDINATES) const{
+const bool BoardManager::areEastSouthSlotsContainWinState(const Coordinates& COORDINATES) const{
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
 
     int howManyEqualPairs = 0;
     for(int i = 1; i < POINTS_REQUIRED_FOR_VICTORY; i++) {
@@ -282,31 +282,31 @@ const bool BoardManager::areEastSouthSlotsContainWinState(const Cordinates& CORD
 
 // WEST-SOUTH:
 
-const bool BoardManager::isPossibleToCheckWestSlots(const Cordinates& CORDINATES) const {
+const bool BoardManager::isPossibleToCheckWestSlots(const Coordinates& COORDINATES) const {
     return (
-            CORDINATES.getColumn() - gameOptionsManager->getPointsRequiredForVictory() >= -1
+            COORDINATES.getColumn() - gameOptionsManager->getPointsRequiredForVictory() >= -1
             && 
-            CORDINATES.getColumn() < gameOptionsManager->getBoardSize()
+            COORDINATES.getColumn() < gameOptionsManager->getBoardSize()
     );
 }
 
-const bool BoardManager::areWestSouthSlotsNotEmpty(const Cordinates& CORDINATES) const{
+const bool BoardManager::areWestSouthSlotsNotEmpty(const Coordinates& COORDINATES) const{
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
 
     for(int i = 1; i < POINTS_REQUIRED_FOR_VICTORY; i++){
-        if(isSlotEmpty(Cordinates(ROW+i, COLUMN-i)) == true){
+        if(isSlotEmpty(Coordinates(ROW+i, COLUMN-i)) == true){
             return false;
         }
     }
     return true;
 }
 
-const bool BoardManager::areWestSouthSlotsContainWinState(const Cordinates& CORDINATES) const{
+const bool BoardManager::areWestSouthSlotsContainWinState(const Coordinates& COORDINATES) const{
     const int POINTS_REQUIRED_FOR_VICTORY = gameOptionsManager->getPointsRequiredForVictory();
-    const int ROW = CORDINATES.getRow();
-    const int COLUMN = CORDINATES.getColumn();
+    const int ROW = COORDINATES.getRow();
+    const int COLUMN = COORDINATES.getColumn();
     int howManyEqualPairs = 0;
 
     for(int i = 1; i < POINTS_REQUIRED_FOR_VICTORY; i++) {

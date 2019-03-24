@@ -35,36 +35,36 @@ SCENARIO( "executeTheBestComputerMove", "[MinMaxManager]" ){
             minMaxManager->executeTheBestComputerMove();
 
             THEN( "Result" ){
-                REQUIRE( bridgeToTestClass.getTheBestMove().equals(Cordinates(0,0)) );
+                REQUIRE( bridgeToTestClass.getTheBestMove().equals(Coordinates(0,0)) );
             }
         }
 
         WHEN( "CASE 2: ") {
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,2), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::HUMAN);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::COMPUTER);
 
             minMaxManager->executeTheBestComputerMove();
 
-            THEN( "Result" ){ // expected move Cordinates (0,2)
-                REQUIRE( bridgeToTestClass.getTheBestMove().equals(Cordinates(0,2)) );
+            THEN( "Result" ){ // expected move Coordinates (0,2)
+                REQUIRE( bridgeToTestClass.getTheBestMove().equals(Coordinates(0,2)) );
             }
         }
 
         WHEN( "CASE 3: ") { // computer will lose in next oponent move in every case. in this scenario expceted computer move is first empty slot
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(1,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(1,1), Participant::HUMAN);
 
             minMaxManager->executeTheBestComputerMove();
 
-            THEN( "Result" ){ // expected move Cordinates (0,1)
-                REQUIRE( bridgeToTestClass.getTheBestMove().equals(Cordinates(0,1)) );
+            THEN( "Result" ){ // expected move Coordinates (0,1)
+                REQUIRE( bridgeToTestClass.getTheBestMove().equals(Coordinates(0,1)) );
             }
         }
     }
@@ -79,12 +79,12 @@ SCENARIO( "scoreGameFromComputerPOV", "[MinMaxManager]" ){
         boardManager->resetEverySlot();
 
         WHEN( "CASE 1: Board contatin win state for Computer" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::COMPUTER);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::HUMAN);
 
             const int DEPTH = 1;
             const int RESULT = bridgeToTestClass.scoreGameFromComputerPOV(DEPTH);
@@ -95,12 +95,12 @@ SCENARIO( "scoreGameFromComputerPOV", "[MinMaxManager]" ){
         }
 
         WHEN( "CASE 2: Board contatin win state for Player" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::HUMAN);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::COMPUTER);
 
             const int DEPTH = 1;
             const int RESULT = bridgeToTestClass.scoreGameFromComputerPOV(DEPTH);
@@ -111,13 +111,13 @@ SCENARIO( "scoreGameFromComputerPOV", "[MinMaxManager]" ){
         }
 
         WHEN( "CASE 3: Board does not contatin win state" ){
-            boardManager->addNewCharacter(Cordinates(0,0), Participant::COMPUTER);
-            boardManager->addNewCharacter(Cordinates(0,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(0,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,0), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(0,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(0,2), Participant::COMPUTER);
 
-            boardManager->addNewCharacter(Cordinates(2,0), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,1), Participant::HUMAN);
-            boardManager->addNewCharacter(Cordinates(2,2), Participant::COMPUTER);
+            boardManager->addNewCharacter(Coordinates(2,0), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,1), Participant::HUMAN);
+            boardManager->addNewCharacter(Coordinates(2,2), Participant::COMPUTER);
 
             const int DEPTH = 1;
             const int RESULT = bridgeToTestClass.scoreGameFromComputerPOV(DEPTH);
@@ -156,8 +156,8 @@ const int MinMaxManagerTestSuite::scoreGameFromComputerPOV(const int DEPTH) cons
     return minMaxManager->scoreGameFromComputerPOV(DEPTH);
 }
 
-const int MinMaxManagerTestSuite::calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth){
-    return minMaxManager->calculateTheBestMoveFor(TURN_TAKING_PLAYER, depth);
+const int MinMaxManagerTestSuite::calculateTheBestMoveFor(const Participant& TURN_TAKING_PLAYER, int depth, int alpha, int beta){
+    return minMaxManager->calculateTheBestMoveFor(TURN_TAKING_PLAYER, depth, alpha, beta);
 }
 
 const int MinMaxManagerTestSuite::getMaxValueIndex(const std::vector<int>& VEC) const{
@@ -167,6 +167,6 @@ const int MinMaxManagerTestSuite::getMinValueIndex(const std::vector<int>& VEC) 
     return minMaxManager->getMinValueIndex(VEC);
 }
 
-const Cordinates& MinMaxManagerTestSuite::getTheBestMove() const{
-    return minMaxManager->theBestMoveCordinates;
+const Coordinates& MinMaxManagerTestSuite::getTheBestMove() const{
+    return minMaxManager->theBestMoveCoordinates;
 }
