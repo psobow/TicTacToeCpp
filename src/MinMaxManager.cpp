@@ -54,7 +54,7 @@ const int MinMaxManager::calculateTheBestMoveFor(const Participant& TURN_TAKING_
     int currentBestScore;
 
     // This part execute possible moves and evaluate states of the game in order to calculate the best computer move.
-    for(int i = 0; i < availableCoordinates.size(); i++)
+    for(unsigned int i = 0; i < availableCoordinates.size(); i++)
     {
         boardManager->addNewCharacter(availableCoordinates[i], TURN_TAKING_PLAYER);
         const int CURRENT_BOARD_SCORE_FROM_COMPUTER_POV = calculateTheBestMoveFor( 
@@ -132,7 +132,7 @@ const int MinMaxManager::getMaxValueIndex(const std::vector<int>& VEC) const
 
     int result = 0;
     int maxValue = VEC[0];
-    for(int i = 1; i < VEC.size(); i++)
+    for(unsigned int i = 1; i < VEC.size(); i++)
     {
         if(VEC[i] > maxValue)
         {
@@ -152,7 +152,7 @@ const int MinMaxManager::getMinValueIndex(const std::vector<int>& VEC) const
     
     int result = 0;
     int minValue = VEC[0];
-    for(int i = 1; i < VEC.size(); i++)
+    for(unsigned int i = 1; i < VEC.size(); i++)
     {
         if(VEC[i] < minValue)
         {

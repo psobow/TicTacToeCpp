@@ -16,7 +16,8 @@ const int MyStdIn::readNextInt()
             number = std::stoi(inputLine);
         } 
         catch (const std::exception& e) 
-        {
+        {   
+            std::cerr << e.what() << "\n";
             std::cerr << "ERROR. The entered number must be an integer.\n";
             std::cerr << "Enter again: ";
             isValid = false;
@@ -61,7 +62,7 @@ const char MyStdIn::readNextCharWithValidation(const std::vector<char> VALID_CHA
         if (isVectorContainChar(VALID_CHARS, inputLine[0]) == false )
         {
             std::cerr << "ERROR. The entered character must be one of : [ ";
-            for (int i = 0; i < VALID_CHARS.size(); i++)
+            for (unsigned int i = 0; i < VALID_CHARS.size(); i++)
             {
                 std::cerr << VALID_CHARS[i] << " ";
             }
@@ -77,7 +78,7 @@ const char MyStdIn::readNextCharWithValidation(const std::vector<char> VALID_CHA
 
 const bool MyStdIn::isVectorContainChar(const std::vector<char> VEC, const char CHARACTER)
 {
-    for (int i = 0; i < VEC.size(); i++)
+    for (unsigned int i = 0; i < VEC.size(); i++)
     {
         if (VEC[i] == CHARACTER)
         {

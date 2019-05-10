@@ -1,4 +1,4 @@
-#include "../../libs/catch.hpp"
+#include "../libs/catch.hpp"
 
 #include "BoardManagerTestSuite.hh"
 

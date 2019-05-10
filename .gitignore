@@ -1,4 +1,4 @@
 .vscode/
 libs/catch.hpp.gch
-Build/
-Premake-generated-files/
+build/
+premake-generated-files/

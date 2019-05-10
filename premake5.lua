@@ -1,5 +1,5 @@
 workspace "Tic-Tac-Toe"
-	location "Premake-generated-files"
+	location "premake-generated-files"
 	configurations { "Debug", "Release" }
 
 
@@ -8,8 +8,8 @@ project "Tic-Tac-Toe"
 	language "C++"
 	cppdialect "C++11"
 
-	targetdir ("Build/Bin/%{prj.name}/%{cfg.longname}")
-	objdir ("Build/Obj/%{prj.name}/%{cfg.longname}")
+	targetdir ("build/bin/%{prj.name}/%{cfg.longname}")
+	objdir ("build/obj/%{prj.name}/%{cfg.longname}")
 
 	files { "./include/*.hpp", "./src/*.cpp" }
 
@@ -24,6 +24,8 @@ project "Tic-Tac-Toe"
 	filter {}
 
 project "Tests"
+	language "C++"
+	cppdialect "C++11"
 	kind "ConsoleApp"
 	includedirs "./libs"
 
@@ -36,8 +38,8 @@ project "Tests"
 		"./src/MyStdIn.cpp" }
 
 
-	targetdir ("Build/Bin/%{prj.name}/%{cfg.longname}")
-	objdir ("Build/Obj/%{prj.name}/%{cfg.longname}")
+	targetdir ("build/bin/%{prj.name}/%{cfg.longname}")
+	objdir ("build/obj/%{prj.name}/%{cfg.longname}")
 	
 	filter { "configurations:Debug" }
 		defines "DEBUG"
@@ -48,4 +50,3 @@ project "Tests"
       		optimize "On"
 	
 	filter {}
-
