@@ -1,7 +1,7 @@
 #ifndef BOARD_MANAGER_TEST_H
 #define BOARD_MANAGER_TEST_H
 
-#include "../header/BoardManager.hh"
+#include "../include/BoardManager.hpp"
 
 // this namespace should never be used outside tests
 class BoardManagerTestSuite {

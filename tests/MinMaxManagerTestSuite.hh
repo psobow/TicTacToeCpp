@@ -1,7 +1,7 @@
 #ifndef MINMAX_MANAGER_TEST_H
 #define MINMAX_MANAGER_TEST_H
 
-#include "../header/MinMaxManager.hh"
+#include "../include/MinMaxManager.hpp"
 
 // this namespace should never be used outside tests
 

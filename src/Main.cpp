@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "../header/GameManager.hh"
+#include "../include/GameManager.hpp"
 
 
-int main() {
+int main() 
+{
     GameManager *gameManager = GameManager::getInstance();
-    gameManager->run();  
-    
+    gameManager->run();      
     return 0;
 }
 

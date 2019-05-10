@@ -1,17 +1,20 @@
-#include "../header/GameManager.hh"
+#include "../include/GameManager.hpp"
 
 const std::string GameManager::EIGHT_SPACE_BARS = "        ";
 
 GameManager* GameManager::instance = nullptr;
 
-GameManager* GameManager::getInstance(){
-    if(instance == nullptr){
+GameManager* GameManager::getInstance()
+{
+    if(instance == nullptr)
+    {
         instance = new GameManager();
     }
     return instance;
 }
 
-void GameManager::run(){
+void GameManager::run()
+{
     std::cout << "Welcome in game Tic Tac Toe!\n";
     std::cout << "You are facing unconquerable oponent, which use Min-Max algorithm + Alpha & Beta pruning + Dynamic depth limiting in game-tree searching, to calculate next move.\n";
     std::cout << "You can try as much as you wish, but the best what you can get is a draw.\n";
@@ -19,7 +22,8 @@ void GameManager::run(){
 
     MainMenuDecision mainMenuDecision;
     OptionMenuDecision optionsMenuDecision;
-    do {
+    do 
+    {
         printMainMenu();
         mainMenuDecision = getMainMenuDecision( MyStdIn::readNextIntFromValidScope(1,3) );
         switch (mainMenuDecision)
@@ -29,11 +33,13 @@ void GameManager::run(){
                 break;
 
             case OPTIONS:
-                do {    
+                do 
+                {    
                     printOptionsMenu();
                     optionsMenuDecision = getOptionMenuDecision( MyStdIn::readNextIntFromValidScope(1,5) );
                     executeOptionsDecision(optionsMenuDecision);
-                } while (optionsMenuDecision != EXIT_OPTIONS);
+                } 
+                while (optionsMenuDecision != EXIT_OPTIONS);
                 break;
 
             case EXIT:
@@ -47,7 +53,8 @@ void GameManager::run(){
 }
 
 
-void GameManager::printMainMenu() const {
+void GameManager::printMainMenu() const 
+{
     std::cout << "\nMAIN MENU:\n";
     std::cout << "1.Play\n";
     std::cout << "2.Options\n";
@@ -55,49 +62,53 @@ void GameManager::printMainMenu() const {
     std::cout << "Enter choice: ";
 }
 
-GameManager::MainMenuDecision GameManager::getMainMenuDecision(const int DECISION_INDEX) const {
-    const int FIRST_OPTION_INDEX = 1;
-    const int LAST_OPTION_INDEX = 3;
-
-    if( DECISION_INDEX < FIRST_OPTION_INDEX || DECISION_INDEX > LAST_OPTION_INDEX){
+GameManager::MainMenuDecision GameManager::getMainMenuDecision(const int DECISION_INDEX) const 
+{
+    if (DECISION_INDEX < this->MAIN_MENU_FIRST_OPTION_INDEX || DECISION_INDEX > this->MAIN_MENU_LAST_OPTION_INDEX)
+    {
         throw std::invalid_argument("Invalid index for main menu decision.\n");
     }
     return static_cast<GameManager::MainMenuDecision> (DECISION_INDEX);
 }
 
 
-GameManager::OptionMenuDecision GameManager::getOptionMenuDecision(const int DECISION_INDEX) const {
-    const int FIRST_OPTION_INDEX = 1;
-    const int LAST_OPTION_INDEX = 5;
-
-    if( DECISION_INDEX < FIRST_OPTION_INDEX || DECISION_INDEX > LAST_OPTION_INDEX){
+GameManager::OptionMenuDecision GameManager::getOptionMenuDecision(const int DECISION_INDEX) const 
+{
+    if( DECISION_INDEX < this->OPTION_MENU_FIRST_INDEX || DECISION_INDEX > this->OPTION_MENU_LAST_INDEX)
+    {
         throw std::invalid_argument("Invalid index for option menu decision.\n");
     }
     return static_cast<GameManager::OptionMenuDecision> (DECISION_INDEX);
 }
 
-void GameManager::gameLoop() {
+void GameManager::gameLoop() 
+{
     bool decision;
-    do {
+    do 
+    {
         Participant winner = playGame();
         boardManager->resetEverySlot();
         printCheers(winner);
         decision = askAndReadToPlayAgain();
-    } while (decision == true);
+    } 
+    while (decision == true);
 }
 
-Participant GameManager::playGame(){
+Participant GameManager::playGame()
+{
     Coordinates decision(0,0);
     Participant winner;
     boardManager->printBoard();
 
-    if( gameOptionsManager->getGameStartingPlayer() == Participant::COMPUTER){
+    if (gameOptionsManager->getGameStartingPlayer() == Participant::COMPUTER)
+    {
         std::cout << "\nComputer move:\n";
         minMaxManager->executeTheBestComputerMove();
         boardManager->printBoard();
     }
 
-    while (true) {
+    while (true) 
+    {
         std::cout << "(Playing as: [" << gameOptionsManager->getCharAssignedTo(Participant::HUMAN) 
                   << "], Points for win: [" << gameOptionsManager->getPointsRequiredForVictory() 
                   << "]) Your turn: \n";
@@ -109,7 +120,8 @@ Participant GameManager::playGame(){
         boardManager->printBoard();
         
         winner = boardManager->findWinner();
-        if ( boardManager->isAnyEmptySlot() == false || winner != Participant::NONE ) {
+        if ( boardManager->isAnyEmptySlot() == false || winner != Participant::NONE ) 
+        {
             return winner;
         }
         
@@ -120,37 +132,45 @@ Participant GameManager::playGame(){
         boardManager->printBoard();
 
         winner = boardManager->findWinner();
-        if ( boardManager->isAnyEmptySlot() == false || winner != Participant::NONE ) {
+        if (boardManager->isAnyEmptySlot() == false || winner != Participant::NONE) 
+        {
             return winner;
         }
     }
 }
 
-Coordinates GameManager::askAndReadValidHumanCoordinatesDecision() const {
+Coordinates GameManager::askAndReadValidHumanCoordinatesDecision() const 
+{
     int lastValidIndex = gameOptionsManager->getBoardSize()-1;
     int row = 0, column = 0;
     bool isValid = false;
 
-    do {         
+    do 
+    {         
         std::cout << "Enter ROW: ";  
-        row = MyStdIn::readNextIntFromValidScope( 0, lastValidIndex );
+        row = MyStdIn::readNextIntFromValidScope(0, lastValidIndex);
 
         std::cout << "Enter COLUMN: ";
-        column = MyStdIn::readNextIntFromValidScope( 0, lastValidIndex );
+        column = MyStdIn::readNextIntFromValidScope(0, lastValidIndex);
 
-        if( boardManager->isSlotEmpty(Coordinates(row, column)) ){
+        if (boardManager->isSlotEmpty(Coordinates(row, column)))
+        {
             isValid = true;
-        } else {
+        } 
+        else 
+        {
             isValid = false;
             std::cerr << "ERROR. Choosen cordinates are already taken!\n";
             std::cerr << "Enter again: \n";
         }
-    } while ( isValid == false );
+    } 
+    while ( isValid == false );
 
     return Coordinates(row, column);
 }
 
-bool GameManager::askAndReadToPlayAgain() const {
+bool GameManager::askAndReadToPlayAgain() const 
+{
     std::vector<char> validChars {'Y', 'y', 'N', 'n'};
     std::cout << "Do you want to play again? Y/y = Yes or N/n = No\nEnter choice: ";
     char enteredChar = MyStdIn::readNextCharWithValidation( validChars );
@@ -158,8 +178,10 @@ bool GameManager::askAndReadToPlayAgain() const {
     return (enteredChar == 'Y' || enteredChar == 'y') ? true : false;
 }
 
-void GameManager::printCheers(const Participant& winner) const {
-    switch (winner) {
+void GameManager::printCheers(const Participant& winner) const 
+{
+    switch (winner) 
+    {
         case Participant::HUMAN:
             std::cout << "Magnificent accomplishment! How did you do that ?! Wanna try again ? \n";
             break;
@@ -177,7 +199,8 @@ void GameManager::printCheers(const Participant& winner) const {
     }
 }
 
-void GameManager::printOptionsMenu() const {
+void GameManager::printOptionsMenu() const 
+{
     std::string gameStartingplayer = "";
     (gameOptionsManager->getGameStartingPlayer() == Participant::HUMAN) ? gameStartingplayer = "HUMAN" : gameStartingplayer = "COMPUTER";
 
@@ -193,14 +216,16 @@ void GameManager::printOptionsMenu() const {
     std::cout << EIGHT_SPACE_BARS << "Enter choice: ";
 }
 
-void GameManager::executeOptionsDecision(const GameManager::OptionMenuDecision& DECISION) {
+void GameManager::executeOptionsDecision(const GameManager::OptionMenuDecision& DECISION) 
+{
     const int MIN_BOARD_SIZE = gameOptionsManager->getMinBoardSize();
     const int MAX_BOARD_SIZE = gameOptionsManager->getMaxBoardSize();
 
     const int MIN_POINTS_FOR_VICTORY = gameOptionsManager->getMinPointsForVictory();
     const int MAX_POINTS_FOR_VICTORY = gameOptionsManager->getBoardSize();
 
-        switch (DECISION){
+        switch (DECISION)
+        {
             case SWITCH_SYMBOLS:
                 gameOptionsManager->switchHumanAndComputerChar();
                 break;
@@ -226,7 +251,8 @@ void GameManager::executeOptionsDecision(const GameManager::OptionMenuDecision& 
                 << "Minimal amount of points: " << MIN_POINTS_FOR_VICTORY 
                 << " maximum amount of points: "<< MAX_POINTS_FOR_VICTORY << "\n";
                 std::cout << EIGHT_SPACE_BARS << EIGHT_SPACE_BARS << "Enter choice: ";
-                gameOptionsManager->setPointsRequiredForVictory( MyStdIn::readNextIntFromValidScope(MIN_POINTS_FOR_VICTORY, MAX_POINTS_FOR_VICTORY) );
+                gameOptionsManager->setPointsRequiredForVictory( 
+                    MyStdIn::readNextIntFromValidScope(MIN_POINTS_FOR_VICTORY, MAX_POINTS_FOR_VICTORY) );
                 break;
 
             case EXIT_OPTIONS:

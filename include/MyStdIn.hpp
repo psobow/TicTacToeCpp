@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 
-class MyStdIn {
+class MyStdIn 
+{
 public:    
     const static int readNextInt();
     const static int readNextIntFromValidScope(const int BOTTOM, const int TOP);

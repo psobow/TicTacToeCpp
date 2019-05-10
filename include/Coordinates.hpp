@@ -1,9 +1,10 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-#include "GameOptionsManager.hh"
+#include "GameOptionsManager.hpp"
 
-class Coordinates {
+class Coordinates 
+{
 public:
     Coordinates(const int ROW, const int COL);
 

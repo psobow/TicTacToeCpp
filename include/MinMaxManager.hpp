@@ -1,11 +1,13 @@
 #ifndef MINMAX_MANAGER_H
 #define MINMAX_MANAGER_H
 
-#include "BoardManager.hh"
+#include "BoardManager.hpp"
 #include <algorithm> // for function std::max
 #include <chrono> // for time measurement
 
-class MinMaxManager { friend class MinMaxManagerTestSuite;
+class MinMaxManager 
+{ 
+    friend class MinMaxManagerTestSuite;
 public:
     static MinMaxManager* getInstance();
     ~MinMaxManager() {};

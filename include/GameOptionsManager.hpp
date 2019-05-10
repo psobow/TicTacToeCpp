@@ -5,9 +5,11 @@
 #include <stdexcept>
 
 
-class GameOptionsManager {
+class GameOptionsManager 
+{
 public:
-    enum GameParticipant {
+    enum GameParticipant 
+    {
         COMPUTER = -1, NONE = 0, HUMAN = 1
     };
 

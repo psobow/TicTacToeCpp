@@ -4,10 +4,12 @@
 #include <iostream>
 #include <vector>
 
-#include "Coordinates.hh"
-#include "GameOptionsManager.hh"
+#include "Coordinates.hpp"
+#include "GameOptionsManager.hpp"
 
-class BoardManager { friend class BoardManagerTestSuite;
+class BoardManager 
+{ 
+    friend class BoardManagerTestSuite;
 public:
     static BoardManager* getInstance();
     ~BoardManager() {};
