@@ -2,7 +2,6 @@ workspace "Tic-Tac-Toe"
 	location "premake-generated-files"
 	configurations { "Debug", "Release" }
 
-
 project "Tic-Tac-Toe"
 	kind "ConsoleApp"
 	language "C++"
@@ -29,24 +28,18 @@ project "Tests"
 	kind "ConsoleApp"
 	includedirs "./libs"
 
-	files { "./tests/**", "./include/*.hpp", 
-		"./src/BoardManager.cpp", 
-		"./src/Coordinates.cpp",
-		"./src/GameManager.cpp",  
-		"./src/GameOptionsManager.cpp",
-		"./src/MinMaxManager.cpp",
-		"./src/MyStdIn.cpp" }
-
+	files { "./tests/**", "./include/*.hpp", "./src/*.cpp" }
+	removefiles "./src/Main.cpp"
 
 	targetdir ("build/bin/%{prj.name}/%{cfg.longname}")
 	objdir ("build/obj/%{prj.name}/%{cfg.longname}")
 	
-	filter { "configurations:Debug" }
+	filter "configurations:Debug"
 		defines "DEBUG"
 		symbols "On"
 
 	filter "configurations:Release"
-      		defines { "NDEBUG" }
+      		defines "NDEBUG"
       		optimize "On"
 	
 	filter {}
