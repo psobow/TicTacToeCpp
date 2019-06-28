@@ -9,23 +9,24 @@ class MinMaxManager
 { 
     friend class MinMaxManagerTestSuite;
 public:
-    static MinMaxManager* getInstance();
-    ~MinMaxManager() {};
     
-    void executeTheBestComputerMove();
-
 private:
+    static MinMaxManager *instance;
+    GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
+    BoardManager *boardManager = BoardManager::getInstance();
+
     int howManyFunctionCalls = 0;
     const int HIGHEST_SCORE = 1000;
     const int LOWEST_SCORE = -1000; 
-
     Coordinates theBestMoveCoordinates; // this field must be synchronized in multi-thread algorithm
 
-    GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
-    BoardManager *boardManager = BoardManager::getInstance();
-    
+public:
+    static MinMaxManager* getInstance();
+    ~MinMaxManager() {};
+    void executeTheBestComputerMove();
+
+private:
     // Singleton
-    static MinMaxManager *instance;
     MinMaxManager() : theBestMoveCoordinates(0,0) {}
     MinMaxManager(const MinMaxManager&) = delete;
     MinMaxManager& operator=(const MinMaxManager&) = delete;

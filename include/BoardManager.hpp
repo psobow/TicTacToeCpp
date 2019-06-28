@@ -11,15 +11,21 @@ class BoardManager
 { 
     friend class BoardManagerTestSuite;
 public:
+
+private:
+    static BoardManager *instance;
+    std::vector<std::vector<char>> board;
+    int quantityOfTakenSlots;
+    GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
+
+public:
     static BoardManager* getInstance();
     ~BoardManager() {};
 
     void resetEverySlotAndSetSize(const int NEW_BOARD_SIZE);
     void resetEverySlot();
     void resetSlot(const Coordinates& COORDINATES);
-
     const bool addNewCharacter(const Coordinates& COORDINATES, const Participant& PLAYER);
-
 
     void printBoard() const;
     const Participant findWinner() const;
@@ -29,17 +35,10 @@ public:
     const bool isSlotEmpty(const Coordinates& COORDINATES) const;
 
 private:
-    std::vector<std::vector<char>> board;
-    int quantityOfTakenSlots;
-    
-    GameOptionsManager *gameOptionsManager = GameOptionsManager::getInstance();
-    
     // Singleton
-    static BoardManager *instance;
     BoardManager();
     BoardManager(const BoardManager&) = delete;
     BoardManager& operator=(const BoardManager&) = delete;
-
 
     // TODO: implement algorithm with multi threads.
     #pragma region findWinner algorithm
