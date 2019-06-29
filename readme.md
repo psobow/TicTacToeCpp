@@ -1,6 +1,11 @@
 # Tic-Tac-Toe
 Classic Tic-Tac-Toe console game implemented in C++ with artificial intelligence which is using [minimax](https://en.wikipedia.org/wiki/Minimax) algorithm with Alpha & Beta pruning and depth limiting to calculate the best possible move in given position with the most efficient time performance.
 
+# Game play
+<p align="center">
+  <img src="https://github.com/psobow/TicTacToeCpp/blob/master/misc/game.gif"/>
+</p>
+
 ## Building application
 
 1. Download Premake 5.0 from this [website](https://premake.github.io/download.html#v5) and place it somewhere where you will be able to use it from the command line. 
