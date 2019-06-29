@@ -16,9 +16,8 @@ GameManager* GameManager::getInstance()
 void GameManager::run()
 {
     std::cout << "Welcome in game Tic Tac Toe!\n";
-    std::cout << "You are facing unconquerable oponent, which use Min-Max algorithm + Alpha & Beta pruning + Dynamic depth limiting in game-tree searching, to calculate next move.\n";
-    std::cout << "You can try as much as you wish, but the best what you can get is a draw.\n";
-    std::cout << "I would wish you good luck, but it is not going to help any way.\n";
+    std::cout << "You are facing unconquerable oponent, which use Min-Max algorithm + Alpha & Beta pruning + depth limiting to calculate next move.\n";
+    std::cout << "Good luck! =)\n";
 
     MainMenuDecision mainMenuDecision;
     OptionMenuDecision optionsMenuDecision;
